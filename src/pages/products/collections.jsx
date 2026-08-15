@@ -449,113 +449,14 @@ const Collections = () => {
           </div>
         </section>
 
-        {/* =====================================================
-            FOOTER
-        ====================================================== */}
-        <footer className="paara-footer">
-          <div className="footer-wave" />
-
-          <div className="footer-top">
-            <div className="footer-brand">
-              <div className="brand-script footer-logo">
-                Paara
-              </div>
-
-              <span className="brand-subtitle">
-                JEWELLERY
-              </span>
-
-              <p>
-                Jewellery made to be loved.
-                <br />
-                Inspired by the ocean.
-                <br />
-                Made for you.
-              </p>
-            </div>
-
-            <div className="footer-column">
-              <h4>SHOP</h4>
-
-              <button
-                onClick={() => navigate("/collections")}
-              >
-                Collections
-              </button>
-
-              <button
-                onClick={() => navigate("/products/all")}
-              >
-                All Products
-              </button>
-
-              <button>New Arrivals</button>
-
-              <button>Best Sellers</button>
-            </div>
-
-            <div className="footer-column">
-              <h4>COMPANY</h4>
-
-              <button>Our Story</button>
-
-              <button>Journal</button>
-
-              <button>Careers</button>
-
-              <button>Contact Us</button>
-            </div>
-
-            <div className="footer-column">
-              <h4>HELP</h4>
-
-              <button>FAQs</button>
-
-              <button>Shipping & Delivery</button>
-
-              <button>Returns & Exchanges</button>
-
-              <button>Jewellery Care</button>
-            </div>
-
-            <div className="footer-column newsletter">
-              <h4>STAY CONNECTED</h4>
-
-              <p>
-                Join our little corner of the ocean.
-              </p>
-
-              <div className="newsletter-input">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                />
-
-                <button type="button">
-                  →
-                </button>
-              </div>
-
-              <div className="social-icons">
-                <span>◎</span>
-                <span>f</span>
-                <span>p</span>
-                <span>▶</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="footer-bottom">
-            <span>
-              © 2026 Paara Jewellery. All Rights Reserved.
-            </span>
-
-            <span>
-              Crafted with ♡ by the ocean.
-            </span>
-          </div>
-        </footer>
       </div>
+      <>
+  <Navbar />
+
+  {/* Product page content */}
+
+  <Footer />
+</>
 
       {/* =====================================================
           ALL CSS IS INSIDE THIS JSX FILE

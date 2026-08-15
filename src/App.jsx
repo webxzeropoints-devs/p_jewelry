@@ -9,31 +9,14 @@ import {
 import Collections from "./pages/products/Collections";
 import Product from "./pages/products/Product";
 import ProductDetails from "./pages/products/ProductDetails";
-
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
 
-        {/* Collections Page */}
-        <Route
-          path="/collections"
-          element={<Collections />}
-        />
-
-        {/* Products Page */}
-        <Route
-          path="/products/:collectionType"
-          element={<Product />}
-        />
-
-        {/* Product Details Page */}
-        <Route
-          path="/product/:productId"
-          element={<ProductDetails />}
-        />
-
-        {/* Root */}
         <Route
           path="/"
           element={
@@ -44,7 +27,21 @@ function App() {
           }
         />
 
-        {/* Invalid URL */}
+        <Route
+          path="/collections"
+          element={<Collections />}
+        />
+
+        <Route
+          path="/products/:collectionType"
+          element={<Product />}
+        />
+
+        <Route
+          path="/product/:productId"
+          element={<ProductDetails />}
+        />
+
         <Route
           path="*"
           element={
