@@ -1,17 +1,51 @@
-import React, { useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 const Product = () => {
   const navigate = useNavigate();
   const { collectionType } = useParams();
 
+  /* ==========================================================
+     STATES
+  ========================================================== */
+
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("featured");
+  const [priceFilter, setPriceFilter] =
+    useState("all");
+  const [availabilityFilter, setAvailabilityFilter] =
+    useState("all");
+  const [showFilters, setShowFilters] =
+    useState(false);
   const [wishlist, setWishlist] = useState([]);
-  const [cartMessage, setCartMessage] = useState("");
+  const [cartMessage, setCartMessage] =
+    useState("");
+
+  /* ==========================================================
+     SEA BACKGROUND
+  ========================================================== */
 
   const seaBackground =
     "https://img.freepik.com/premium-photo/banner-summer-background-with-white-sand-seashell-starfish-beach_756748-104227.jpg?w=2000";
+
+  /* ==========================================================
+     SCROLL TO TOP WHEN PAGE / COLLECTION CHANGES
+  ========================================================== */
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [collectionType]);
 
   /* ==========================================================
      COLLECTION INFORMATION
@@ -20,562 +54,543 @@ const Product = () => {
   const collectionInfo = {
     everyday: {
       name: "Everyday",
-      subtitle: "Little pieces for every day",
-      eyebrow: "THE EVERYDAY COLLECTION",
-      quote: "Little treasures for the moments that quietly matter.",
+      subtitle:
+        "Little pieces for every day",
+      eyebrow:
+        "THE EVERYDAY COLLECTION",
+      quote:
+        "Little treasures for the moments that quietly matter.",
       description:
-        "Delicate jewellery inspired by quiet mornings, ocean pearls and the beauty of everyday moments.",
+        "Delicate jewellery inspired by pearls, shells and the calm rhythm of the sea.",
     },
 
     festive: {
       name: "Festive",
-      subtitle: "Made for moments worth celebrating",
-      eyebrow: "THE FESTIVE COLLECTION",
-      quote: "Some moments deserve a little more sparkle.",
+      subtitle:
+        "Made for moments worth celebrating",
+      eyebrow:
+        "THE FESTIVE COLLECTION",
+      quote:
+        "Some moments deserve a little more sparkle.",
       description:
-        "Elegant statement pieces created for celebrations, glowing evenings and unforgettable memories.",
+        "Elegant pieces made for celebrations, golden evenings and memories worth keeping.",
     },
 
     minimal: {
       name: "Minimal",
-      subtitle: "Simple. Elegant. You.",
-      eyebrow: "THE MINIMAL COLLECTION",
-      quote: "Elegance lives in the details left untouched.",
+      subtitle:
+        "Simple. Elegant. You.",
+      eyebrow:
+        "THE MINIMAL COLLECTION",
+      quote:
+        "Elegance lives in the details left untouched.",
       description:
-        "Quiet silhouettes and refined forms designed for a timeless expression of personal style.",
+        "Quiet silhouettes, refined forms and timeless jewellery for everyday sophistication.",
     },
 
     "for-her": {
       name: "For Her",
-      subtitle: "She'll love this",
+      subtitle:
+        "She'll love this",
       eyebrow: "FOR HER",
-      quote: "For the woman who carries her own light.",
+      quote:
+        "For the woman who carries her own light.",
       description:
-        "Soft pearls, feminine curves and ocean-inspired details created for the women who make every day beautiful.",
+        "Soft pearls, delicate curves and romantic details inspired by sunlight over the ocean.",
     },
 
     "for-him": {
       name: "For Him",
-      subtitle: "Just for him",
+      subtitle:
+        "Just for him",
       eyebrow: "FOR HIM",
-      quote: "Steady as the shore. Deep as the sea.",
+      quote:
+        "Steady as the shore. Deep as the sea.",
       description:
-        "Refined jewellery with sculpted forms, natural textures and understated character.",
+        "Refined forms, natural textures and understated character for modern masculine elegance.",
     },
 
     "new-arrivals": {
       name: "New Arrivals",
-      subtitle: "Something new to love",
-      eyebrow: "NEW ARRIVALS",
-      quote: "A new tide brings something beautiful.",
+      subtitle:
+        "Something new to love",
+      eyebrow:
+        "NEW ARRIVALS",
+      quote:
+        "A new tide brings something beautiful.",
       description:
-        "Fresh designs and newly discovered treasures inspired by the colours and textures of the coast.",
+        "Fresh silhouettes and new treasures shaped by the beauty of the coastline.",
     },
   };
 
   const activeCollection =
-    collectionInfo[collectionType] || collectionInfo.everyday;
+    collectionInfo[collectionType] ||
+    collectionInfo.everyday;
 
   /* ==========================================================
-     PRODUCT DATABASE
+     PRODUCT DATA
   ========================================================== */
 
   const products = [
-    /* ================= EVERYDAY ================= */
+    /* ========================================================
+       EVERYDAY
+    ======================================================== */
 
     {
       id: 1,
-      slug: "ocean-pearl-necklace",
       name: "Ocean Pearl Necklace",
       category: "everyday",
       price: 2499,
       oldPrice: 2999,
       rating: 4.9,
       reviews: 128,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small", "Medium", "Large"],
       badge: "BESTSELLER",
       image:
         "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A delicate pearl necklace inspired by the calm beauty of the ocean. Finished with a warm golden chain and a luminous central pearl.",
+        "A delicate pearl necklace inspired by the calm beauty of the ocean.",
     },
 
     {
       id: 2,
-      slug: "shell-drop-earrings",
       name: "Shell Drop Earrings",
       category: "everyday",
       price: 1899,
       oldPrice: 2299,
       rating: 4.8,
       reviews: 96,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small", "Medium"],
       badge: "LOVED",
       image:
         "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1200&q=85",
       description:
-        "Elegant drop earrings shaped by the softness of seashells and finished with freshwater pearls for an effortless coastal glow.",
+        "Elegant drop earrings inspired by soft seashells and luminous pearls.",
     },
 
     {
       id: 3,
-      slug: "pearl-tide-ring",
       name: "Pearl Tide Ring",
       category: "everyday",
       price: 1699,
       oldPrice: 1999,
       rating: 4.8,
       reviews: 112,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small", "Medium", "Large"],
       badge: "POPULAR",
       image:
         "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A graceful open ring accented with luminous pearls, inspired by shells resting along the shoreline.",
+        "A graceful pearl ring inspired by shells resting along the shoreline.",
     },
 
     {
       id: 4,
-      slug: "coastal-charm-bracelet",
       name: "Coastal Charm Bracelet",
       category: "everyday",
       price: 2299,
       oldPrice: 2699,
       rating: 4.7,
       reviews: 88,
-      material: "Stainless Steel",
-      finish: "18K Gold Plated",
+      material:
+        "Stainless Steel",
       availability: true,
-      sizes: ["Small", "Medium", "Large"],
       badge: "",
       image:
         "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A fine bracelet carrying subtle ocean-inspired charms, designed to layer beautifully with your everyday pieces.",
+        "A delicate charm bracelet carrying subtle ocean-inspired details.",
     },
 
-    /* ================= FESTIVE ================= */
+    /* ========================================================
+       FESTIVE
+    ======================================================== */
 
     {
       id: 5,
-      slug: "moonlight-pearl-set",
       name: "Moonlight Pearl Set",
       category: "festive",
       price: 4499,
       oldPrice: 5499,
       rating: 4.9,
       reviews: 74,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Medium"],
       badge: "NEW",
       image:
         "https://images.unsplash.com/photo-1617038260897-41a31f74343d?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A luminous pearl set designed for festive evenings, inspired by moonlight shimmering over the sea.",
+        "A luminous pearl set inspired by moonlight shimmering over the sea.",
     },
 
     {
       id: 6,
-      slug: "golden-shell-choker",
       name: "Golden Shell Choker",
       category: "festive",
       price: 3899,
       oldPrice: 4599,
       rating: 4.8,
       reviews: 63,
-      material: "Brass",
-      finish: "22K Gold Plated",
+      material:
+        "Gold Plated Brass",
       availability: true,
-      sizes: ["Medium"],
       badge: "TRENDING",
       image:
         "https://images.unsplash.com/photo-1596944924616-7b3848851e2b?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A statement choker combining organic shell forms with warm gold tones for an elegant festive silhouette.",
+        "A statement choker combining organic shell forms with warm gold.",
     },
 
     {
       id: 7,
-      slug: "sunset-pearl-earrings",
       name: "Sunset Pearl Earrings",
       category: "festive",
       price: 3199,
       oldPrice: 3799,
       rating: 4.9,
       reviews: 57,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Medium"],
       badge: "BESTSELLER",
       image:
         "https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&w=1200&q=85",
       description:
-        "Statement pearl drops that capture the soft golden hues of an ocean sunset.",
+        "Statement pearl earrings inspired by the glow of an ocean sunset.",
     },
 
     {
       id: 8,
-      slug: "seafoam-layer-necklace",
       name: "Seafoam Layer Necklace",
       category: "festive",
       price: 3599,
       oldPrice: 4199,
       rating: 4.7,
       reviews: 48,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Medium"],
       badge: "",
       image:
         "https://images.unsplash.com/photo-1611085583191-a3b181a88401?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A graceful layered necklace with pearl accents designed to add depth and glow to your festive look.",
+        "A layered pearl necklace inspired by foam drifting across the ocean.",
     },
 
-    /* ================= MINIMAL ================= */
+    /* ========================================================
+       MINIMAL
+    ======================================================== */
 
     {
       id: 9,
-      slug: "quiet-tide-chain",
       name: "Quiet Tide Chain",
       category: "minimal",
       price: 1799,
       oldPrice: 2099,
       rating: 4.7,
       reviews: 84,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small", "Medium"],
       badge: "MINIMAL",
       image:
         "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A fine chain inspired by the quiet rhythm of the shoreline, perfect for everyday layering.",
+        "A fine chain inspired by the quiet rhythm of the shoreline.",
     },
 
     {
       id: 10,
-      slug: "single-pearl-stud",
       name: "Single Pearl Studs",
       category: "minimal",
       price: 1299,
       oldPrice: 1599,
       rating: 4.8,
       reviews: 104,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small"],
       badge: "ESSENTIAL",
       image:
         "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A beautifully simple pair of pearl studs designed for those who believe in understated elegance.",
+        "Beautifully simple pearl studs designed for understated elegance.",
     },
 
     {
       id: 11,
-      slug: "sand-bar-ring",
       name: "Sand Bar Ring",
       category: "minimal",
       price: 1499,
       oldPrice: 1799,
       rating: 4.6,
       reviews: 61,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small", "Medium", "Large"],
       badge: "",
       image:
         "https://images.unsplash.com/photo-1627293509201-cd1e10e8a2e1?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A clean sculpted ring inspired by the soft curves formed by waves across the sand.",
+        "A sculpted ring inspired by soft curves formed by waves across sand.",
     },
 
     {
       id: 12,
-      slug: "shoreline-bracelet",
       name: "Shoreline Bracelet",
       category: "minimal",
       price: 1999,
       oldPrice: 2299,
       rating: 4.7,
       reviews: 55,
-      material: "Stainless Steel",
-      finish: "18K Gold Plated",
+      material:
+        "Stainless Steel",
       availability: true,
-      sizes: ["Small", "Medium", "Large"],
       badge: "",
       image:
         "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A fine bracelet with a clean silhouette inspired by the meeting point of water and sand.",
+        "A clean bracelet inspired by the meeting point of water and sand.",
     },
 
-    /* ================= FOR HER ================= */
+    /* ========================================================
+       FOR HER
+    ======================================================== */
 
     {
       id: 13,
-      slug: "her-ocean-pearl-pendant",
       name: "Her Ocean Pearl Pendant",
       category: "for-her",
       price: 2899,
       oldPrice: 3499,
       rating: 5.0,
       reviews: 141,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small", "Medium"],
       badge: "FOR HER",
       image:
         "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A romantic pearl pendant designed to feel like a tiny piece of moonlight captured from the ocean.",
+        "A romantic pearl pendant designed to feel like a piece of moonlight captured from the ocean.",
     },
 
     {
       id: 14,
-      slug: "her-shell-earrings",
       name: "Her Shell Earrings",
       category: "for-her",
       price: 2399,
       oldPrice: 2899,
       rating: 4.9,
       reviews: 91,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Medium"],
       badge: "GIFT FAVOURITE",
       image:
         "https://images.unsplash.com/photo-1588444650733-d876b1f2d4c4?auto=format&fit=crop&w=1200&q=85",
       description:
-        "Delicate shell-inspired earrings with luminous pearls, made for the woman who carries her own light.",
+        "Delicate shell-inspired earrings with soft pearl details.",
     },
 
     {
       id: 15,
-      slug: "her-pearl-bloom-ring",
       name: "Pearl Bloom Ring",
       category: "for-her",
       price: 2199,
       oldPrice: 2599,
       rating: 4.8,
       reviews: 72,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small", "Medium", "Large"],
       badge: "",
       image:
         "https://images.unsplash.com/photo-1603561596112-db5d3f3d5e0c?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A delicate ring inspired by flowers, pearls and the soft elegance of a coastal morning.",
+        "A delicate ring inspired by flowers, pearls and coastal mornings.",
     },
 
     {
       id: 16,
-      slug: "her-love-charm-bracelet",
       name: "Her Love Charm Bracelet",
       category: "for-her",
       price: 2699,
       oldPrice: 3199,
       rating: 4.9,
       reviews: 83,
-      material: "Stainless Steel",
-      finish: "18K Gold Plated",
+      material:
+        "Stainless Steel",
       availability: true,
-      sizes: ["Small", "Medium"],
       badge: "ROMANTIC",
       image:
         "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A meaningful charm bracelet carrying tiny symbols of love and the calm beauty of the ocean.",
+        "A meaningful charm bracelet carrying tiny symbols of love and the ocean.",
     },
 
-    /* ================= FOR HIM ================= */
+    /* ========================================================
+       FOR HIM
+    ======================================================== */
 
     {
       id: 17,
-      slug: "him-ocean-chain",
       name: "Him Ocean Chain",
       category: "for-him",
       price: 2999,
       oldPrice: 3499,
       rating: 4.8,
       reviews: 69,
-      material: "Stainless Steel",
-      finish: "Brushed Gold",
+      material:
+        "Stainless Steel",
       availability: true,
-      sizes: ["Medium", "Large"],
       badge: "FOR HIM",
       image:
         "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A bold yet refined chain inspired by the strength and stillness of the open sea.",
+        "A refined chain inspired by the strength and stillness of the open sea.",
     },
 
     {
       id: 18,
-      slug: "him-coastal-band",
       name: "Coastal Band",
       category: "for-him",
       price: 2199,
       oldPrice: 2599,
       rating: 4.7,
       reviews: 56,
-      material: "Titanium Steel",
-      finish: "Matte Silver",
+      material:
+        "Titanium Steel",
       availability: true,
-      sizes: ["Medium", "Large"],
       badge: "",
       image:
         "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A minimal masculine band with a clean finish and coastal-inspired character.",
+        "A minimal masculine band with a clean coastal character.",
     },
 
     {
       id: 19,
-      slug: "him-tide-bracelet",
       name: "Tide Bracelet",
       category: "for-him",
       price: 2499,
       oldPrice: 2999,
       rating: 4.8,
       reviews: 63,
-      material: "Stainless Steel",
-      finish: "Brushed Steel",
+      material:
+        "Stainless Steel",
       availability: true,
-      sizes: ["Medium", "Large"],
       badge: "POPULAR",
       image:
         "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A structured bracelet inspired by the movement of waves and the strength of coastal stone.",
+        "A structured bracelet inspired by waves and coastal stone.",
     },
 
     {
       id: 20,
-      slug: "him-shell-tag-necklace",
       name: "Shell Tag Necklace",
       category: "for-him",
       price: 2799,
       oldPrice: 3199,
       rating: 4.7,
       reviews: 42,
-      material: "Stainless Steel",
-      finish: "Matte Black",
+      material:
+        "Stainless Steel",
       availability: true,
-      sizes: ["Medium"],
       badge: "",
       image:
         "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A masculine pendant necklace with an organic shell-inspired tag and understated finish.",
+        "A masculine pendant necklace with an organic shell-inspired form.",
     },
 
-    /* ================= NEW ARRIVALS ================= */
+    /* ========================================================
+       NEW ARRIVALS
+    ======================================================== */
 
     {
       id: 21,
-      slug: "new-pearl-cascade",
       name: "Pearl Cascade",
       category: "new-arrivals",
       price: 3299,
       oldPrice: 3899,
       rating: 5.0,
       reviews: 31,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Medium"],
       badge: "NEW",
       image:
         "https://images.unsplash.com/photo-1611085583191-a3b181a88401?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A new pearl silhouette designed to move softly like a cascade of ocean foam.",
+        "A new pearl silhouette designed to move softly like ocean foam.",
     },
 
     {
       id: 22,
-      slug: "new-tidal-loop",
       name: "Tidal Loop Earrings",
       category: "new-arrivals",
       price: 2499,
       oldPrice: 2999,
       rating: 4.9,
       reviews: 29,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Medium"],
       badge: "JUST IN",
       image:
         "https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&w=1200&q=85",
       description:
-        "Sculpted earrings inspired by the circular movement of waves around the shore.",
+        "Sculpted earrings inspired by the circular movement of waves.",
     },
 
     {
       id: 23,
-      slug: "new-shore-pearl-ring",
       name: "Shore Pearl Ring",
       category: "new-arrivals",
       price: 1999,
       oldPrice: 2399,
       rating: 4.8,
       reviews: 38,
-      material: "925 Sterling Silver",
-      finish: "18K Gold Plated",
+      material:
+        "925 Sterling Silver",
       availability: true,
-      sizes: ["Small", "Medium", "Large"],
       badge: "NEW",
       image:
         "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A fresh interpretation of a classic pearl ring with a refined coastal silhouette.",
+        "A fresh interpretation of a classic pearl ring with a coastal silhouette.",
     },
 
     {
       id: 24,
-      slug: "new-sea-glow-bracelet",
       name: "Sea Glow Bracelet",
       category: "new-arrivals",
       price: 2799,
       oldPrice: 3299,
       rating: 4.9,
       reviews: 27,
-      material: "Stainless Steel",
-      finish: "18K Gold Plated",
+      material:
+        "Stainless Steel",
       availability: true,
-      sizes: ["Small", "Medium", "Large"],
       badge: "NEW",
       image:
         "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=85",
       description:
-        "A delicate new bracelet designed around the warm glow of sunlight touching the sea.",
+        "A delicate bracelet inspired by sunlight touching the sea.",
     },
   ];
 
   /* ==========================================================
-     CURRENT COLLECTION PRODUCTS
+     CURRENT COLLECTION
   ========================================================== */
 
   const collectionProducts = useMemo(() => {
@@ -584,72 +599,144 @@ const Product = () => {
     }
 
     return products.filter(
-      (product) => product.category === collectionType
+      (product) =>
+        product.category === collectionType
     );
   }, [collectionType]);
 
   /* ==========================================================
-     SEARCH + SORT
+     FILTER + SORT
   ========================================================== */
 
   const filteredProducts = useMemo(() => {
     let result = [...collectionProducts];
 
+    /* SEARCH */
     if (search.trim()) {
-      const searchTerm = search.toLowerCase();
+      const searchValue =
+        search.trim().toLowerCase();
 
       result = result.filter((product) => {
         return (
-          product.name.toLowerCase().includes(searchTerm) ||
-          product.category.toLowerCase().includes(searchTerm) ||
-          product.material.toLowerCase().includes(searchTerm)
+          product.name
+            .toLowerCase()
+            .includes(searchValue) ||
+          product.material
+            .toLowerCase()
+            .includes(searchValue)
         );
       });
     }
 
+    /* PRICE FILTER */
+    if (priceFilter === "under-1500") {
+      result = result.filter(
+        (product) => product.price < 1500
+      );
+    }
+
+    if (priceFilter === "1500-2500") {
+      result = result.filter(
+        (product) =>
+          product.price >= 1500 &&
+          product.price <= 2500
+      );
+    }
+
+    if (priceFilter === "2500-4000") {
+      result = result.filter(
+        (product) =>
+          product.price > 2500 &&
+          product.price <= 4000
+      );
+    }
+
+    if (priceFilter === "above-4000") {
+      result = result.filter(
+        (product) => product.price > 4000
+      );
+    }
+
+    /* AVAILABILITY */
+    if (
+      availabilityFilter === "in-stock"
+    ) {
+      result = result.filter(
+        (product) => product.availability
+      );
+    }
+
+    /* SORT */
     if (sortBy === "price-low") {
-      result.sort((a, b) => a.price - b.price);
+      result.sort(
+        (a, b) => a.price - b.price
+      );
     }
 
     if (sortBy === "price-high") {
-      result.sort((a, b) => b.price - a.price);
+      result.sort(
+        (a, b) => b.price - a.price
+      );
     }
 
     if (sortBy === "rating") {
-      result.sort((a, b) => b.rating - a.rating);
+      result.sort(
+        (a, b) => b.rating - a.rating
+      );
     }
 
     if (sortBy === "newest") {
-      result.sort((a, b) => b.id - a.id);
+      result.sort(
+        (a, b) => b.id - a.id
+      );
     }
 
     return result;
-  }, [collectionProducts, search, sortBy]);
+  }, [
+    collectionProducts,
+    search,
+    sortBy,
+    priceFilter,
+    availabilityFilter,
+  ]);
 
   /* ==========================================================
      WISHLIST
   ========================================================== */
 
-  const toggleWishlist = (id, event) => {
+  const toggleWishlist = (
+    productId,
+    event
+  ) => {
     event.stopPropagation();
 
     setWishlist((previous) => {
-      if (previous.includes(id)) {
-        return previous.filter((item) => item !== id);
+      if (previous.includes(productId)) {
+        return previous.filter(
+          (id) => id !== productId
+        );
       }
 
-      return [...previous, id];
+      return [
+        ...previous,
+        productId,
+      ];
     });
   };
 
   /* ==========================================================
-     ADD TO CART
+     ADD CART
   ========================================================== */
 
-  const addToCart = (product, event) => {
+  const addToCart = (
+    product,
+    event
+  ) => {
     event.stopPropagation();
 
-    setCartMessage(`${product.name} added to your bag`);
+    setCartMessage(
+      product.name
+    );
 
     setTimeout(() => {
       setCartMessage("");
@@ -660,16 +747,22 @@ const Product = () => {
      OPEN PRODUCT DETAILS
   ========================================================== */
 
-  const openProduct = (product) => {
-    navigate(`/product/${product.id}`, {
-      state: {
-        collectionType: product.category,
-      },
-    });
+  const openProduct = (
+    product
+  ) => {
+    navigate(
+      `/product/${product.id}`,
+      {
+        state: {
+          collectionType:
+            product.category,
+        },
+      }
+    );
   };
 
   /* ==========================================================
-     CATEGORY NAVIGATION
+     CATEGORY SWITCH
   ========================================================== */
 
   const categories = [
@@ -699,92 +792,48 @@ const Product = () => {
     },
   ];
 
+  /* ==========================================================
+     CLEAR FILTERS
+  ========================================================== */
+
+  const clearFilters = () => {
+    setSearch("");
+    setSortBy("featured");
+    setPriceFilter("all");
+    setAvailabilityFilter("all");
+  };
+
+  /* ==========================================================
+     RENDER
+  ========================================================== */
+
   return (
     <>
       <div
         className="paara-products-page"
         style={{
-          "--sea-bg": `url("${seaBackground}")`,
+          "--sea-background": `url("${seaBackground}")`,
         }}
       >
         {/* ====================================================
-            NAVBAR
+            PAGE HERO
         ===================================================== */}
 
-        <header className="product-navbar">
-          <div className="brand-area">
-            <button
-              className="logo-button"
-              onClick={() => navigate("/collections")}
-            >
-              <span className="logo-script">
-                Paara
-              </span>
+        <section className="products-hero page-enter">
+          <div className="hero-image" />
 
-              <small>JEWELLERY</small>
-            </button>
-          </div>
+          <div className="hero-overlay" />
 
-          <nav className="main-nav">
-            <button onClick={() => navigate("/collections")}>
-              Home
-            </button>
-
-            <button
-              className="active"
-              onClick={() => navigate("/collections")}
-            >
-              Collections
-            </button>
-
-            <button
-              onClick={() => navigate("/products/all")}
-            >
-              Shop
-            </button>
-
-            <button>Our Story</button>
-
-            <button>Journal</button>
-          </nav>
-
-          <div className="navbar-actions">
-            <button title="Search">⌕</button>
-
-            <button title="Wishlist">
-              ♡
-              {wishlist.length > 0 && (
-                <span className="nav-count">
-                  {wishlist.length}
-                </span>
-              )}
-            </button>
-
-            <button title="Bag">♧</button>
-
-            <button title="Menu">☰</button>
-          </div>
-        </header>
-
-        {/* ====================================================
-            HERO
-        ===================================================== */}
-
-        <section className="product-hero">
-          <div className="hero-background" />
-
-          <div className="hero-water-layer" />
-
-          <div className="floating-shell shell-left">
+          <div className="hero-shell hero-shell-one">
             🐚
           </div>
 
-          <div className="floating-shell shell-right">
+          <div className="hero-shell hero-shell-two">
             🐚
           </div>
 
-          <div className="product-hero-content">
-            <span className="hero-eyebrow">
+          <div className="hero-content">
+            <span>
               {activeCollection.eyebrow}
             </span>
 
@@ -792,10 +841,10 @@ const Product = () => {
               {activeCollection.name}
             </h1>
 
-            <div className="hero-line">
-              <span />
-              <small>✦</small>
-              <span />
+            <div className="hero-divider">
+              <i />
+              <b>✦</b>
+              <i />
             </div>
 
             <p className="hero-quote">
@@ -809,54 +858,55 @@ const Product = () => {
         </section>
 
         {/* ====================================================
-            CATEGORY STRIP
+            CATEGORY NAVIGATION
         ===================================================== */}
 
         <section className="category-strip">
           <div className="category-scroll">
-            {categories.map((category) => (
-              <button
-                key={category.type}
-                className={
-                  category.type === collectionType
-                    ? "category active"
-                    : "category"
-                }
-                onClick={() =>
-                  navigate(
-                    `/products/${category.type}`
-                  )
-                }
-              >
-                {category.name}
-              </button>
-            ))}
+            {categories.map(
+              (category) => (
+                <button
+                  key={category.type}
+                  className={
+                    category.type ===
+                    collectionType
+                      ? "category active"
+                      : "category"
+                  }
+                  onClick={() =>
+                    navigate(
+                      `/products/${category.type}`
+                    )
+                  }
+                >
+                  {category.name}
+                </button>
+              )
+            )}
           </div>
         </section>
 
         {/* ====================================================
-            PAGE HEADER
+            PRODUCTS HEADING
         ===================================================== */}
 
-        <section className="products-heading">
-          <div>
-            <span>
-              {activeCollection.eyebrow}
-            </span>
+        <section className="products-intro reveal">
+          <span>
+            {activeCollection.eyebrow}
+          </span>
 
-            <h2>
-              {activeCollection.name}
-            </h2>
+          <h2>
+            {activeCollection.name}
+          </h2>
 
-            <p>
-              {activeCollection.subtitle}
-            </p>
-          </div>
+          <p>
+            {activeCollection.subtitle}
+          </p>
 
-          <div className="heading-decoration">
-            <span />
-            <small>🐚</small>
-            <span />
+          <div className="intro-divider">
+            <i />
+            <b>🐚</b>
+            <i />
           </div>
         </section>
 
@@ -864,34 +914,67 @@ const Product = () => {
             TOOLBAR
         ===================================================== */}
 
-        <section className="product-toolbar-wrapper">
-          <div className="product-toolbar">
-            <div className="product-count">
+        <section className="toolbar-wrapper">
+          <div className="toolbar">
+            <div className="result-count">
               {filteredProducts.length}{" "}
-              {filteredProducts.length === 1
+              {filteredProducts.length ===
+              1
                 ? "PIECE"
                 : "PIECES"}
             </div>
 
-            <div className="toolbar-right">
+            <div className="toolbar-controls">
+              {/* SEARCH */}
+
               <div className="search-box">
                 <span>⌕</span>
 
                 <input
                   type="text"
-                  placeholder="Search jewellery..."
                   value={search}
+                  placeholder="Search jewellery..."
                   onChange={(event) =>
-                    setSearch(event.target.value)
+                    setSearch(
+                      event.target.value
+                    )
                   }
                 />
               </div>
 
+              {/* FILTER */}
+
+              <button
+                className={`filter-button ${
+                  showFilters
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setShowFilters(
+                    (previous) =>
+                      !previous
+                  )
+                }
+              >
+                FILTER
+                <span>
+                  {showFilters
+                    ? "−"
+                    : "+"}
+                </span>
+              </button>
+
+              {/* SORT */}
+
               <select
                 value={sortBy}
                 onChange={(event) =>
-                  setSortBy(event.target.value)
+                  setSortBy(
+                    event.target.value
+                  )
                 }
+                aria-label="Sort products"
               >
                 <option value="featured">
                   Featured
@@ -915,6 +998,151 @@ const Product = () => {
               </select>
             </div>
           </div>
+
+          {/* ==================================================
+              FILTER PANEL
+          =================================================== */}
+
+          {showFilters && (
+            <div className="filter-panel">
+              <div className="filter-block">
+                <span className="filter-title">
+                  PRICE
+                </span>
+
+                <div className="filter-options">
+                  <button
+                    className={
+                      priceFilter ===
+                      "all"
+                        ? "filter-option active"
+                        : "filter-option"
+                    }
+                    onClick={() =>
+                      setPriceFilter(
+                        "all"
+                      )
+                    }
+                  >
+                    ALL
+                  </button>
+
+                  <button
+                    className={
+                      priceFilter ===
+                      "under-1500"
+                        ? "filter-option active"
+                        : "filter-option"
+                    }
+                    onClick={() =>
+                      setPriceFilter(
+                        "under-1500"
+                      )
+                    }
+                  >
+                    UNDER ₹1,500
+                  </button>
+
+                  <button
+                    className={
+                      priceFilter ===
+                      "1500-2500"
+                        ? "filter-option active"
+                        : "filter-option"
+                    }
+                    onClick={() =>
+                      setPriceFilter(
+                        "1500-2500"
+                      )
+                    }
+                  >
+                    ₹1,500 – ₹2,500
+                  </button>
+
+                  <button
+                    className={
+                      priceFilter ===
+                      "2500-4000"
+                        ? "filter-option active"
+                        : "filter-option"
+                    }
+                    onClick={() =>
+                      setPriceFilter(
+                        "2500-4000"
+                      )
+                    }
+                  >
+                    ₹2,500 – ₹4,000
+                  </button>
+
+                  <button
+                    className={
+                      priceFilter ===
+                      "above-4000"
+                        ? "filter-option active"
+                        : "filter-option"
+                    }
+                    onClick={() =>
+                      setPriceFilter(
+                        "above-4000"
+                      )
+                    }
+                  >
+                    ABOVE ₹4,000
+                  </button>
+                </div>
+              </div>
+
+              <div className="filter-block">
+                <span className="filter-title">
+                  AVAILABILITY
+                </span>
+
+                <div className="filter-options">
+                  <button
+                    className={
+                      availabilityFilter ===
+                      "all"
+                        ? "filter-option active"
+                        : "filter-option"
+                    }
+                    onClick={() =>
+                      setAvailabilityFilter(
+                        "all"
+                      )
+                    }
+                  >
+                    ALL
+                  </button>
+
+                  <button
+                    className={
+                      availabilityFilter ===
+                      "in-stock"
+                        ? "filter-option active"
+                        : "filter-option"
+                    }
+                    onClick={() =>
+                      setAvailabilityFilter(
+                        "in-stock"
+                      )
+                    }
+                  >
+                    IN STOCK
+                  </button>
+                </div>
+              </div>
+
+              <button
+                className="clear-filters"
+                onClick={
+                  clearFilters
+                }
+              >
+                CLEAR ALL
+              </button>
+            </div>
+          )}
         </section>
 
         {/* ====================================================
@@ -922,140 +1150,207 @@ const Product = () => {
         ===================================================== */}
 
         <main className="product-grid-section">
-          <div className="product-grid">
-            {filteredProducts.map((product) => {
-              const isWishlisted =
-                wishlist.includes(product.id);
+          {filteredProducts.length >
+          0 ? (
+            <div className="product-grid">
+              {filteredProducts.map(
+                (
+                  product,
+                  index
+                ) => {
+                  const liked =
+                    wishlist.includes(
+                      product.id
+                    );
 
-              return (
-                <article
-                  className="product-card"
-                  key={product.id}
-                >
-                  <div
-                    className="product-image-wrapper"
-                    onClick={() => openProduct(product)}
-                  >
-                    <div className="product-image-bg">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        loading="lazy"
-                      />
-                    </div>
-
-                    {product.badge && (
-                      <span className="product-badge">
-                        {product.badge}
-                      </span>
-                    )}
-
-                    <button
-                      className={`wishlist-button ${
-                        isWishlisted ? "liked" : ""
-                      }`}
-                      onClick={(event) =>
-                        toggleWishlist(
-                          product.id,
-                          event
-                        )
-                      }
-                      aria-label="Add to wishlist"
+                  return (
+                    <article
+                      className="product-card"
+                      key={product.id}
+                      style={{
+                        animationDelay: `${
+                          index * 50
+                        }ms`,
+                      }}
                     >
-                      {isWishlisted ? "♥" : "♡"}
-                    </button>
+                      {/* PRODUCT IMAGE */}
 
-                    <div className="image-hover-overlay">
-                      <span>
-                        VIEW PRODUCT
-                      </span>
-                    </div>
-                  </div>
+                      <div
+                        className="product-image-wrapper"
+                        onClick={() =>
+                          openProduct(
+                            product
+                          )
+                        }
+                      >
+                        <div className="product-image">
+                          <img
+                            src={
+                              product.image
+                            }
+                            alt={
+                              product.name
+                            }
+                            loading="lazy"
+                          />
+                        </div>
 
-                  <div className="product-card-info">
-                    <div className="product-category">
-                      {product.category
-                        .replace("-", " ")
-                        .toUpperCase()}
-                    </div>
-
-                    <h3
-                      onClick={() =>
-                        openProduct(product)
-                      }
-                    >
-                      {product.name}
-                    </h3>
-
-                    <div className="rating">
-                      <span className="stars">
-                        ★★★★★
-                      </span>
-
-                      <span className="review-count">
-                        ({product.reviews})
-                      </span>
-                    </div>
-
-                    <div className="price-row">
-                      <span className="current-price">
-                        ₹
-                        {product.price.toLocaleString(
-                          "en-IN"
+                        {product.badge && (
+                          <span className="product-badge">
+                            {
+                              product.badge
+                            }
+                          </span>
                         )}
-                      </span>
 
-                      <span className="old-price">
-                        ₹
-                        {product.oldPrice.toLocaleString(
-                          "en-IN"
-                        )}
-                      </span>
-                    </div>
+                        <button
+                          className={`wishlist ${
+                            liked
+                              ? "liked"
+                              : ""
+                          }`}
+                          onClick={(
+                            event
+                          ) =>
+                            toggleWishlist(
+                              product.id,
+                              event
+                            )
+                          }
+                          aria-label={
+                            liked
+                              ? "Remove from wishlist"
+                              : "Add to wishlist"
+                          }
+                        >
+                          {liked
+                            ? "♥"
+                            : "♡"}
+                        </button>
 
-                    <button
-                      className="add-cart-button"
-                      onClick={(event) =>
-                        addToCart(product, event)
-                      }
-                    >
-                      ADD TO CART
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+                        <div className="image-hover">
+                          VIEW PIECE
+                          <span>
+                            →
+                          </span>
+                        </div>
+                      </div>
 
-          {filteredProducts.length === 0 && (
+                      {/* PRODUCT INFORMATION */}
+
+                      <div className="product-info">
+                        <span className="product-category">
+                          {product.category
+                            .replace(
+                              "-",
+                              " "
+                            )
+                            .toUpperCase()}
+                        </span>
+
+                        <h3
+                          onClick={() =>
+                            openProduct(
+                              product
+                            )
+                          }
+                        >
+                          {
+                            product.name
+                          }
+                        </h3>
+
+                        <div className="rating">
+                          <span>
+                            ★★★★★
+                          </span>
+
+                          <small>
+                            {product.rating}
+                            {" "}
+                            (
+                            {
+                              product.reviews
+                            }
+                            )
+                          </small>
+                        </div>
+
+                        <div className="price-row">
+                          <strong>
+                            ₹
+                            {product.price.toLocaleString(
+                              "en-IN"
+                            )}
+                          </strong>
+
+                          <del>
+                            ₹
+                            {product.oldPrice.toLocaleString(
+                              "en-IN"
+                            )}
+                          </del>
+                        </div>
+
+                        <button
+                          className={`cart-button ${
+                            cartMessage ===
+                            product.name
+                              ? "added"
+                              : ""
+                          }`}
+                          onClick={(
+                            event
+                          ) =>
+                            addToCart(
+                              product,
+                              event
+                            )
+                          }
+                        >
+                          {cartMessage ===
+                          product.name
+                            ? "✓ ADDED"
+                            : "ADD TO CART"}
+                        </button>
+                      </div>
+                    </article>
+                  );
+                }
+              )}
+            </div>
+          ) : (
             <div className="empty-state">
               <div className="empty-shell">
                 🐚
               </div>
 
+              <span>
+                PAARA JEWELLERY
+              </span>
+
               <h3>
-                Nothing found beneath this tide
+                Nothing beneath this tide
               </h3>
 
               <p>
-                Try another search or explore one of
-                our other collections.
+                Try another search or
+                remove some filters.
               </p>
 
               <button
-                onClick={() => {
-                  setSearch("");
-                  navigate("/products/everyday");
-                }}
+                onClick={
+                  clearFilters
+                }
               >
-                EXPLORE EVERYDAY
+                CLEAR FILTERS
               </button>
             </div>
           )}
         </main>
 
         {/* ====================================================
-            OCEAN STORY STRIP
+            OCEAN STORY
         ===================================================== */}
 
         <section className="ocean-story">
@@ -1075,213 +1370,18 @@ const Product = () => {
             </h2>
 
             <p>
-              Pearls, shells, sunlight and saltwater —
-              nature is the heart of Paara.
+              Pearls, shells, sunlight and
+              saltwater — nature is the heart
+              of Paara.
             </p>
 
-            <div className="wave-symbol">
-              <span />
+            <div className="ocean-divider">
+              <i />
               <b>🐚</b>
-              <span />
+              <i />
             </div>
           </div>
         </section>
-
-        {/* ====================================================
-            TRUST BAR
-        ===================================================== */}
-
-        <section className="trust-bar">
-          <div className="trust-item">
-            <span className="trust-icon">
-              ◇
-            </span>
-
-            <div>
-              <strong>
-                100% BIS Hallmarked
-              </strong>
-
-              <small>
-                Crafted with care
-              </small>
-            </div>
-          </div>
-
-          <div className="trust-item">
-            <span className="trust-icon">
-              ↻
-            </span>
-
-            <div>
-              <strong>
-                Easy 7-Day Returns
-              </strong>
-
-              <small>
-                Shop with confidence
-              </small>
-            </div>
-          </div>
-
-          <div className="trust-item">
-            <span className="trust-icon">
-              ▱
-            </span>
-
-            <div>
-              <strong>
-                Free Shipping Above ₹999
-              </strong>
-
-              <small>
-                Delivered to your door
-              </small>
-            </div>
-          </div>
-
-          <div className="trust-item">
-            <span className="trust-icon">
-              ♢
-            </span>
-
-            <div>
-              <strong>
-                Secure Payments
-              </strong>
-
-              <small>
-                Safe & trusted checkout
-              </small>
-            </div>
-          </div>
-        </section>
-
-        {/* ====================================================
-            FOOTER
-        ===================================================== */}
-
-        <footer className="products-footer">
-          <div className="footer-inner">
-            <div className="footer-brand">
-              <div className="footer-logo">
-                Paara
-              </div>
-
-              <small>JEWELLERY</small>
-
-              <p>
-                Jewellery made to be loved.
-                <br />
-                Inspired by the ocean.
-                <br />
-                Made for you.
-              </p>
-            </div>
-
-            <div className="footer-links">
-              <h4>SHOP</h4>
-
-              <button
-                onClick={() =>
-                  navigate("/collections")
-                }
-              >
-                Collections
-              </button>
-
-              <button>
-                All Products
-              </button>
-
-              <button>
-                New Arrivals
-              </button>
-
-              <button>
-                Best Sellers
-              </button>
-            </div>
-
-            <div className="footer-links">
-              <h4>COMPANY</h4>
-
-              <button>
-                Our Story
-              </button>
-
-              <button>
-                Journal
-              </button>
-
-              <button>
-                Sustainability
-              </button>
-
-              <button>
-                Contact Us
-              </button>
-            </div>
-
-            <div className="footer-links">
-              <h4>HELP</h4>
-
-              <button>
-                FAQs
-              </button>
-
-              <button>
-                Shipping & Delivery
-              </button>
-
-              <button>
-                Returns & Exchanges
-              </button>
-
-              <button>
-                Jewellery Care
-              </button>
-            </div>
-
-            <div className="footer-newsletter">
-              <h4>
-                STAY CONNECTED
-              </h4>
-
-              <p>
-                Join our little corner of the ocean.
-              </p>
-
-              <div className="newsletter">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                />
-
-                <button>
-                  →
-                </button>
-              </div>
-
-              <div className="social">
-                <span>◎</span>
-                <span>f</span>
-                <span>p</span>
-                <span>▶</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="copyright">
-            <span>
-              © 2026 Paara Jewellery. All Rights Reserved.
-            </span>
-
-            <span>
-              Crafted with ♡ by the ocean.
-            </span>
-          </div>
-        </footer>
 
         {/* ====================================================
             CART FEEDBACK
@@ -1297,10 +1397,7 @@ const Product = () => {
               </strong>
 
               <small>
-                {cartMessage.replace(
-                  " added to your bag",
-                  ""
-                )}
+                {cartMessage}
               </small>
             </div>
           </div>
@@ -1308,299 +1405,264 @@ const Product = () => {
       </div>
 
       {/* ========================================================
-          ALL CSS INSIDE JSX
+          ALL CSS IN SAME FILE
       ======================================================== */}
 
       <style>{`
-        @import url(
-          'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap'
-        );
+        @font-face {
+          font-family: "Brilliant Cut";
+          src: url("/fonts/BrilliantCutPro-Light.woff2")
+            format("woff2");
+          font-weight: 300;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        :root {
+          --paara-cream: #f8f4ed;
+          --paara-ivory: #fcf9f3;
+          --paara-sand: #eee6d9;
+          --paara-brown: #4f453b;
+          --paara-soft: #756a5f;
+          --paara-gold: #a67b42;
+          --paara-line: rgba(128, 105, 73, .16);
+        }
 
         * {
           box-sizing: border-box;
         }
 
-        body {
-          margin: 0;
-          background: #f7f2ea;
-          color: #322c25;
-          font-family: "DM Sans", sans-serif;
-        }
-
-        button,
-        input,
-        select {
-          font: inherit;
-        }
-
-        button {
-          cursor: pointer;
+        html {
+          scroll-behavior: smooth;
         }
 
         .paara-products-page {
-          min-height: 100vh;
+          width: 100%;
+          min-width: 0;
+          overflow-x: hidden;
           background:
             radial-gradient(
-              circle at 10% 14%,
-              rgba(93, 167, 168, 0.07),
-              transparent 24%
+              circle at 12% 15%,
+              rgba(100, 181, 184, .055),
+              transparent 22%
             ),
             radial-gradient(
-              circle at 92% 58%,
-              rgba(203, 171, 124, 0.10),
-              transparent 24%
+              circle at 90% 70%,
+              rgba(204, 168, 108, .07),
+              transparent 25%
             ),
-            #f8f4ed;
-          overflow: hidden;
+            var(--paara-cream);
+          color: var(--paara-brown);
+          font-family: "Brilliant Cut", serif;
+          font-weight: 300;
+        }
+
+        .paara-products-page button,
+        .paara-products-page input,
+        .paara-products-page select {
+          font-family: "Brilliant Cut", serif;
+          font-weight: 300;
         }
 
         /* =====================================================
-           NAVBAR
+           PAGE ANIMATION
         ====================================================== */
 
-        .product-navbar {
-          height: 78px;
-          padding: 0 5%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          background: rgba(251, 248, 242, 0.96);
-          border-bottom: 1px solid rgba(123, 102, 74, 0.14);
-          position: sticky;
-          top: 0;
-          z-index: 100;
-          backdrop-filter: blur(18px);
+        .page-enter {
+          animation:
+            pageEnter
+            .75s
+            cubic-bezier(.22,.61,.36,1)
+            both;
         }
 
-        .logo-button {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          color: inherit;
-          background: transparent;
-          border: 0;
+        .reveal {
+          animation:
+            revealIn
+            .8s
+            cubic-bezier(.22,.61,.36,1)
+            both;
         }
 
-        .logo-script,
-        .footer-logo {
-          font-family: "Cormorant Garamond", serif;
-          font-style: italic;
-          font-weight: 500;
-          color: #8b6838;
-          font-size: 39px;
-          letter-spacing: -2px;
-          line-height: 28px;
+        @keyframes pageEnter {
+          from {
+            opacity: 0;
+            transform: translateY(22px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
-        .logo-button small,
-        .footer-brand small {
-          margin-left: 13px;
-          margin-top: 8px;
-          letter-spacing: 3px;
-          color: #6e6256;
-          font-size: 7px;
-        }
+        @keyframes revealIn {
+          from {
+            opacity: 0;
+            transform: translateY(16px);
+          }
 
-        .main-nav {
-          display: flex;
-          align-items: center;
-          gap: 35px;
-        }
-
-        .main-nav button {
-          border: 0;
-          background: transparent;
-          padding: 8px 0;
-          color: #655b51;
-          font-size: 11px;
-          position: relative;
-        }
-
-        .main-nav button:hover,
-        .main-nav button.active {
-          color: #a1763d;
-        }
-
-        .main-nav button.active::after {
-          content: "";
-          position: absolute;
-          width: 17px;
-          height: 1px;
-          left: 50%;
-          transform: translateX(-50%);
-          bottom: 0;
-          background: #ae8346;
-        }
-
-        .navbar-actions {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-        }
-
-        .navbar-actions button {
-          position: relative;
-          width: 29px;
-          height: 29px;
-          display: grid;
-          place-items: center;
-          background: transparent;
-          border: 0;
-          color: #665d54;
-          font-size: 19px;
-          transition:
-            color .3s ease,
-            transform .3s ease;
-        }
-
-        .navbar-actions button:hover {
-          color: #a57940;
-          transform: translateY(-2px);
-        }
-
-        .nav-count {
-          position: absolute;
-          top: -4px;
-          right: -4px;
-          width: 15px;
-          height: 15px;
-          display: grid;
-          place-items: center;
-          border-radius: 50%;
-          background: #a67b41;
-          color: white;
-          font-size: 8px;
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         /* =====================================================
            HERO
         ====================================================== */
 
-        .product-hero {
-          min-height: 445px;
+        .products-hero {
           position: relative;
+          width: 100%;
+          min-height: clamp(
+            450px,
+            62vh,
+            700px
+          );
           display: flex;
           align-items: center;
-          justify-content: center;
-          text-align: center;
           overflow: hidden;
+        }
+
+        .hero-image {
+          position: absolute;
+          inset: 0;
           background:
             linear-gradient(
-              rgba(241, 242, 233, .77),
-              rgba(245, 239, 226, .88)
+              90deg,
+              rgba(248,244,237,.94),
+              rgba(248,244,237,.70) 37%,
+              rgba(248,244,237,.20) 75%,
+              rgba(248,244,237,.07)
             ),
-            var(--sea-bg);
+            var(--sea-background);
           background-size: cover;
           background-position: center;
         }
 
-        .hero-background {
+        .hero-overlay {
           position: absolute;
           inset: 0;
           background:
             radial-gradient(
-              circle at 50% 13%,
-              rgba(255,255,255,.45),
-              transparent 24%
-            ),
-            linear-gradient(
-              to bottom,
-              transparent,
-              rgba(248,240,226,.3)
+              circle at 72% 25%,
+              rgba(255,255,255,.16),
+              transparent 22%
             );
         }
 
-        .hero-water-layer {
-          position: absolute;
-          width: 850px;
-          height: 250px;
-          right: -200px;
-          bottom: -130px;
-          border-radius: 50%;
-          background: rgba(74, 170, 178, .10);
-          transform: rotate(-8deg);
-        }
-
-        .product-hero-content {
+        .hero-content {
           position: relative;
           z-index: 3;
-          max-width: 790px;
-          padding: 75px 20px;
-          animation: pageAppear .85s ease both;
+          width: min(90vw, 1600px);
+          margin: auto;
+          padding:
+            clamp(55px, 8vw, 110px)
+            0;
         }
 
-        .hero-eyebrow {
-          color: #a47d47;
-          letter-spacing: 5px;
+        .hero-content > span {
+          display: inline-block;
+          color: var(--paara-gold);
           font-size: 9px;
+          letter-spacing: .34em;
+          margin-bottom: 16px;
         }
 
-        .product-hero h1 {
-          margin: 13px 0 13px;
-          font-family: "Cormorant Garamond", serif;
-          font-weight: 500;
-          font-size: clamp(60px, 7vw, 91px);
+        .hero-content h1 {
+          margin: 0;
+          color: #342d26;
+          font-size: clamp(
+            54px,
+            8vw,
+            110px
+          );
           line-height: .86;
-          color: #332c25;
-          letter-spacing: -3px;
+          font-weight: 300;
+          letter-spacing: -.035em;
         }
 
-        .hero-line {
+        .hero-divider {
+          width: min(180px, 42vw);
           display: flex;
           align-items: center;
-          justify-content: center;
           gap: 10px;
-          margin: 20px auto;
-          width: 170px;
+          margin: 23px 0 20px;
         }
 
-        .hero-line span {
-          width: 65px;
+        .hero-divider i {
+          flex: 1;
           height: 1px;
-          background: rgba(164, 126, 70, .43);
+          background: rgba(163,126,73,.42);
         }
 
-        .hero-line small {
-          color: #a77d43;
+        .hero-divider b {
+          color: var(--paara-gold);
+          font-weight: 300;
         }
 
         .hero-quote {
-          margin: 0 auto 9px;
-          max-width: 670px;
-          font-family: "Cormorant Garamond", serif;
-          font-style: italic;
-          font-size: 22px;
-          line-height: 1.4;
-          color: #4f473d;
+          width: min(
+            100%,
+            720px
+          );
+          margin: 0 0 12px;
+          font-size: clamp(
+            16px,
+            1.4vw,
+            22px
+          );
+          line-height: 1.45;
+          color: #5d5348;
         }
 
         .hero-description {
-          max-width: 560px;
-          margin: auto;
-          color: #71675d;
-          font-size: 12px;
+          width: min(
+            100%,
+            630px
+          );
+          margin: 0;
+          color: #73685d;
+          font-size: clamp(
+            11px,
+            .9vw,
+            14px
+          );
           line-height: 1.8;
         }
 
-        .floating-shell {
+        .hero-shell {
           position: absolute;
           z-index: 2;
-          font-size: 80px;
-          opacity: .45;
-          animation: floatShell 7s ease-in-out infinite;
+          pointer-events: none;
+          opacity: .42;
+          animation:
+            shellFloat
+            7s
+            ease-in-out
+            infinite;
         }
 
-        .shell-left {
-          left: 5%;
-          bottom: 38px;
-          transform: rotate(-18deg);
+        .hero-shell-one {
+          right: 8%;
+          bottom: 3%;
+          font-size: clamp(
+            65px,
+            8vw,
+            150px
+          );
         }
 
-        .shell-right {
-          right: 6%;
-          top: 70px;
-          font-size: 50px;
-          animation-delay: 1.2s;
+        .hero-shell-two {
+          right: 27%;
+          top: 10%;
+          font-size: clamp(
+            35px,
+            3vw,
+            60px
+          );
+          animation-delay: 1s;
         }
 
         /* =====================================================
@@ -1608,22 +1670,21 @@ const Product = () => {
         ====================================================== */
 
         .category-strip {
-          border-top: 1px solid rgba(129, 103, 70, .13);
-          border-bottom: 1px solid rgba(129, 103, 70, .13);
-          background: rgba(252,249,243,.82);
           position: sticky;
-          top: 78px;
-          z-index: 80;
-          backdrop-filter: blur(18px);
+          top: 0;
+          z-index: 20;
+          width: 100%;
+          background: rgba(251,248,242,.94);
+          border-top: 1px solid var(--paara-line);
+          border-bottom: 1px solid var(--paara-line);
+          backdrop-filter: blur(17px);
         }
 
         .category-scroll {
-          max-width: 1200px;
+          width: min(100%, 1300px);
           margin: auto;
-          padding: 0 22px;
           display: flex;
           justify-content: center;
-          align-items: center;
           overflow-x: auto;
           scrollbar-width: none;
         }
@@ -1638,334 +1699,452 @@ const Product = () => {
           padding: 18px 22px;
           border: 0;
           background: transparent;
-          color: #73695f;
-          font-size: 10px;
-          letter-spacing: 1.5px;
+          color: #71675d;
+          font-size: 9px;
+          letter-spacing: .14em;
           transition:
             color .25s ease,
             transform .25s ease;
         }
 
-        .category:hover {
-          color: #a5783e;
-          transform: translateY(-1px);
-        }
-
+        .category:hover,
         .category.active {
-          color: #9e743c;
+          color: #9e733c;
         }
 
         .category.active::after {
           content: "";
           position: absolute;
-          width: 24px;
-          height: 1px;
-          background: #ac8046;
           bottom: 7px;
           left: 50%;
+          width: 23px;
+          height: 1px;
           transform: translateX(-50%);
+          background: #a77a42;
         }
 
         /* =====================================================
-           HEADING
+           INTRO
         ====================================================== */
 
-        .products-heading {
-          max-width: 1300px;
-          margin: 0 auto;
-          padding: 78px 5% 38px;
+        .products-intro {
+          width: min(90vw, 950px);
+          margin: auto;
+          padding:
+            clamp(65px, 8vw, 110px)
+            0
+            40px;
           text-align: center;
         }
 
-        .products-heading span {
-          color: #9e7642;
-          font-size: 9px;
-          letter-spacing: 4px;
+        .products-intro > span {
+          color: var(--paara-gold);
+          font-size: 8px;
+          letter-spacing: .34em;
         }
 
-        .products-heading h2 {
-          margin: 10px 0 0;
-          font-family: "Cormorant Garamond", serif;
-          font-weight: 500;
+        .products-intro h2 {
+          margin:
+            11px 0
+            8px;
           color: #342e27;
-          font-size: clamp(48px, 5vw, 67px);
-          line-height: .95;
+          font-size: clamp(
+            45px,
+            5.5vw,
+            75px
+          );
+          line-height: .92;
+          font-weight: 300;
+          letter-spacing: -.03em;
         }
 
-        .products-heading p {
-          color: #71675d;
-          font-size: 12px;
-          margin: 10px 0 22px;
+        .products-intro p {
+          margin: 0;
+          color: #786e63;
+          font-size: clamp(
+            10px,
+            .9vw,
+            13px
+          );
         }
 
-        .heading-decoration {
+        .intro-divider {
           display: flex;
-          justify-content: center;
           align-items: center;
-          gap: 10px;
+          justify-content: center;
+          gap: 9px;
+          margin-top: 19px;
         }
 
-        .heading-decoration span {
-          width: 62px;
+        .intro-divider i {
+          width: 57px;
           height: 1px;
-          background: rgba(165, 129, 76, .38);
+          background: rgba(164,127,76,.36);
         }
 
-        .heading-decoration small {
-          font-size: 15px;
-          color: #a88048;
+        .intro-divider b {
+          color: #a37942;
+          font-weight: 300;
         }
 
         /* =====================================================
            TOOLBAR
         ====================================================== */
 
-        .product-toolbar-wrapper {
-          max-width: 1300px;
-          margin: 0 auto;
-          padding: 0 5% 28px;
+        .toolbar-wrapper {
+          width: min(94vw, 1750px);
+          margin: auto;
+          padding-bottom: 28px;
         }
 
-        .product-toolbar {
+        .toolbar {
+          width: 100%;
+          min-height: 57px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+          border-bottom: 1px solid var(--paara-line);
+        }
+
+        .result-count {
+          color: #8b8074;
+          font-size: 8px;
+          letter-spacing: .18em;
+          white-space: nowrap;
+        }
+
+        .toolbar-controls {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .search-box {
+          width: clamp(
+            170px,
+            18vw,
+            280px
+          );
+          height: 36px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 0 4px;
+          border-bottom: 1px solid #cbbba4;
+        }
+
+        .search-box span {
+          color: #947047;
+          font-size: 18px;
+        }
+
+        .search-box input {
+          min-width: 0;
+          width: 100%;
+          border: 0;
+          outline: 0;
+          background: transparent;
+          color: #554b41;
+          font-size: 9px;
+        }
+
+        .search-box input::placeholder {
+          color: #9c9286;
+        }
+
+        .filter-button,
+        .toolbar select {
+          height: 36px;
+          padding: 0 12px;
+          border: 1px solid rgba(130,106,73,.22);
+          background: #fcf9f3;
+          color: #6e6359;
+          font-size: 8px;
+          letter-spacing: .1em;
+        }
+
+        .filter-button {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .filter-button span {
+          font-size: 12px;
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+          color: white;
+          border-color: #a87b42;
+          background: #a87b42;
+        }
+
+        .toolbar select {
+          outline: 0;
+        }
+
+        /* =====================================================
+           FILTER PANEL
+        ====================================================== */
+
+        .filter-panel {
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 25px;
-          padding-bottom: 17px;
-          border-bottom: 1px solid rgba(125, 103, 75, .16);
+          padding:
+            18px
+            0
+            7px;
+          border-bottom: 1px solid var(--paara-line);
+          animation:
+            filterOpen
+            .35s
+            ease both;
         }
 
-        .product-count {
-          color: #85796b;
-          font-size: 9px;
-          letter-spacing: 2px;
-        }
-
-        .toolbar-right {
+        .filter-block {
           display: flex;
           align-items: center;
-          gap: 14px;
+          flex-wrap: wrap;
+          gap: 16px;
         }
 
-        .search-box {
-          width: 235px;
+        .filter-title {
+          color: #81766a;
+          font-size: 8px;
+          letter-spacing: .18em;
+        }
+
+        .filter-options {
           display: flex;
           align-items: center;
-          gap: 8px;
-          border-bottom: 1px solid #cbbba4;
-          padding: 7px 3px;
+          flex-wrap: wrap;
+          gap: 7px;
         }
 
-        .search-box span {
-          color: #91734b;
-          font-size: 16px;
-        }
-
-        .search-box input {
-          flex: 1;
-          min-width: 0;
-          outline: none;
-          border: 0;
+        .filter-option {
+          padding: 8px 11px;
+          border: 1px solid rgba(130,106,73,.18);
           background: transparent;
-          color: #50473f;
-          font-size: 10px;
+          color: #776c61;
+          font-size: 7px;
+          letter-spacing: .06em;
+          transition:
+            background .25s ease,
+            color .25s ease,
+            border-color .25s ease;
         }
 
-        .search-box input::placeholder {
-          color: #9b9187;
+        .filter-option:hover,
+        .filter-option.active {
+          color: white;
+          background: #a97b43;
+          border-color: #a97b43;
         }
 
-        .toolbar-right select {
-          border: 1px solid rgba(129, 107, 78, .22);
-          background: #fbf8f2;
-          color: #665c52;
-          padding: 9px 14px;
-          outline: none;
-          font-size: 10px;
+        .clear-filters {
+          border: 0;
+          border-bottom: 1px solid #b38a54;
+          background: transparent;
+          color: #936b3a;
+          padding: 6px 0;
+          white-space: nowrap;
+          font-size: 7px;
+          letter-spacing: .13em;
+        }
+
+        @keyframes filterOpen {
+          from {
+            opacity: 0;
+            transform: translateY(-7px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         /* =====================================================
-           PRODUCTS
+           PRODUCT GRID
         ====================================================== */
 
         .product-grid-section {
-          max-width: 1400px;
-          padding: 0 5% 100px;
+          width: min(94vw, 1750px);
           margin: auto;
+          padding:
+            0 0
+            clamp(75px, 9vw, 135px);
         }
 
         .product-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 25px;
+          grid-template-columns:
+            repeat(
+              4,
+              minmax(0, 1fr)
+            );
+          gap: clamp(
+            14px,
+            1.9vw,
+            32px
+          );
         }
 
         .product-card {
           min-width: 0;
-          position: relative;
-          animation: cardAppear .65s ease both;
+          opacity: 0;
+          transform: translateY(15px);
+          animation:
+            cardIn
+            .65s
+            cubic-bezier(.22,.61,.36,1)
+            forwards;
         }
 
-        .product-card:nth-child(2) {
-          animation-delay: .05s;
-        }
-
-        .product-card:nth-child(3) {
-          animation-delay: .1s;
-        }
-
-        .product-card:nth-child(4) {
-          animation-delay: .15s;
+        @keyframes cardIn {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .product-image-wrapper {
           position: relative;
+          width: 100%;
           overflow: hidden;
           cursor: pointer;
-          background:
-            linear-gradient(
-              145deg,
-              #f7f1e8,
-              #e9e1d3
-            );
-          border: 1px solid rgba(133, 107, 72, .12);
+          background: #eee6d9;
+          border: 1px solid rgba(130,106,73,.13);
         }
 
-        .product-image-bg {
-          aspect-ratio: 4 / 4.8;
-          position: relative;
+        .product-image {
+          width: 100%;
+          aspect-ratio: 4 / 5;
           overflow: hidden;
-          background:
-            radial-gradient(
-              circle at 50% 45%,
-              rgba(255,255,255,.9),
-              transparent 55%
-            ),
-            #f4eee5;
         }
 
-        .product-image-bg::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background:
-            linear-gradient(
-              145deg,
-              rgba(255,255,255,.15),
-              transparent 38%,
-              rgba(76,173,180,.08)
-            );
-        }
-
-        .product-image-bg img {
+        .product-image img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
           display: block;
+          object-fit: cover;
           transition:
-            transform .75s cubic-bezier(.22,.61,.36,1);
+            transform
+            .75s
+            cubic-bezier(.22,.61,.36,1);
         }
 
         .product-image-wrapper:hover
-        .product-image-bg img {
+        .product-image img {
           transform: scale(1.055);
         }
 
         .product-badge {
           position: absolute;
-          top: 14px;
-          left: 14px;
-          padding: 6px 10px;
-          background: rgba(250,247,239,.92);
-          color: #8b6a3d;
-          font-size: 7px;
-          letter-spacing: 1.5px;
-          border: 1px solid rgba(155, 122, 69, .14);
-          backdrop-filter: blur(8px);
+          top: 13px;
+          left: 13px;
+          padding: 6px 9px;
+          background: rgba(252,249,243,.91);
+          color: #936b3a;
+          border: 1px solid rgba(151,117,69,.13);
+          font-size: 6px;
+          letter-spacing: .16em;
+          backdrop-filter: blur(7px);
         }
 
-        .wishlist-button {
+        .wishlist {
           position: absolute;
-          z-index: 4;
-          top: 12px;
-          right: 12px;
-          width: 34px;
-          height: 34px;
+          top: 11px;
+          right: 11px;
+          width: 35px;
+          height: 35px;
           display: grid;
           place-items: center;
           border-radius: 50%;
-          border: 1px solid rgba(145, 119, 81, .16);
-          background: rgba(251,248,243,.9);
-          color: #6c6155;
+          border: 1px solid rgba(139,113,76,.17);
+          background: rgba(252,249,243,.9);
+          color: #6d6257;
           font-size: 19px;
           transition:
             transform .25s ease,
-            color .25s ease,
-            background .25s ease;
-          backdrop-filter: blur(8px);
+            color .25s ease;
         }
 
-        .wishlist-button:hover {
+        .wishlist:hover {
           transform: scale(1.08);
         }
 
-        .wishlist-button.liked {
-          color: #9d5d4f;
-          animation: heartPop .3s ease;
+        .wishlist.liked {
+          color: #a15c51;
+          animation:
+            heartPop
+            .3s
+            ease;
         }
 
-        .image-hover-overlay {
+        .image-hover {
           position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: flex-end;
-          justify-content: center;
-          padding-bottom: 22px;
-          background:
-            linear-gradient(
-              to top,
-              rgba(42, 47, 42, .38),
-              transparent 40%
-            );
+          left: 50%;
+          bottom: 16px;
+          transform: translateX(-50%)
+            translateY(7px);
+          padding: 8px 13px;
+          border: 1px solid rgba(255,255,255,.58);
+          background: rgba(35,35,32,.2);
+          color: white;
+          white-space: nowrap;
+          font-size: 7px;
+          letter-spacing: .17em;
           opacity: 0;
-          transition: opacity .35s ease;
+          transition:
+            opacity .3s ease,
+            transform .3s ease;
+          backdrop-filter: blur(8px);
         }
 
-        .image-hover-overlay span {
-          padding: 11px 17px;
-          border: 1px solid rgba(255,255,255,.52);
-          background: rgba(250,248,241,.08);
-          backdrop-filter: blur(8px);
-          color: white;
-          font-size: 8px;
-          letter-spacing: 2px;
+        .image-hover span {
+          margin-left: 9px;
+          font-size: 11px;
         }
 
         .product-image-wrapper:hover
-        .image-hover-overlay {
+        .image-hover {
           opacity: 1;
+          transform:
+            translateX(-50%)
+            translateY(0);
         }
 
-        .product-card-info {
-          padding: 17px 5px 8px;
+        .product-info {
+          padding:
+            15px
+            4px
+            8px;
           text-align: center;
         }
 
         .product-category {
-          color: #a17843;
-          font-size: 7px;
-          letter-spacing: 2px;
+          display: block;
+          color: #a07742;
+          font-size: 6px;
+          letter-spacing: .2em;
           margin-bottom: 6px;
         }
 
-        .product-card-info h3 {
+        .product-info h3 {
           margin: 0;
-          color: #3a332b;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 23px;
-          font-weight: 600;
-          line-height: 1.05;
+          color: #393229;
+          font-size: clamp(
+            18px,
+            1.45vw,
+            25px
+          );
+          line-height: 1.03;
+          font-weight: 300;
           cursor: pointer;
         }
 
@@ -1977,94 +2156,112 @@ const Product = () => {
           margin-top: 8px;
         }
 
-        .stars {
-          color: #b88642;
-          font-size: 9px;
+        .rating span {
+          color: #ac7d3d;
+          font-size: 8px;
           letter-spacing: 1px;
         }
 
-        .review-count {
-          color: #8c8278;
-          font-size: 8px;
+        .rating small {
+          color: #91877c;
+          font-size: 7px;
         }
 
         .price-row {
-          margin-top: 8px;
           display: flex;
-          justify-content: center;
           align-items: center;
+          justify-content: center;
           gap: 8px;
+          margin-top: 8px;
         }
 
-        .current-price {
-          color: #41392f;
-          font-size: 13px;
-          font-weight: 500;
+        .price-row strong {
+          color: #463d34;
+          font-size: 12px;
+          font-weight: 300;
         }
 
-        .old-price {
-          color: #999086;
-          text-decoration: line-through;
-          font-size: 10px;
+        .price-row del {
+          color: #9a9085;
+          font-size: 9px;
         }
 
-        .add-cart-button {
-          margin-top: 13px;
+        .cart-button {
           width: 100%;
-          max-width: 175px;
-          border: 1px solid #c8ad83;
+          max-width: 180px;
+          height: 37px;
+          margin-top: 12px;
+          border: 1px solid #c3a77d;
           background: transparent;
-          color: #926c3c;
-          padding: 10px 12px;
-          font-size: 8px;
-          letter-spacing: 1.6px;
+          color: #936a37;
+          font-size: 7px;
+          letter-spacing: .16em;
           transition:
             background .3s ease,
             color .3s ease,
             border-color .3s ease;
         }
 
-        .add-cart-button:hover {
-          background: #ad8249;
-          border-color: #ad8249;
+        .cart-button:hover {
           color: white;
+          background: #a97b42;
+          border-color: #a97b42;
+        }
+
+        .cart-button.added {
+          color: white;
+          background: #668674;
+          border-color: #668674;
         }
 
         /* =====================================================
-           EMPTY
+           EMPTY STATE
         ====================================================== */
 
         .empty-state {
-          padding: 100px 20px;
+          min-height: 420px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
           text-align: center;
         }
 
         .empty-shell {
-          font-size: 55px;
-          opacity: .65;
+          font-size: 58px;
+          opacity: .55;
+        }
+
+        .empty-state > span {
+          margin-top: 14px;
+          color: #9c7541;
+          font-size: 8px;
+          letter-spacing: .3em;
         }
 
         .empty-state h3 {
-          margin: 20px 0 8px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 38px;
-          font-weight: 500;
+          margin:
+            12px 0
+            8px;
+          color: #393229;
+          font-size: 36px;
+          font-weight: 300;
         }
 
         .empty-state p {
-          color: #766b60;
-          font-size: 12px;
-          line-height: 1.7;
+          margin: 0;
+          color: #796f63;
+          font-size: 11px;
         }
 
         .empty-state button {
           margin-top: 20px;
-          border: 1px solid #bd9d70;
-          padding: 12px 18px;
-          color: #966e3b;
+          padding: 11px 18px;
+          border: 1px solid #b18a57;
           background: transparent;
-          font-size: 8px;
-          letter-spacing: 1.8px;
+          color: #946c3a;
+          font-size: 7px;
+          letter-spacing: .16em;
         }
 
         /* =====================================================
@@ -2072,23 +2269,25 @@ const Product = () => {
         ====================================================== */
 
         .ocean-story {
-          min-height: 430px;
           position: relative;
+          width: 100%;
+          min-height: clamp(
+            360px,
+            47vh,
+            540px
+          );
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          text-align: center;
         }
 
         .ocean-story-image {
           position: absolute;
           inset: 0;
           background:
-            linear-gradient(
-              rgba(23,79,82,.73),
-              rgba(31,90,92,.80)
-            ),
-            var(--sea-bg);
+            var(--sea-background);
           background-size: cover;
           background-position: center;
         }
@@ -2097,215 +2296,69 @@ const Product = () => {
           position: absolute;
           inset: 0;
           background:
-            radial-gradient(
-              circle at 50% 30%,
-              rgba(255,255,255,.15),
-              transparent 25%
+            linear-gradient(
+              rgba(24,78,81,.71),
+              rgba(27,88,90,.80)
             );
         }
 
         .ocean-story-content {
           position: relative;
           z-index: 2;
-          text-align: center;
+          width: min(90vw, 800px);
+          padding: 70px 20px;
           color: white;
-          max-width: 650px;
-          padding: 80px 24px;
         }
 
         .ocean-story-content > span {
-          font-size: 9px;
-          letter-spacing: 4px;
-          opacity: .85;
+          font-size: 8px;
+          letter-spacing: .34em;
+          opacity: .88;
         }
 
         .ocean-story-content h2 {
-          margin: 19px 0 18px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: clamp(48px,5vw,72px);
-          font-weight: 500;
-          line-height: .94;
+          margin:
+            18px 0
+            19px;
+          font-size: clamp(
+            48px,
+            6vw,
+            82px
+          );
+          line-height: .91;
+          font-weight: 300;
+          letter-spacing: -.03em;
         }
 
         .ocean-story-content p {
+          width: min(100%, 600px);
           margin: auto;
-          max-width: 480px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 19px;
-          line-height: 1.5;
-          opacity: .91;
+          font-size: clamp(
+            12px,
+            1vw,
+            17px
+          );
+          line-height: 1.65;
+          opacity: .92;
         }
 
-        .wave-symbol {
-          margin-top: 25px;
+        .ocean-divider {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 12px;
+          gap: 10px;
+          margin-top: 27px;
         }
 
-        .wave-symbol span {
-          width: 65px;
+        .ocean-divider i {
+          width: 70px;
+          max-width: 15vw;
           height: 1px;
           background: rgba(255,255,255,.35);
         }
 
-        .wave-symbol b {
-          font-weight: 400;
-          font-size: 16px;
-        }
-
-        /* =====================================================
-           TRUST BAR
-        ====================================================== */
-
-        .trust-bar {
-          max-width: 1250px;
-          margin: auto;
-          padding: 36px 5%;
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 25px;
-          border-bottom: 1px solid rgba(122, 100, 72, .13);
-        }
-
-        .trust-item {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 13px;
-        }
-
-        .trust-icon {
-          width: 38px;
-          height: 38px;
-          flex: 0 0 auto;
-          display: grid;
-          place-items: center;
-          border: 1px solid rgba(169, 132, 74, .42);
-          border-radius: 50%;
-          color: #a2783d;
-          font-size: 15px;
-        }
-
-        .trust-item strong {
-          display: block;
-          color: #554b41;
-          font-size: 9px;
-          font-weight: 500;
-        }
-
-        .trust-item small {
-          display: block;
-          margin-top: 3px;
-          color: #8d8377;
-          font-size: 8px;
-        }
-
-        /* =====================================================
-           FOOTER
-        ====================================================== */
-
-        .products-footer {
-          position: relative;
-          background: #f3ede4;
-          padding: 72px 6% 24px;
-        }
-
-        .footer-inner {
-          max-width: 1400px;
-          margin: auto;
-          display: grid;
-          grid-template-columns:
-            1.45fr 1fr 1fr 1.15fr 1.45fr;
-          gap: 35px;
-        }
-
-        .footer-logo {
-          font-size: 47px;
-        }
-
-        .footer-brand p {
-          color: #71675d;
-          font-size: 10px;
-          line-height: 1.85;
-          margin-top: 22px;
-        }
-
-        .footer-links {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .footer-links h4,
-        .footer-newsletter h4 {
-          margin: 3px 0 16px;
-          font-size: 8px;
-          letter-spacing: 2.6px;
-          color: #786248;
-          font-weight: 500;
-        }
-
-        .footer-links button {
-          padding: 4px 0;
-          border: 0;
-          background: transparent;
-          color: #71675d;
-          font-size: 10px;
-          text-align: left;
-        }
-
-        .footer-links button:hover {
-          color: #a6783d;
-        }
-
-        .footer-newsletter p {
-          margin: 0 0 11px;
-          color: #71675d;
-          font-size: 10px;
-        }
-
-        .newsletter {
-          max-width: 245px;
-          border-bottom: 1px solid #c6ac85;
-          display: flex;
-        }
-
-        .newsletter input {
-          min-width: 0;
-          flex: 1;
-          border: 0;
-          outline: none;
-          background: transparent;
-          padding: 10px 3px;
-          font-size: 9px;
-        }
-
-        .newsletter button {
-          border: 0;
-          background: transparent;
-          color: #9a713d;
-        }
-
-        .social {
-          display: flex;
-          gap: 12px;
-          margin-top: 16px;
-          color: #72695f;
-        }
-
-        .copyright {
-          max-width: 1400px;
-          margin: 43px auto 0;
-          padding-top: 17px;
-          border-top: 1px solid rgba(120, 98, 68, .14);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 20px;
-          color: #8b8175;
-          font-size: 8px;
+        .ocean-divider b {
+          font-weight: 300;
         }
 
         /* =====================================================
@@ -2314,82 +2367,70 @@ const Product = () => {
 
         .cart-toast {
           position: fixed;
+          right: 22px;
+          bottom: 22px;
           z-index: 500;
-          right: 24px;
-          bottom: 24px;
           min-width: 255px;
           display: flex;
           align-items: center;
-          gap: 13px;
-          padding: 14px 17px;
-          background: rgba(252,249,244,.96);
-          border: 1px solid rgba(154, 121, 71, .19);
+          gap: 12px;
+          padding: 13px 16px;
+          background: rgba(252,249,243,.97);
+          border: 1px solid rgba(145,115,72,.18);
           box-shadow:
-            0 20px 45px rgba(58, 47, 34, .16);
-          backdrop-filter: blur(18px);
-          animation: toastIn .4s ease both;
+            0
+            18px
+            45px
+            rgba(56,45,33,.16);
+          backdrop-filter: blur(15px);
+          animation:
+            toastIn
+            .35s
+            ease
+            both;
         }
 
         .cart-toast > span {
           width: 31px;
           height: 31px;
-          border-radius: 50%;
+          flex: 0 0 auto;
           display: grid;
           place-items: center;
-          background: #aa8147;
+          border-radius: 50%;
+          background: #698675;
           color: white;
           font-size: 13px;
         }
 
         .cart-toast strong {
           display: block;
-          font-size: 10px;
-          color: #554b41;
+          color: #564c42;
+          font-size: 9px;
         }
 
         .cart-toast small {
           display: block;
           margin-top: 3px;
-          color: #8d8174;
-          font-size: 8px;
+          color: #8d8276;
+          font-size: 7px;
         }
 
         /* =====================================================
            ANIMATIONS
         ====================================================== */
 
-        @keyframes pageAppear {
-          from {
-            opacity: 0;
-            transform: translateY(18px);
-          }
-
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes cardAppear {
-          from {
-            opacity: 0;
-            transform: translateY(16px);
-          }
-
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes floatShell {
+        @keyframes shellFloat {
           0%,
           100% {
-            transform: translateY(0) rotate(-8deg);
+            transform:
+              translateY(0)
+              rotate(-7deg);
           }
 
           50% {
-            transform: translateY(-10px) rotate(4deg);
+            transform:
+              translateY(-10px)
+              rotate(4deg);
           }
         }
 
@@ -2399,7 +2440,7 @@ const Product = () => {
           }
 
           45% {
-            transform: scale(1.25);
+            transform: scale(1.24);
           }
 
           100% {
@@ -2410,7 +2451,7 @@ const Product = () => {
         @keyframes toastIn {
           from {
             opacity: 0;
-            transform: translateY(15px);
+            transform: translateY(14px);
           }
 
           to {
@@ -2420,79 +2461,104 @@ const Product = () => {
         }
 
         /* =====================================================
-           TABLET
+           LARGE PC
         ====================================================== */
 
-        @media (max-width: 1100px) {
-          .main-nav {
-            gap: 20px;
-          }
-
+        @media (min-width: 1440px) {
           .product-grid {
-            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
           }
 
-          .trust-bar {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
-          .footer-inner {
-            grid-template-columns: repeat(3, 1fr);
+          .product-image {
+            aspect-ratio: 4 / 4.85;
           }
         }
 
         /* =====================================================
-           MOBILE
+           LAPTOP
+        ====================================================== */
+
+        @media (
+          min-width: 1100px
+        ) and (
+          max-width: 1439px
+        ) {
+          .product-grid {
+            grid-template-columns:
+              repeat(
+                4,
+                minmax(0,1fr)
+              );
+          }
+        }
+
+        /* =====================================================
+           TABLET
+        ====================================================== */
+
+        @media (
+          min-width: 761px
+        ) and (
+          max-width: 1099px
+        ) {
+          .product-grid {
+            grid-template-columns:
+              repeat(
+                3,
+                minmax(0,1fr)
+              );
+          }
+
+          .toolbar {
+            flex-wrap: wrap;
+            padding: 15px 0;
+          }
+
+          .filter-panel {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+        }
+
+        /* =====================================================
+           MOBILE FIRST
         ====================================================== */
 
         @media (max-width: 760px) {
-          .product-navbar {
-            height: 70px;
-            padding: 0 18px;
+          .products-hero {
+            min-height: 590px;
           }
 
-          .main-nav {
-            display: none;
+          .hero-content {
+            width: calc(100% - 34px);
           }
 
-          .logo-script {
-            font-size: 32px;
-          }
-
-          .navbar-actions {
-            gap: 7px;
-          }
-
-          .navbar-actions button {
-            font-size: 17px;
-          }
-
-          .product-hero {
-            min-height: 455px;
-          }
-
-          .product-hero h1 {
-            font-size: 59px;
+          .hero-content h1 {
+            font-size: clamp(
+              47px,
+              13vw,
+              66px
+            );
           }
 
           .hero-quote {
-            font-size: 19px;
+            font-size: 16px;
           }
 
-          .floating-shell {
-            opacity: .3;
+          .hero-description {
+            font-size: 10px;
           }
 
-          .shell-left {
-            left: -3%;
+          .hero-shell-one {
+            right: -4%;
+            bottom: 1%;
+            opacity: .28;
           }
 
-          .shell-right {
-            right: -2%;
-          }
-
-          .category-strip {
-            top: 70px;
+          .hero-shell-two {
+            right: 12%;
+            top: 9%;
+            opacity: .25;
           }
 
           .category-scroll {
@@ -2500,141 +2566,236 @@ const Product = () => {
           }
 
           .category {
-            padding-left: 16px;
-            padding-right: 16px;
+            padding:
+              17px
+              15px;
+            font-size: 8px;
           }
 
-          .products-heading {
-            padding-top: 60px;
+          .products-intro {
+            width: calc(100% - 30px);
           }
 
-          .product-toolbar {
-            align-items: flex-start;
-            flex-direction: column;
+          .toolbar-wrapper {
+            width: calc(100% - 28px);
           }
 
-          .toolbar-right {
-            width: 100%;
-            flex-direction: column;
+          .toolbar {
             align-items: stretch;
+            flex-direction: column;
+            padding:
+              0
+              0
+              15px;
+          }
+
+          .toolbar-controls {
+            width: 100%;
+            display: grid;
+            grid-template-columns:
+              1fr
+              auto;
+            gap: 8px;
           }
 
           .search-box {
             width: 100%;
-          }
-
-          .toolbar-right select {
-            width: 100%;
-          }
-
-          .product-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-          }
-
-          .product-card-info h3 {
-            font-size: 19px;
-          }
-
-          .product-image-wrapper {
-            border-radius: 0;
-          }
-
-          .image-hover-overlay {
-            display: none;
-          }
-
-          .add-cart-button {
-            font-size: 7px;
-            padding: 9px 5px;
-          }
-
-          .trust-bar {
-            grid-template-columns: 1fr;
-          }
-
-          .trust-item {
-            justify-content: flex-start;
-          }
-
-          .footer-inner {
-            grid-template-columns: 1fr 1fr;
-            gap: 35px 25px;
-          }
-
-          .footer-brand,
-          .footer-newsletter {
             grid-column: 1 / -1;
           }
 
-          .copyright {
-            flex-direction: column;
-            align-items: flex-start;
-            line-height: 1.6;
+          .filter-button {
+            justify-content: center;
           }
-        }
 
-        @media (max-width: 430px) {
-          .navbar-actions button:nth-child(1),
-          .navbar-actions button:nth-child(4) {
-            display: none;
+          .toolbar select {
+            width: 100%;
+          }
+
+          .filter-panel {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 18px;
+          }
+
+          .filter-block {
+            width: 100%;
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 9px;
+          }
+
+          .filter-options {
+            width: 100%;
+          }
+
+          .filter-option {
+            flex: 1 1 auto;
+          }
+
+          .clear-filters {
+            align-self: flex-end;
+          }
+
+          .product-grid-section {
+            width: calc(100% - 28px);
           }
 
           .product-grid {
-            gap: 12px;
+            grid-template-columns:
+              repeat(
+                2,
+                minmax(0,1fr)
+              );
+            gap: 11px;
           }
 
-          .product-image-bg {
+          .product-image {
             aspect-ratio: 4 / 5;
           }
 
           .product-badge {
-            top: 9px;
-            left: 9px;
-            padding: 5px 6px;
+            top: 8px;
+            left: 8px;
+            padding:
+              5px
+              7px;
+            font-size: 5px;
           }
 
-          .wishlist-button {
-            top: 8px;
-            right: 8px;
-            width: 29px;
-            height: 29px;
+          .wishlist {
+            top: 7px;
+            right: 7px;
+            width: 30px;
+            height: 30px;
             font-size: 16px;
           }
 
-          .product-card-info {
-            padding-top: 13px;
+          .image-hover {
+            display: none;
           }
 
-          .product-card-info h3 {
-            font-size: 17px;
+          .product-info {
+            padding:
+              12px
+              2px
+              6px;
           }
 
-          .stars {
+          .product-category {
+            font-size: 5px;
+          }
+
+          .product-info h3 {
+            font-size: clamp(
+              17px,
+              5.2vw,
+              22px
+            );
+          }
+
+          .rating span {
+            font-size: 6px;
+          }
+
+          .rating small {
+            font-size: 6px;
+          }
+
+          .price-row {
+            gap: 5px;
+          }
+
+          .price-row strong {
+            font-size: 10px;
+          }
+
+          .price-row del {
             font-size: 7px;
           }
 
-          .current-price {
-            font-size: 11px;
+          .cart-button {
+            height: 34px;
+            margin-top: 9px;
+            font-size: 6px;
           }
 
-          .old-price {
-            font-size: 8px;
+          .empty-state {
+            min-height: 350px;
           }
 
-          .add-cart-button {
-            max-width: none;
+          .ocean-story-content {
+            width: calc(100% - 26px);
           }
 
-          .footer-inner {
-            grid-template-columns: 1fr;
+          .ocean-story-content h2 {
+            font-size: clamp(
+              45px,
+              11vw,
+              60px
+            );
+          }
+
+          .ocean-story-content p {
+            font-size: 13px;
           }
 
           .cart-toast {
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
+            left: 14px;
+            right: 14px;
+            bottom: 14px;
             min-width: 0;
+          }
+        }
+
+        /* =====================================================
+           SMALL PHONES
+        ====================================================== */
+
+        @media (max-width: 390px) {
+          .products-hero {
+            min-height: 560px;
+          }
+
+          .product-grid {
+            gap: 8px;
+          }
+
+          .product-info h3 {
+            font-size: 16px;
+          }
+
+          .product-category {
+            font-size: 4.5px;
+          }
+
+          .cart-button {
+            font-size: 5.5px;
+          }
+
+          .filter-option {
+            padding:
+              7px
+              8px;
+          }
+        }
+
+        /* =====================================================
+           REDUCE MOTION
+        ====================================================== */
+
+        @media (
+          prefers-reduced-motion: reduce
+        ) {
+          .page-enter,
+          .reveal,
+          .product-card {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+          }
+
+          .hero-shell {
+            animation: none !important;
           }
         }
       `}</style>

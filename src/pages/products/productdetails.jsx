@@ -1,24 +1,48 @@
-import React, { useMemo, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { productId } = useParams();
 
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedImage, setSelectedImage] =
+    useState(0);
+  const [selectedSize, setSelectedSize] =
+    useState("");
   const [quantity, setQuantity] = useState(1);
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const [addedToCart, setAddedToCart] = useState(false);
-  const [buyMessage, setBuyMessage] = useState("");
+  const [isWishlisted, setIsWishlisted] =
+    useState(false);
+  const [addedToCart, setAddedToCart] =
+    useState(false);
+  const [buyMessage, setBuyMessage] =
+    useState("");
 
   const seaBackground =
     "https://img.freepik.com/premium-photo/banner-summer-background-with-white-sand-seashell-starfish-beach_756748-104227.jpg?w=2000";
 
   /* ==========================================================
+     START FROM TOP WHEN OPENING / CHANGING PRODUCT
+  ========================================================== */
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [productId]);
+
+  /* ==========================================================
      PRODUCT DATA
-     Keep the IDs consistent with Product.jsx
   ========================================================== */
 
   const products = [
@@ -624,22 +648,25 @@ const ProductDetails = () => {
   ];
 
   /* ==========================================================
-     GET EXACT PRODUCT
+     EXACT PRODUCT
   ========================================================== */
 
   const product = products.find(
-    (item) => item.id === Number(productId)
+    (item) =>
+      item.id === Number(productId)
   );
 
   /* ==========================================================
-     SELECT DEFAULT SIZE
+     DEFAULT SIZE
   ========================================================== */
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (product?.sizes?.length) {
-      setSelectedSize(product.sizes[0]);
+      setSelectedSize(
+        product.sizes[0]
+      );
     }
-  }, [productId]);
+  }, [productId, product]);
 
   /* ==========================================================
      DISCOUNT
@@ -647,7 +674,8 @@ const ProductDetails = () => {
 
   const discount = product
     ? Math.round(
-        ((product.oldPrice - product.price) /
+        ((product.oldPrice -
+          product.price) /
           product.oldPrice) *
           100
       )
@@ -667,28 +695,37 @@ const ProductDetails = () => {
   ========================================================== */
 
   const relatedProducts = useMemo(() => {
-    if (!product) return [];
+    if (!product) {
+      return [];
+    }
 
     return products
       .filter(
         (item) =>
-          item.category === product.category &&
+          item.category ===
+            product.category &&
           item.id !== product.id
       )
       .slice(0, 4);
-  }, [productId]);
+  }, [product]);
 
   /* ==========================================================
      QUANTITY
   ========================================================== */
 
   const increaseQuantity = () => {
-    setQuantity((previous) => previous + 1);
+    setQuantity(
+      (previous) =>
+        previous + 1
+    );
   };
 
   const decreaseQuantity = () => {
-    setQuantity((previous) =>
-      previous > 1 ? previous - 1 : 1
+    setQuantity(
+      (previous) =>
+        previous > 1
+          ? previous - 1
+          : 1
     );
   };
 
@@ -730,18 +767,24 @@ const ProductDetails = () => {
             🐚
           </div>
 
-          <span>PAARA JEWELLERY</span>
+          <span>
+            PAARA JEWELLERY
+          </span>
 
-          <h1>Treasure not found</h1>
+          <h1>
+            Treasure not found
+          </h1>
 
           <p>
-            This piece may have drifted away from the
-            collection.
+            This piece may have drifted
+            away from the collection.
           </p>
 
           <button
             onClick={() =>
-              navigate("/collections")
+              navigate(
+                "/collections"
+              )
             }
           >
             BACK TO COLLECTIONS
@@ -749,35 +792,35 @@ const ProductDetails = () => {
         </div>
 
         <style>{`
-          @import url(
-            'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap'
-          );
-
-          * {
-            box-sizing: border-box;
-          }
-
-          body {
-            margin: 0;
+          @font-face {
+            font-family: "Brilliant Cut";
+            src: url("/fonts/BrilliantCutPro-Light.woff2")
+              format("woff2");
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
           }
 
           .not-found-page {
             min-height: 100vh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 30px;
             text-align: center;
             background:
               linear-gradient(
-                rgba(248,244,237,.83),
+                rgba(248,244,237,.84),
                 rgba(248,244,237,.94)
               ),
               url("https://img.freepik.com/premium-photo/banner-summer-background-with-white-sand-seashell-starfish-beach_756748-104227.jpg?w=2000");
             background-size: cover;
-            padding: 30px;
-            font-family: "DM Sans", sans-serif;
+            background-position: center;
             color: #453b31;
+            font-family: "Brilliant Cut", serif;
+            font-weight: 300;
           }
 
           .not-found-shell {
@@ -786,21 +829,25 @@ const ProductDetails = () => {
           }
 
           .not-found-page > span {
-            font-size: 9px;
-            letter-spacing: 4px;
             color: #9c7742;
+            font-size: 8px;
+            letter-spacing: 4px;
           }
 
           .not-found-page h1 {
             margin: 13px 0 8px;
-            font-family: "Cormorant Garamond", serif;
-            font-weight: 500;
-            font-size: 58px;
+            font-size: clamp(
+              46px,
+              7vw,
+              70px
+            );
+            line-height: .95;
+            font-weight: 300;
           }
 
           .not-found-page p {
             color: #756b60;
-            font-size: 13px;
+            font-size: 12px;
           }
 
           .not-found-page button {
@@ -810,7 +857,7 @@ const ProductDetails = () => {
             background: transparent;
             color: #8f6838;
             letter-spacing: 1.5px;
-            font-size: 9px;
+            font-size: 8px;
           }
         `}</style>
       </>
@@ -826,78 +873,7 @@ const ProductDetails = () => {
         }}
       >
         {/* ====================================================
-            NAVBAR
-        ===================================================== */}
-
-        <header className="details-navbar">
-          <button
-            className="details-logo"
-            onClick={() =>
-              navigate("/collections")
-            }
-          >
-            <span>Paara</span>
-            <small>JEWELLERY</small>
-          </button>
-
-          <nav>
-            <button
-              onClick={() =>
-                navigate("/collections")
-              }
-            >
-              Home
-            </button>
-
-            <button
-              className="active"
-              onClick={() =>
-                navigate("/collections")
-              }
-            >
-              Collections
-            </button>
-
-            <button
-              onClick={() =>
-                navigate("/products/all")
-              }
-            >
-              Shop
-            </button>
-
-            <button>
-              Our Story
-            </button>
-
-            <button>
-              Journal
-            </button>
-          </nav>
-
-          <div className="details-nav-actions">
-            <button>⌕</button>
-
-            <button
-              onClick={() =>
-                setIsWishlisted(
-                  !isWishlisted
-                )
-              }
-            >
-              {isWishlisted
-                ? "♥"
-                : "♡"}
-            </button>
-
-            <button>♧</button>
-
-            <button>☰</button>
-          </div>
-        </header>
-
-        {/* ====================================================
-            BREADCRUMB / BACK
+            BACK / BREADCRUMB
         ===================================================== */}
 
         <div className="details-breadcrumb">
@@ -917,7 +893,10 @@ const ProductDetails = () => {
             COLLECTIONS
             <span>/</span>
             {product.category
-              .replace("-", " ")
+              .replace(
+                "-",
+                " "
+              )
               .toUpperCase()}
             <span>/</span>
             {product.name.toUpperCase()}
@@ -928,20 +907,25 @@ const ProductDetails = () => {
             PRODUCT MAIN
         ===================================================== */}
 
-        <main className="details-main">
-          {/* ================= IMAGE SIDE ================= */}
+        <main className="details-main page-enter">
+          {/* IMAGE SIDE */}
 
           <section className="gallery-section">
             <div className="gallery-layout">
+
               {/* THUMBNAILS */}
 
               <div className="thumbnail-column">
                 {product.images.map(
-                  (image, index) => (
+                  (
+                    image,
+                    index
+                  ) => (
                     <button
                       key={image}
                       className={
-                        selectedImage === index
+                        selectedImage ===
+                        index
                           ? "thumbnail active"
                           : "thumbnail"
                       }
@@ -966,6 +950,7 @@ const ProductDetails = () => {
 
               <div className="main-image-container">
                 <div className="main-image">
+
                   <img
                     src={
                       product.images[
@@ -979,7 +964,9 @@ const ProductDetails = () => {
 
                   {product.badge && (
                     <span className="detail-badge">
-                      {product.badge}
+                      {
+                        product.badge
+                      }
                     </span>
                   )}
 
@@ -993,6 +980,11 @@ const ProductDetails = () => {
                       setIsWishlisted(
                         !isWishlisted
                       )
+                    }
+                    aria-label={
+                      isWishlisted
+                        ? "Remove from wishlist"
+                        : "Add to wishlist"
                     }
                   >
                     {isWishlisted
@@ -1008,16 +1000,24 @@ const ProductDetails = () => {
             </div>
           </section>
 
-          {/* ================= INFORMATION SIDE ================= */}
+          {/* ==================================================
+              INFORMATION
+          =================================================== */}
 
           <section className="product-information">
+
             <span className="detail-category">
               {product.category
-                .replace("-", " ")
+                .replace(
+                  "-",
+                  " "
+                )
                 .toUpperCase()}
             </span>
 
-            <h1>{product.name}</h1>
+            <h1>
+              {product.name}
+            </h1>
 
             {/* RATING */}
 
@@ -1031,7 +1031,9 @@ const ProductDetails = () => {
               </strong>
 
               <span>
-                {product.reviews} reviews
+                {product.reviews}
+                {" "}
+                reviews
               </span>
             </div>
 
@@ -1062,25 +1064,32 @@ const ProductDetails = () => {
             {/* DESCRIPTION */}
 
             <p className="main-description">
-              {product.description}
+              {
+                product.description
+              }
             </p>
 
             <div className="gold-divider">
               <span />
-              <small>🐚</small>
+              <small>
+                🐚
+              </small>
               <span />
             </div>
 
-            {/* MATERIAL */}
+            {/* SPECIFICATIONS */}
 
             <div className="specifications">
+
               <div className="spec-row">
                 <span>
                   MATERIAL
                 </span>
 
                 <strong>
-                  {product.material}
+                  {
+                    product.material
+                  }
                 </strong>
               </div>
 
@@ -1090,7 +1099,9 @@ const ProductDetails = () => {
                 </span>
 
                 <strong>
-                  {product.finish}
+                  {
+                    product.finish
+                  }
                 </strong>
               </div>
 
@@ -1100,7 +1111,7 @@ const ProductDetails = () => {
                 </span>
 
                 <strong className="stock">
-                  <i />{" "}
+                  <i />
                   {product.availability
                     ? "In Stock"
                     : "Out of Stock"}
@@ -1110,14 +1121,18 @@ const ProductDetails = () => {
 
             {/* SIZE */}
 
-            {product.sizes?.length > 0 && (
+            {product.sizes?.length >
+              0 && (
               <div className="size-section">
+
                 <div className="selection-header">
                   <span>
                     SELECT SIZE
                   </span>
 
-                  <button>
+                  <button
+                    type="button"
+                  >
                     Size Guide
                   </button>
                 </div>
@@ -1144,6 +1159,7 @@ const ProductDetails = () => {
                     )
                   )}
                 </div>
+
               </div>
             )}
 
@@ -1155,6 +1171,7 @@ const ProductDetails = () => {
               </span>
 
               <div className="quantity-control">
+
                 <button
                   onClick={
                     decreaseQuantity
@@ -1174,12 +1191,14 @@ const ProductDetails = () => {
                 >
                   +
                 </button>
+
               </div>
             </div>
 
-            {/* BUTTONS */}
+            {/* ACTION BUTTONS */}
 
             <div className="detail-buttons">
+
               <button
                 className={`add-to-cart ${
                   addedToCart
@@ -1202,8 +1221,11 @@ const ProductDetails = () => {
                 }
               >
                 BUY NOW
-                <span>→</span>
+                <span>
+                  →
+                </span>
               </button>
+
             </div>
 
             {/* WISHLIST */}
@@ -1231,11 +1253,15 @@ const ProductDetails = () => {
                 : "ADD TO WISHLIST"}
             </button>
 
-            {/* SHORT FEATURES */}
+            {/* FEATURES */}
 
             <div className="product-features">
+
               <div>
-                <span>◇</span>
+                <span>
+                  ◇
+                </span>
+
                 <p>
                   BIS Hallmarked
                   <small>
@@ -1245,7 +1271,10 @@ const ProductDetails = () => {
               </div>
 
               <div>
-                <span>↻</span>
+                <span>
+                  ↻
+                </span>
+
                 <p>
                   Easy Returns
                   <small>
@@ -1255,7 +1284,10 @@ const ProductDetails = () => {
               </div>
 
               <div>
-                <span>▱</span>
+                <span>
+                  ▱
+                </span>
+
                 <p>
                   Secure Shipping
                   <small>
@@ -1263,6 +1295,7 @@ const ProductDetails = () => {
                   </small>
                 </p>
               </div>
+
             </div>
           </section>
         </main>
@@ -1272,17 +1305,23 @@ const ProductDetails = () => {
         ===================================================== */}
 
         <section className="product-story-section">
-          <div className="story-shell">🐚</div>
+
+          <div className="story-shell">
+            🐚
+          </div>
 
           <div className="product-story-inner">
+
             <div className="story-image">
               <div className="story-image-inner" />
+
               <div className="story-image-label">
                 PAARA
               </div>
             </div>
 
             <div className="story-copy">
+
               <span>
                 THE STORY BEHIND THE PIECE
               </span>
@@ -1305,17 +1344,22 @@ const ProductDetails = () => {
               <small>
                 — PAARA
               </small>
+
             </div>
           </div>
         </section>
 
         {/* ====================================================
-            DELIVERY INFORMATION
+            DELIVERY
         ===================================================== */}
 
         <section className="delivery-section">
+
           <div className="delivery-item">
-            <span>01</span>
+
+            <span>
+              01
+            </span>
 
             <div>
               <h3>
@@ -1327,10 +1371,14 @@ const ProductDetails = () => {
                 orders above ₹999.
               </p>
             </div>
+
           </div>
 
           <div className="delivery-item">
-            <span>02</span>
+
+            <span>
+              02
+            </span>
 
             <div>
               <h3>
@@ -1342,10 +1390,14 @@ const ProductDetails = () => {
                 of delivery.
               </p>
             </div>
+
           </div>
 
           <div className="delivery-item">
-            <span>03</span>
+
+            <span>
+              03
+            </span>
 
             <div>
               <h3>
@@ -1357,16 +1409,21 @@ const ProductDetails = () => {
                 harsh chemicals and moisture.
               </p>
             </div>
+
           </div>
+
         </section>
 
         {/* ====================================================
             RELATED PRODUCTS
         ===================================================== */}
 
-        {relatedProducts.length > 0 && (
+        {relatedProducts.length >
+          0 && (
           <section className="related-section">
+
             <div className="related-heading">
+
               <span>
                 FROM THE SAME TIDE
               </span>
@@ -1377,21 +1434,28 @@ const ProductDetails = () => {
 
               <div className="related-divider">
                 <span />
-                <small>✦</small>
+                <small>
+                  ✦
+                </small>
                 <span />
               </div>
+
             </div>
 
             <div className="related-grid">
+
               {relatedProducts.map(
                 (related) => (
                   <article
-                    key={related.id}
+                    key={
+                      related.id
+                    }
                     className="related-card"
                   >
+
                     <button
                       className="related-image"
-                      onClick={() =>
+                      onClick={() => {
                         navigate(
                           `/product/${related.id}`,
                           {
@@ -1400,12 +1464,23 @@ const ProductDetails = () => {
                                 related.category,
                             },
                           }
-                        )
-                      }
+                        );
+
+                        window.scrollTo(
+                          {
+                            top: 0,
+                            left: 0,
+                            behavior:
+                              "auto",
+                          }
+                        );
+                      }}
                     >
+
                       <img
                         src={
-                          related.images[0]
+                          related
+                            .images[0]
                         }
                         alt={
                           related.name
@@ -1415,17 +1490,24 @@ const ProductDetails = () => {
                       <span>
                         VIEW PIECE →
                       </span>
+
                     </button>
 
                     <div>
+
                       <small>
                         {related.category
-                          .replace("-", " ")
+                          .replace(
+                            "-",
+                            " "
+                          )
                           .toUpperCase()}
                       </small>
 
                       <h3>
-                        {related.name}
+                        {
+                          related.name
+                        }
                       </h3>
 
                       <p>
@@ -1434,10 +1516,13 @@ const ProductDetails = () => {
                           "en-IN"
                         )}
                       </p>
+
                     </div>
+
                   </article>
                 )
               )}
+
             </div>
           </section>
         )}
@@ -1447,6 +1532,7 @@ const ProductDetails = () => {
         ===================================================== */}
 
         <section className="explore-collection">
+
           <div className="explore-shell-left">
             🐚
           </div>
@@ -1455,7 +1541,8 @@ const ProductDetails = () => {
             🐚
           </div>
 
-          <div>
+          <div className="explore-content">
+
             <span>
               MORE TREASURES AWAIT
             </span>
@@ -1465,159 +1552,39 @@ const ProductDetails = () => {
             </h2>
 
             <p>
-              Discover more pieces from
-              the {product.category.replace("-", " ")} collection.
+              Discover more pieces from the{" "}
+              {product.category.replace(
+                "-",
+                " "
+              )}{" "}
+              collection.
             </p>
 
             <button
               onClick={() =>
-                navigate("/collections")
+                navigate(
+                  "/collections"
+                )
               }
             >
               EXPLORE COLLECTION
-              <span>→</span>
+
+              <span>
+                →
+              </span>
             </button>
+
           </div>
+
         </section>
 
         {/* ====================================================
-            FOOTER
-        ===================================================== */}
-
-        <footer className="details-footer">
-          <div className="footer-grid">
-            <div className="footer-brand-block">
-              <div className="footer-logo">
-                Paara
-              </div>
-
-              <small>
-                JEWELLERY
-              </small>
-
-              <p>
-                Jewellery made to be loved.
-                <br />
-                Inspired by the ocean.
-                <br />
-                Made for you.
-              </p>
-            </div>
-
-            <div className="footer-links">
-              <h4>SHOP</h4>
-
-              <button
-                onClick={() =>
-                  navigate("/collections")
-                }
-              >
-                Collections
-              </button>
-
-              <button
-                onClick={() =>
-                  navigate("/products/all")
-                }
-              >
-                All Products
-              </button>
-
-              <button>
-                New Arrivals
-              </button>
-
-              <button>
-                Best Sellers
-              </button>
-            </div>
-
-            <div className="footer-links">
-              <h4>COMPANY</h4>
-
-              <button>
-                Our Story
-              </button>
-
-              <button>
-                Journal
-              </button>
-
-              <button>
-                Careers
-              </button>
-
-              <button>
-                Contact Us
-              </button>
-            </div>
-
-            <div className="footer-links">
-              <h4>HELP</h4>
-
-              <button>
-                FAQs
-              </button>
-
-              <button>
-                Shipping & Delivery
-              </button>
-
-              <button>
-                Returns & Exchanges
-              </button>
-
-              <button>
-                Jewellery Care
-              </button>
-            </div>
-
-            <div className="footer-newsletter">
-              <h4>
-                STAY CONNECTED
-              </h4>
-
-              <p>
-                Join our little corner of
-                the ocean.
-              </p>
-
-              <div className="newsletter">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                />
-
-                <button>→</button>
-              </div>
-
-              <div className="social">
-                <span>◎</span>
-                <span>f</span>
-                <span>p</span>
-                <span>▶</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="footer-bottom">
-            <span>
-              © 2026 Paara Jewellery.
-              All Rights Reserved.
-            </span>
-
-            <span>
-              Crafted with ♡ by the ocean.
-            </span>
-          </div>
-        </footer>
-
-        {/* ====================================================
-            ADD TO CART FEEDBACK
+            CART FEEDBACK
         ===================================================== */}
 
         {addedToCart && (
           <div className="notification">
+
             <div className="notification-icon">
               ✓
             </div>
@@ -1631,6 +1598,7 @@ const ProductDetails = () => {
                 {product.name}
               </span>
             </div>
+
           </div>
         )}
 
@@ -1640,10 +1608,16 @@ const ProductDetails = () => {
 
         {buyMessage && (
           <div className="buy-notification">
-            <span>✓</span>
+
+            <span>
+              ✓
+            </span>
+
             {buyMessage}
+
           </div>
         )}
+
       </div>
 
       {/* ========================================================
@@ -1651,9 +1625,34 @@ const ProductDetails = () => {
       ======================================================== */}
 
       <style>{`
-        @import url(
-          'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap'
-        );
+
+        /* =====================================================
+           FONT
+        ====================================================== */
+
+        @font-face {
+          font-family: "Brilliant Cut";
+          src: url("/fonts/BrilliantCutPro-Light.woff2")
+            format("woff2");
+          font-weight: 300;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        :root {
+          --paara-cream: #f8f4ed;
+          --paara-ivory: #fbf8f2;
+          --paara-sand: #eee6d9;
+          --paara-brown: #554b41;
+          --paara-soft: #756a60;
+          --paara-gold: #a77d45;
+          --paara-line: rgba(
+            130,
+            107,
+            74,
+            .16
+          );
+        }
 
         * {
           box-sizing: border-box;
@@ -1666,14 +1665,15 @@ const ProductDetails = () => {
         body {
           margin: 0;
           padding: 0;
-          background: #f8f4ed;
-          color: #342e27;
-          font-family: "DM Sans", sans-serif;
+          background: var(--paara-cream);
+          color: var(--paara-brown);
         }
 
         button,
-        input {
-          font: inherit;
+        input,
+        select {
+          font-family: "Brilliant Cut", serif;
+          font-weight: 300;
         }
 
         button {
@@ -1681,118 +1681,64 @@ const ProductDetails = () => {
         }
 
         .product-details-page {
+          width: 100%;
+          min-width: 0;
           min-height: 100vh;
-          overflow: hidden;
+          overflow-x: hidden;
           background:
             radial-gradient(
               circle at 8% 30%,
-              rgba(92, 171, 174, .06),
+              rgba(
+                92,
+                171,
+                174,
+                .055
+              ),
               transparent 25%
             ),
             radial-gradient(
               circle at 91% 70%,
-              rgba(196, 161, 109, .08),
+              rgba(
+                196,
+                161,
+                109,
+                .075
+              ),
               transparent 27%
             ),
-            #f8f4ed;
+            var(--paara-cream);
+          color: var(--paara-brown);
+          font-family: "Brilliant Cut", serif;
+          font-weight: 300;
         }
 
         /* =====================================================
-           NAVBAR
+           PAGE ENTER
         ====================================================== */
 
-        .details-navbar {
-          height: 78px;
-          padding: 0 5%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          background: rgba(251,248,242,.96);
-          border-bottom: 1px solid rgba(120,100,72,.14);
-          position: sticky;
-          top: 0;
-          z-index: 100;
-          backdrop-filter: blur(18px);
+        .page-enter {
+          animation:
+            detailsPageEnter
+            .75s
+            cubic-bezier(
+              .22,
+              .61,
+              .36,
+              1
+            )
+            both;
         }
 
-        .details-logo {
-          border: 0;
-          background: transparent;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-        }
+        @keyframes detailsPageEnter {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
 
-        .details-logo span {
-          font-family: "Cormorant Garamond", serif;
-          font-style: italic;
-          color: #886533;
-          font-size: 39px;
-          line-height: 27px;
-          letter-spacing: -2px;
-        }
-
-        .details-logo small {
-          margin-top: 8px;
-          margin-left: 12px;
-          font-size: 7px;
-          letter-spacing: 3px;
-          color: #70665b;
-        }
-
-        .details-navbar nav {
-          display: flex;
-          align-items: center;
-          gap: 34px;
-        }
-
-        .details-navbar nav button {
-          border: 0;
-          background: transparent;
-          padding: 8px 0;
-          font-size: 11px;
-          color: #675d53;
-          position: relative;
-        }
-
-        .details-navbar nav button:hover,
-        .details-navbar nav button.active {
-          color: #9c723e;
-        }
-
-        .details-navbar nav button.active::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: 0;
-          transform: translateX(-50%);
-          width: 18px;
-          height: 1px;
-          background: #ab8148;
-        }
-
-        .details-nav-actions {
-          display: flex;
-          gap: 15px;
-        }
-
-        .details-nav-actions button {
-          width: 28px;
-          height: 28px;
-          display: grid;
-          place-items: center;
-          border: 0;
-          background: transparent;
-          color: #685f55;
-          font-size: 19px;
-          transition:
-            transform .25s ease,
-            color .25s ease;
-        }
-
-        .details-nav-actions button:hover {
-          transform: translateY(-2px);
-          color: #a67840;
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         /* =====================================================
@@ -1800,50 +1746,74 @@ const ProductDetails = () => {
         ====================================================== */
 
         .details-breadcrumb {
-          max-width: 1400px;
-          margin: auto;
+          width: min(
+            90vw,
+            1450px
+          );
           min-height: 58px;
-          padding: 0 5%;
+          margin: auto;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 20px;
-          color: #94887a;
+          padding: 0;
+          color: #95897b;
           font-size: 7px;
-          letter-spacing: 1.5px;
+          letter-spacing: .16em;
         }
 
         .details-breadcrumb button {
           border: 0;
           background: transparent;
-          color: #8f6c40;
           padding: 0;
+          color: #916c3d;
           font-size: 8px;
-          letter-spacing: 1.7px;
+          letter-spacing: .16em;
         }
 
         .details-breadcrumb div {
           display: flex;
           align-items: center;
-          gap: 10px;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 9px;
           text-align: right;
         }
 
         .details-breadcrumb span {
-          color: #c2b3a0;
+          color: #c4b7a5;
         }
 
         /* =====================================================
-           MAIN
+           MAIN PRODUCT
         ====================================================== */
 
         .details-main {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 28px 5% 105px;
+          width: min(
+            90vw,
+            1450px
+          );
+          margin: auto;
+          padding:
+            28px 0
+            clamp(
+              70px,
+              8vw,
+              120px
+            );
+
           display: grid;
-          grid-template-columns: 1.1fr .9fr;
-          gap: 75px;
+
+          grid-template-columns:
+            minmax(0, 1.08fr)
+            minmax(350px, .92fr);
+
+          gap: clamp(
+            35px,
+            5vw,
+            90px
+          );
+
           align-items: start;
         }
 
@@ -1851,26 +1821,42 @@ const ProductDetails = () => {
            GALLERY
         ====================================================== */
 
+        .gallery-section {
+          min-width: 0;
+        }
+
         .gallery-layout {
+          width: 100%;
           display: grid;
-          grid-template-columns: 88px 1fr;
-          gap: 17px;
+          grid-template-columns:
+            clamp(66px, 6vw, 92px)
+            minmax(0, 1fr);
+          gap: clamp(
+            10px,
+            1.3vw,
+            18px
+          );
         }
 
         .thumbnail-column {
           display: flex;
           flex-direction: column;
-          gap: 13px;
+          gap: 12px;
         }
 
         .thumbnail {
-          width: 86px;
+          width: 100%;
           aspect-ratio: 1 / 1.08;
           overflow: hidden;
           padding: 0;
-          border: 1px solid rgba(133,107,72,.16);
-          background: #f4eee5;
-          opacity: .7;
+          border: 1px solid rgba(
+            133,
+            107,
+            72,
+            .16
+          );
+          background: var(--paara-sand);
+          opacity: .68;
           transition:
             opacity .3s ease,
             border-color .3s ease,
@@ -1891,13 +1877,16 @@ const ProductDetails = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          display: block;
         }
 
         .main-image-container {
           width: 100%;
+          min-width: 0;
         }
 
         .main-image {
+          width: 100%;
           position: relative;
           overflow: hidden;
           aspect-ratio: 1 / 1.08;
@@ -1907,7 +1896,12 @@ const ProductDetails = () => {
               #fffdf8,
               #eee5d8 70%
             );
-          border: 1px solid rgba(135,109,76,.13);
+          border: 1px solid rgba(
+            135,
+            109,
+            76,
+            .13
+          );
         }
 
         .main-image img {
@@ -1916,7 +1910,14 @@ const ProductDetails = () => {
           display: block;
           object-fit: cover;
           transition:
-            transform .9s cubic-bezier(.22,.61,.36,1);
+            transform
+            .9s
+            cubic-bezier(
+              .22,
+              .61,
+              .36,
+              1
+            );
         }
 
         .main-image:hover img {
@@ -1930,10 +1931,20 @@ const ProductDetails = () => {
           background:
             linear-gradient(
               135deg,
-              rgba(255,255,255,.22),
+              rgba(
+                255,
+                255,
+                255,
+                .22
+              ),
               transparent 27%,
               transparent 72%,
-              rgba(75,173,179,.07)
+              rgba(
+                75,
+                173,
+                179,
+                .07
+              )
             );
         }
 
@@ -1942,11 +1953,22 @@ const ProductDetails = () => {
           top: 18px;
           left: 18px;
           padding: 7px 11px;
-          background: rgba(252,249,243,.91);
-          border: 1px solid rgba(153,121,76,.14);
+          background:
+            rgba(
+              252,
+              249,
+              243,
+              .91
+            );
+          border: 1px solid rgba(
+            153,
+            121,
+            76,
+            .14
+          );
           color: #8e683d;
           font-size: 7px;
-          letter-spacing: 2px;
+          letter-spacing: .18em;
           backdrop-filter: blur(7px);
         }
 
@@ -1959,8 +1981,19 @@ const ProductDetails = () => {
           display: grid;
           place-items: center;
           border-radius: 50%;
-          border: 1px solid rgba(147,116,75,.18);
-          background: rgba(251,248,242,.91);
+          border: 1px solid rgba(
+            147,
+            116,
+            75,
+            .18
+          );
+          background:
+            rgba(
+              251,
+              248,
+              242,
+              .91
+            );
           color: #71665c;
           font-size: 23px;
           transition:
@@ -1974,24 +2007,35 @@ const ProductDetails = () => {
 
         .large-wishlist.active {
           color: #a35c51;
-          animation: heartBeat .35s ease;
+          animation:
+            heartBeat
+            .35s
+            ease;
         }
 
         .zoom-hint {
           position: absolute;
           left: 50%;
           bottom: 19px;
-          transform: translateX(-50%);
+          transform:
+            translateX(-50%);
           padding: 7px 13px;
-          background: rgba(46,44,40,.28);
+          background:
+            rgba(
+              46,
+              44,
+              40,
+              .28
+            );
           color: white;
           font-size: 7px;
-          letter-spacing: 2px;
+          letter-spacing: .18em;
           opacity: 0;
           transition: opacity .3s ease;
         }
 
-        .main-image:hover .zoom-hint {
+        .main-image:hover
+        .zoom-hint {
           opacity: 1;
         }
 
@@ -2000,32 +2044,43 @@ const ProductDetails = () => {
         ====================================================== */
 
         .product-information {
-          padding: 12px 0 0;
-          animation: informationIn .75s ease both;
+          min-width: 0;
+          padding-top: 10px;
+          animation:
+            informationIn
+            .75s
+            ease
+            both;
         }
 
         .detail-category {
           color: #a17842;
           font-size: 8px;
-          letter-spacing: 3.2px;
+          letter-spacing: .27em;
         }
 
         .product-information h1 {
-          margin: 13px 0 14px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: clamp(48px, 5vw, 67px);
-          font-weight: 500;
-          line-height: .91;
-          letter-spacing: -1.8px;
+          margin:
+            13px 0
+            14px;
           color: #352e27;
+          font-size: clamp(
+            44px,
+            5vw,
+            76px
+          );
+          line-height: .91;
+          letter-spacing: -.03em;
+          font-weight: 300;
         }
 
         .detail-rating {
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
           gap: 8px;
-          font-size: 10px;
           color: #756b60;
+          font-size: 10px;
         }
 
         .detail-rating .stars {
@@ -2035,20 +2090,24 @@ const ProductDetails = () => {
 
         .detail-rating strong {
           color: #4d443b;
-          font-weight: 500;
+          font-weight: 300;
         }
 
         .detail-price-row {
           display: flex;
           align-items: center;
-          gap: 11px;
           flex-wrap: wrap;
+          gap: 11px;
           margin-top: 19px;
         }
 
         .detail-price {
-          font-size: 23px;
           color: #3e362e;
+          font-size: clamp(
+            20px,
+            2vw,
+            28px
+          );
         }
 
         .detail-old-price {
@@ -2062,19 +2121,22 @@ const ProductDetails = () => {
           background: #e9dfd0;
           color: #946d3b;
           font-size: 8px;
-          letter-spacing: 1px;
+          letter-spacing: .1em;
         }
 
         .main-description {
+          max-width: 620px;
           margin-top: 21px;
-          max-width: 570px;
           color: #70665b;
           font-size: 13px;
           line-height: 1.85;
         }
 
         .gold-divider {
-          width: 180px;
+          width: min(
+            180px,
+            45%
+          );
           display: flex;
           align-items: center;
           gap: 9px;
@@ -2084,7 +2146,12 @@ const ProductDetails = () => {
         .gold-divider span {
           flex: 1;
           height: 1px;
-          background: rgba(166,129,76,.36);
+          background: rgba(
+            166,
+            129,
+            76,
+            .36
+          );
         }
 
         .gold-divider small {
@@ -2096,8 +2163,18 @@ const ProductDetails = () => {
         ====================================================== */
 
         .specifications {
-          border-top: 1px solid rgba(124,102,74,.13);
-          border-bottom: 1px solid rgba(124,102,74,.13);
+          border-top: 1px solid rgba(
+            124,
+            102,
+            74,
+            .13
+          );
+          border-bottom: 1px solid rgba(
+            124,
+            102,
+            74,
+            .13
+          );
         }
 
         .spec-row {
@@ -2106,7 +2183,12 @@ const ProductDetails = () => {
           align-items: center;
           justify-content: space-between;
           gap: 20px;
-          border-bottom: 1px solid rgba(124,102,74,.10);
+          border-bottom: 1px solid rgba(
+            124,
+            102,
+            74,
+            .10
+          );
         }
 
         .spec-row:last-child {
@@ -2116,29 +2198,29 @@ const ProductDetails = () => {
         .spec-row > span {
           color: #928579;
           font-size: 8px;
-          letter-spacing: 2px;
+          letter-spacing: .18em;
         }
 
         .spec-row strong {
           color: #544b42;
-          font-weight: 400;
+          font-weight: 300;
           font-size: 11px;
           text-align: right;
         }
 
         .stock {
-          color: #4f7c68 !important;
           display: flex;
           align-items: center;
           gap: 6px;
+          color: #4f7c68 !important;
         }
 
         .stock i {
           width: 7px;
           height: 7px;
           border-radius: 50%;
-          background: #5e9879;
           display: inline-block;
+          background: #5e9879;
         }
 
         /* =====================================================
@@ -2153,13 +2235,14 @@ const ProductDetails = () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 15px;
           margin-bottom: 12px;
         }
 
         .selection-header > span {
           color: #6d6257;
           font-size: 8px;
-          letter-spacing: 2px;
+          letter-spacing: .18em;
         }
 
         .selection-header button {
@@ -2173,15 +2256,20 @@ const ProductDetails = () => {
 
         .size-options {
           display: flex;
-          gap: 9px;
           flex-wrap: wrap;
+          gap: 9px;
         }
 
         .size {
           min-width: 56px;
           min-height: 38px;
           padding: 6px 15px;
-          border: 1px solid rgba(136,110,76,.27);
+          border: 1px solid rgba(
+            136,
+            110,
+            76,
+            .27
+          );
           background: transparent;
           color: #655c52;
           font-size: 10px;
@@ -2209,19 +2297,25 @@ const ProductDetails = () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 15px;
           margin-top: 24px;
         }
 
         .quantity-section > span {
           color: #6d6257;
           font-size: 8px;
-          letter-spacing: 2px;
+          letter-spacing: .18em;
         }
 
         .quantity-control {
           display: flex;
           align-items: center;
-          border: 1px solid rgba(135,108,73,.25);
+          border: 1px solid rgba(
+            135,
+            108,
+            73,
+            .25
+          );
           background: #fbf8f2;
         }
 
@@ -2246,8 +2340,18 @@ const ProductDetails = () => {
         }
 
         .quantity-control span {
-          border-left: 1px solid rgba(135,108,73,.16);
-          border-right: 1px solid rgba(135,108,73,.16);
+          border-left: 1px solid rgba(
+            135,
+            108,
+            73,
+            .16
+          );
+          border-right: 1px solid rgba(
+            135,
+            108,
+            73,
+            .16
+          );
           font-size: 11px;
         }
 
@@ -2257,7 +2361,11 @@ const ProductDetails = () => {
 
         .detail-buttons {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns:
+            repeat(
+              2,
+              minmax(0,1fr)
+            );
           gap: 10px;
           margin-top: 25px;
         }
@@ -2267,7 +2375,7 @@ const ProductDetails = () => {
           min-height: 52px;
           border: 1px solid #af8248;
           font-size: 9px;
-          letter-spacing: 2px;
+          letter-spacing: .18em;
           transition:
             background .3s ease,
             color .3s ease,
@@ -2283,7 +2391,16 @@ const ProductDetails = () => {
         .add-to-cart:hover {
           background: #97703d;
           transform: translateY(-1px);
-          box-shadow: 0 9px 22px rgba(145,104,52,.15);
+          box-shadow:
+            0
+            9px
+            22px
+            rgba(
+              145,
+              104,
+              52,
+              .15
+            );
         }
 
         .add-to-cart.added {
@@ -2312,14 +2429,14 @@ const ProductDetails = () => {
           margin-top: 14px;
           padding: 11px 0;
           display: flex;
-          justify-content: center;
           align-items: center;
+          justify-content: center;
           gap: 8px;
           border: 0;
           background: transparent;
           color: #796f64;
           font-size: 8px;
-          letter-spacing: 1.8px;
+          letter-spacing: .18em;
         }
 
         .wishlist-line span {
@@ -2336,17 +2453,27 @@ const ProductDetails = () => {
 
         .product-features {
           margin-top: 27px;
-          display: grid;
-          grid-template-columns: repeat(3,1fr);
-          gap: 12px;
           padding-top: 21px;
-          border-top: 1px solid rgba(124,102,74,.13);
+          display: grid;
+          grid-template-columns:
+            repeat(
+              3,
+              minmax(0,1fr)
+            );
+          gap: 12px;
+          border-top: 1px solid rgba(
+            124,
+            102,
+            74,
+            .13
+          );
         }
 
         .product-features > div {
           display: flex;
           align-items: flex-start;
           gap: 8px;
+          min-width: 0;
         }
 
         .product-features > div > span {
@@ -2374,27 +2501,63 @@ const ProductDetails = () => {
 
         .product-story-section {
           position: relative;
+          width: 100%;
           overflow: hidden;
-          padding: 110px 5%;
+          padding:
+            clamp(
+              75px,
+              9vw,
+              120px
+            )
+            5%;
           background:
             linear-gradient(
               90deg,
-              rgba(245,241,234,.88),
-              rgba(237,242,238,.89)
+              rgba(
+                245,
+                241,
+                234,
+                .90
+              ),
+              rgba(
+                237,
+                242,
+                238,
+                .91
+              )
             ),
             var(--sea-bg);
           background-size: cover;
           background-position: center;
-          border-top: 1px solid rgba(119,100,76,.13);
-          border-bottom: 1px solid rgba(119,100,76,.13);
+          border-top: 1px solid rgba(
+            119,
+            100,
+            76,
+            .13
+          );
+          border-bottom: 1px solid rgba(
+            119,
+            100,
+            76,
+            .13
+          );
         }
 
         .product-story-inner {
-          max-width: 1200px;
+          width: min(
+            90vw,
+            1250px
+          );
           margin: auto;
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 85px;
+          grid-template-columns:
+            minmax(0,1fr)
+            minmax(0,1fr);
+          gap: clamp(
+            40px,
+            6vw,
+            90px
+          );
           align-items: center;
           position: relative;
           z-index: 2;
@@ -2402,19 +2565,50 @@ const ProductDetails = () => {
 
         .story-image {
           position: relative;
-          padding: 12px;
-          background: rgba(255,251,245,.78);
-          border: 1px solid rgba(140,113,76,.24);
+          min-width: 0;
+          padding: 11px;
+          background:
+            rgba(
+              255,
+              251,
+              245,
+              .78
+            );
+          border: 1px solid rgba(
+            140,
+            113,
+            76,
+            .24
+          );
           box-shadow:
-            0 25px 55px rgba(71,57,40,.12);
+            0
+            25px
+            55px
+            rgba(
+              71,
+              57,
+              40,
+              .12
+            );
         }
 
         .story-image-inner {
-          height: 450px;
+          width: 100%;
+          aspect-ratio: 1 / 1.06;
           background:
             linear-gradient(
-              rgba(255,255,255,.08),
-              rgba(33,98,101,.12)
+              rgba(
+                255,
+                255,
+                255,
+                .08
+              ),
+              rgba(
+                33,
+                98,
+                101,
+                .12
+              )
             ),
             var(--sea-bg);
           background-size: cover;
@@ -2423,44 +2617,65 @@ const ProductDetails = () => {
 
         .story-image-label {
           position: absolute;
-          bottom: 30px;
-          left: 33px;
+          left: 32px;
+          bottom: 28px;
           color: white;
-          font-family: "Cormorant Garamond", serif;
-          font-style: italic;
-          font-size: 30px;
-          text-shadow: 0 2px 10px rgba(0,0,0,.25);
+          font-size: 28px;
+          text-shadow:
+            0
+            2px
+            10px
+            rgba(
+              0,
+              0,
+              0,
+              .25
+            );
+        }
+
+        .story-copy {
+          min-width: 0;
         }
 
         .story-copy > span {
           color: #9d7641;
           font-size: 8px;
-          letter-spacing: 4px;
+          letter-spacing: .3em;
         }
 
         .story-copy h2 {
-          margin: 16px 0 22px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: clamp(48px,5vw,70px);
-          line-height: .91;
-          font-weight: 500;
+          margin:
+            16px 0
+            22px;
           color: #352e27;
+          font-size: clamp(
+            46px,
+            5vw,
+            72px
+          );
+          line-height: .91;
+          font-weight: 300;
         }
 
         .story-copy p {
-          max-width: 550px;
+          max-width: 560px;
           color: #6f655b;
           font-size: 13px;
           line-height: 1.9;
         }
 
         .story-copy blockquote {
-          max-width: 520px;
-          margin: 28px 0 5px;
+          max-width: 530px;
+          margin:
+            28px 0
+            5px;
           padding-left: 23px;
           border-left: 1px solid #b58a51;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 23px;
+          font-size: clamp(
+            17px,
+            1.5vw,
+            24px
+          );
           font-style: italic;
           line-height: 1.4;
           color: #564c42;
@@ -2470,14 +2685,18 @@ const ProductDetails = () => {
           margin-left: 23px;
           color: #9a7544;
           font-size: 8px;
-          letter-spacing: 2px;
+          letter-spacing: .18em;
         }
 
         .story-shell {
           position: absolute;
           right: 3%;
           bottom: -20px;
-          font-size: 150px;
+          font-size: clamp(
+            80px,
+            11vw,
+            160px
+          );
           opacity: .16;
           z-index: 1;
         }
@@ -2487,31 +2706,40 @@ const ProductDetails = () => {
         ====================================================== */
 
         .delivery-section {
-          max-width: 1200px;
+          width: min(
+            90vw,
+            1250px
+          );
           margin: auto;
-          padding: 42px 5%;
+          padding:
+            42px 0;
           display: grid;
-          grid-template-columns: repeat(3,1fr);
+          grid-template-columns:
+            repeat(
+              3,
+              minmax(0,1fr)
+            );
           gap: 30px;
         }
 
         .delivery-item {
           display: flex;
           gap: 15px;
+          min-width: 0;
         }
 
         .delivery-item > span {
           color: #a98149;
-          font-family: "Cormorant Garamond", serif;
           font-size: 22px;
+          flex: 0 0 auto;
         }
 
         .delivery-item h3 {
           margin: 0;
           color: #675d53;
           font-size: 8px;
-          letter-spacing: 2px;
-          font-weight: 500;
+          letter-spacing: .18em;
+          font-weight: 300;
         }
 
         .delivery-item p {
@@ -2522,13 +2750,18 @@ const ProductDetails = () => {
         }
 
         /* =====================================================
-           RELATED
+           RELATED PRODUCTS
         ====================================================== */
 
         .related-section {
-          max-width: 1400px;
+          width: min(
+            90vw,
+            1450px
+          );
           margin: auto;
-          padding: 85px 5% 110px;
+          padding:
+            85px 0
+            110px;
         }
 
         .related-heading {
@@ -2538,27 +2771,38 @@ const ProductDetails = () => {
         .related-heading > span {
           color: #a27a45;
           font-size: 8px;
-          letter-spacing: 4px;
+          letter-spacing: .3em;
         }
 
         .related-heading h2 {
-          margin: 9px 0 13px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 57px;
-          font-weight: 500;
+          margin:
+            9px 0
+            13px;
+          color: #342e27;
+          font-size: clamp(
+            42px,
+            5vw,
+            62px
+          );
+          font-weight: 300;
         }
 
         .related-divider {
           display: flex;
-          justify-content: center;
           align-items: center;
+          justify-content: center;
           gap: 10px;
         }
 
         .related-divider span {
           width: 65px;
           height: 1px;
-          background: rgba(157,123,73,.35);
+          background: rgba(
+            157,
+            123,
+            73,
+            .35
+          );
         }
 
         .related-divider small {
@@ -2568,23 +2812,37 @@ const ProductDetails = () => {
         .related-grid {
           margin-top: 42px;
           display: grid;
-          grid-template-columns: repeat(4,1fr);
-          gap: 24px;
+          grid-template-columns:
+            repeat(
+              4,
+              minmax(0,1fr)
+            );
+          gap: clamp(
+            14px,
+            1.8vw,
+            26px
+          );
         }
 
         .related-card {
+          min-width: 0;
           text-align: center;
         }
 
         .related-image {
           width: 100%;
+          aspect-ratio: 1 / 1.18;
           position: relative;
           display: block;
-          padding: 0;
-          border: 1px solid rgba(133,107,72,.13);
-          background: #f1eadf;
           overflow: hidden;
-          aspect-ratio: 1 / 1.18;
+          padding: 0;
+          border: 1px solid rgba(
+            133,
+            107,
+            72,
+            .13
+          );
+          background: #f1eadf;
         }
 
         .related-image img {
@@ -2592,7 +2850,8 @@ const ProductDetails = () => {
           height: 100%;
           display: block;
           object-fit: cover;
-          transition: transform .7s ease;
+          transition:
+            transform .7s ease;
         }
 
         .related-image:hover img {
@@ -2603,18 +2862,27 @@ const ProductDetails = () => {
           position: absolute;
           left: 50%;
           bottom: 15px;
-          transform: translateX(-50%);
+          transform:
+            translateX(-50%);
           white-space: nowrap;
           padding: 8px 12px;
-          background: rgba(43,42,39,.48);
+          background:
+            rgba(
+              43,
+              42,
+              39,
+              .48
+            );
           color: white;
           font-size: 7px;
-          letter-spacing: 1.7px;
+          letter-spacing: .17em;
           opacity: 0;
-          transition: opacity .3s ease;
+          transition:
+            opacity .3s ease;
         }
 
-        .related-image:hover > span {
+        .related-image:hover
+        > span {
           opacity: 1;
         }
 
@@ -2625,14 +2893,19 @@ const ProductDetails = () => {
         .related-card > div small {
           color: #a27a43;
           font-size: 7px;
-          letter-spacing: 2px;
+          letter-spacing: .18em;
         }
 
         .related-card h3 {
-          margin: 5px 0 5px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 23px;
-          font-weight: 600;
+          margin:
+            5px 0;
+          color: #3b332b;
+          font-size: clamp(
+            18px,
+            1.5vw,
+            25px
+          );
+          font-weight: 300;
         }
 
         .related-card p {
@@ -2642,21 +2915,36 @@ const ProductDetails = () => {
         }
 
         /* =====================================================
-           EXPLORE
+           EXPLORE COLLECTION
         ====================================================== */
 
         .explore-collection {
-          min-height: 370px;
           position: relative;
-          overflow: hidden;
+          width: 100%;
+          min-height: clamp(
+            350px,
+            46vh,
+            500px
+          );
           display: flex;
           align-items: center;
           justify-content: center;
+          overflow: hidden;
           text-align: center;
           background:
             linear-gradient(
-              rgba(23,82,84,.75),
-              rgba(31,95,96,.80)
+              rgba(
+                23,
+                82,
+                84,
+                .75
+              ),
+              rgba(
+                31,
+                95,
+                96,
+                .80
+              )
             ),
             var(--sea-bg);
           background-size: cover;
@@ -2664,68 +2952,101 @@ const ProductDetails = () => {
           color: white;
         }
 
-        .explore-collection > div:not(
-          .explore-shell-left
-        ):not(
-          .explore-shell-right
-        ) {
+        .explore-content {
           position: relative;
           z-index: 2;
-          padding: 70px 20px;
+          width: min(
+            90vw,
+            700px
+          );
+          padding:
+            70px
+            20px;
         }
 
-        .explore-collection span {
+        .explore-content > span {
           font-size: 8px;
-          letter-spacing: 4px;
+          letter-spacing: .35em;
           opacity: .85;
         }
 
-        .explore-collection h2 {
-          margin: 14px 0 9px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 61px;
-          font-weight: 500;
+        .explore-content h2 {
+          margin:
+            14px 0
+            9px;
+          font-size: clamp(
+            46px,
+            6vw,
+            74px
+          );
+          font-weight: 300;
           line-height: .95;
         }
 
-        .explore-collection p {
-          max-width: 460px;
+        .explore-content p {
+          width: min(
+            100%,
+            500px
+          );
           margin: auto;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 18px;
+          font-size: 17px;
           line-height: 1.5;
           opacity: .9;
         }
 
-        .explore-collection button {
+        .explore-content button {
           margin-top: 24px;
           padding: 14px 22px;
-          border: 1px solid rgba(255,255,255,.7);
-          background: rgba(255,255,255,.08);
+          border: 1px solid rgba(
+            255,
+            255,
+            255,
+            .7
+          );
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              .08
+            );
           color: white;
           font-size: 8px;
-          letter-spacing: 1.8px;
+          letter-spacing: .18em;
           backdrop-filter: blur(8px);
           transition:
             background .3s ease,
             transform .3s ease;
         }
 
-        .explore-collection button span {
+        .explore-content button
+        span {
           margin-left: 15px;
           font-size: 14px;
         }
 
-        .explore-collection button:hover {
-          background: rgba(255,255,255,.18);
-          transform: translateY(-2px);
+        .explore-content button:hover {
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              .18
+            );
+          transform:
+            translateY(-2px);
         }
 
         .explore-shell-left,
         .explore-shell-right {
           position: absolute;
-          font-size: 100px;
-          opacity: .28;
+          font-size: clamp(
+            70px,
+            9vw,
+            120px
+          );
+          opacity: .25;
+          pointer-events: none;
         }
 
         .explore-shell-left {
@@ -2741,120 +3062,6 @@ const ProductDetails = () => {
         }
 
         /* =====================================================
-           FOOTER
-        ====================================================== */
-
-        .details-footer {
-          padding: 72px 6% 25px;
-          background: #f1ebe2;
-        }
-
-        .footer-grid {
-          max-width: 1400px;
-          margin: auto;
-          display: grid;
-          grid-template-columns:
-            1.45fr 1fr 1fr 1.2fr 1.5fr;
-          gap: 38px;
-        }
-
-        .footer-logo {
-          font-family: "Cormorant Garamond", serif;
-          font-style: italic;
-          font-size: 48px;
-          color: #896635;
-          line-height: 29px;
-        }
-
-        .footer-brand-block > small {
-          margin-left: 13px;
-          letter-spacing: 3px;
-          color: #71665c;
-          font-size: 7px;
-        }
-
-        .footer-brand-block p {
-          margin-top: 22px;
-          color: #71675d;
-          font-size: 10px;
-          line-height: 1.8;
-        }
-
-        .footer-links {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .footer-links h4,
-        .footer-newsletter h4 {
-          margin: 3px 0 17px;
-          color: #766046;
-          font-size: 8px;
-          letter-spacing: 2.7px;
-          font-weight: 500;
-        }
-
-        .footer-links button {
-          padding: 4px 0;
-          border: 0;
-          background: transparent;
-          color: #6e655b;
-          font-size: 10px;
-        }
-
-        .footer-links button:hover {
-          color: #a7793e;
-        }
-
-        .footer-newsletter p {
-          margin: 0 0 12px;
-          color: #71675d;
-          font-size: 10px;
-        }
-
-        .newsletter {
-          max-width: 250px;
-          display: flex;
-          border-bottom: 1px solid #c5aa81;
-        }
-
-        .newsletter input {
-          min-width: 0;
-          flex: 1;
-          border: 0;
-          outline: 0;
-          background: transparent;
-          padding: 9px 3px;
-          font-size: 9px;
-        }
-
-        .newsletter button {
-          border: 0;
-          background: transparent;
-          color: #9a713d;
-        }
-
-        .social {
-          display: flex;
-          gap: 12px;
-          margin-top: 17px;
-          color: #70675d;
-        }
-
-        .footer-bottom {
-          max-width: 1400px;
-          margin: 43px auto 0;
-          padding-top: 17px;
-          border-top: 1px solid rgba(121,100,72,.14);
-          display: flex;
-          justify-content: space-between;
-          gap: 20px;
-          color: #8b8174;
-          font-size: 8px;
-        }
-
-        /* =====================================================
            NOTIFICATIONS
         ====================================================== */
 
@@ -2864,17 +3071,42 @@ const ProductDetails = () => {
           z-index: 500;
           right: 24px;
           bottom: 24px;
-          background: rgba(252,249,244,.97);
-          border: 1px solid rgba(149,117,72,.18);
+          background:
+            rgba(
+              252,
+              249,
+              244,
+              .97
+            );
+          border: 1px solid rgba(
+            149,
+            117,
+            72,
+            .18
+          );
           box-shadow:
-            0 20px 50px rgba(48,40,32,.15);
+            0
+            20px
+            50px
+            rgba(
+              48,
+              40,
+              32,
+              .15
+            );
           backdrop-filter: blur(18px);
-          animation: toastIn .4s ease both;
+          animation:
+            toastIn
+            .4s
+            ease
+            both;
         }
 
         .notification {
           min-width: 270px;
-          padding: 14px 17px;
+          padding:
+            14px
+            17px;
           display: flex;
           align-items: center;
           gap: 12px;
@@ -2904,7 +3136,9 @@ const ProductDetails = () => {
         }
 
         .buy-notification {
-          padding: 14px 20px;
+          padding:
+            14px
+            20px;
           color: #665c51;
           font-size: 10px;
         }
@@ -2957,34 +3191,73 @@ const ProductDetails = () => {
         }
 
         /* =====================================================
-           TABLET
+           LARGE PC
         ====================================================== */
 
-        @media (max-width: 1100px) {
-          .details-navbar nav {
-            gap: 20px;
-          }
+        @media (min-width: 1440px) {
 
           .details-main {
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            width: min(
+              92vw,
+              1600px
+            );
+          }
+
+          .product-story-inner {
+            width: min(
+              90vw,
+              1400px
+            );
+          }
+
+          .related-section {
+            width: min(
+              92vw,
+              1600px
+            );
+          }
+        }
+
+        /* =====================================================
+           TABLET / LAPTOP
+        ====================================================== */
+
+        @media (
+          min-width: 761px
+        ) and (
+          max-width: 1100px
+        ) {
+
+          .details-main {
+            grid-template-columns:
+              minmax(0,1fr)
+              minmax(0,1fr);
+            gap: 35px;
           }
 
           .product-information h1 {
-            font-size: 52px;
+            font-size: 48px;
           }
 
           .product-features {
             grid-template-columns: 1fr;
-            gap: 13px;
+            gap: 12px;
           }
 
           .related-grid {
-            grid-template-columns: repeat(3,1fr);
+            grid-template-columns:
+              repeat(
+                3,
+                minmax(0,1fr)
+              );
           }
 
-          .footer-grid {
-            grid-template-columns: repeat(3,1fr);
+          .delivery-section {
+            grid-template-columns:
+              repeat(
+                2,
+                minmax(0,1fr)
+              );
           }
         }
 
@@ -2993,56 +3266,40 @@ const ProductDetails = () => {
         ====================================================== */
 
         @media (max-width: 760px) {
-          .details-navbar {
-            height: 70px;
-            padding: 0 18px;
-          }
-
-          .details-navbar nav {
-            display: none;
-          }
-
-          .details-logo span {
-            font-size: 32px;
-          }
-
-          .details-nav-actions {
-            gap: 6px;
-          }
-
-          .details-nav-actions button {
-            font-size: 17px;
-          }
 
           .details-breadcrumb {
-            padding: 16px 20px;
-            min-height: 70px;
+            width: calc(100% - 32px);
+            min-height: auto;
+            padding:
+              17px 0;
             align-items: flex-start;
             flex-direction: column;
           }
 
           .details-breadcrumb div {
-            flex-wrap: wrap;
             justify-content: flex-start;
-            line-height: 1.7;
             text-align: left;
+            line-height: 1.7;
           }
 
           .details-main {
+            width: calc(100% - 28px);
             padding:
-              15px 18px
-              70px;
+              12px 0
+              72px;
             grid-template-columns: 1fr;
-            gap: 47px;
+            gap: 48px;
           }
 
           .gallery-layout {
-            grid-template-columns: 64px 1fr;
-            gap: 10px;
+            grid-template-columns:
+              58px
+              minmax(0,1fr);
+            gap: 9px;
           }
 
-          .thumbnail {
-            width: 62px;
+          .thumbnail-column {
+            gap: 9px;
           }
 
           .product-information {
@@ -3050,10 +3307,14 @@ const ProductDetails = () => {
           }
 
           .product-information h1 {
-            font-size: 47px;
+            font-size: clamp(
+              44px,
+              12vw,
+              60px
+            );
           }
 
-          .detail-description {
+          .main-description {
             font-size: 12px;
           }
 
@@ -3062,8 +3323,12 @@ const ProductDetails = () => {
           }
 
           .product-features {
-            grid-template-columns: repeat(3,1fr);
-            gap: 7px;
+            grid-template-columns:
+              repeat(
+                3,
+                minmax(0,1fr)
+              );
+            gap: 5px;
           }
 
           .product-features > div {
@@ -3071,100 +3336,11 @@ const ProductDetails = () => {
             text-align: center;
           }
 
-          .product-features > div > span {
+          .product-features
+          > div
+          > span {
             display: block;
             margin-bottom: 5px;
-          }
-
-          .product-story-section {
-            padding:
-              75px 20px
-              80px;
-          }
-
-          .product-story-inner {
-            grid-template-columns: 1fr;
-            gap: 48px;
-          }
-
-          .story-image-inner {
-            height: 360px;
-          }
-
-          .story-copy h2 {
-            font-size: 49px;
-          }
-
-          .delivery-section {
-            grid-template-columns: 1fr;
-            padding: 34px 20px;
-            gap: 24px;
-          }
-
-          .related-section {
-            padding:
-              70px 18px
-              80px;
-          }
-
-          .related-heading h2 {
-            font-size: 46px;
-          }
-
-          .related-grid {
-            grid-template-columns: repeat(2,1fr);
-            gap: 16px;
-          }
-
-          .related-card h3 {
-            font-size: 19px;
-          }
-
-          .explore-collection h2 {
-            font-size: 50px;
-          }
-
-          .explore-shell-left,
-          .explore-shell-right {
-            opacity: .18;
-          }
-
-          .footer-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 35px 25px;
-          }
-
-          .footer-brand-block,
-          .footer-newsletter {
-            grid-column: 1 / -1;
-          }
-
-          .footer-bottom {
-            flex-direction: column;
-            line-height: 1.6;
-          }
-        }
-
-        @media (max-width: 430px) {
-          .details-nav-actions button:first-child,
-          .details-nav-actions button:last-child {
-            display: none;
-          }
-
-          .gallery-layout {
-            grid-template-columns: 55px 1fr;
-          }
-
-          .thumbnail {
-            width: 53px;
-          }
-
-          .product-information h1 {
-            font-size: 43px;
-          }
-
-          .product-features {
-            gap: 4px;
           }
 
           .product-features p {
@@ -3175,19 +3351,154 @@ const ProductDetails = () => {
             font-size: 6px;
           }
 
-          .related-grid {
-            gap: 11px;
+          .product-story-section {
+            padding:
+              70px 0
+              75px;
           }
 
-          .footer-grid {
+          .product-story-inner {
+            width: calc(100% - 30px);
             grid-template-columns: 1fr;
+            gap: 43px;
+          }
+
+          .story-image-inner {
+            aspect-ratio: 1 / 1.1;
+          }
+
+          .story-copy h2 {
+            font-size: clamp(
+              44px,
+              11vw,
+              57px
+            );
+          }
+
+          .delivery-section {
+            width: calc(100% - 30px);
+            padding:
+              35px 0;
+            grid-template-columns: 1fr;
+            gap: 24px;
+          }
+
+          .related-section {
+            width: calc(100% - 30px);
+            padding:
+              70px 0
+              80px;
+          }
+
+          .related-heading h2 {
+            font-size: clamp(
+              40px,
+              11vw,
+              52px
+            );
+          }
+
+          .related-grid {
+            grid-template-columns:
+              repeat(
+                2,
+                minmax(0,1fr)
+              );
+            gap: 13px;
+          }
+
+          .related-card h3 {
+            font-size: 18px;
+          }
+
+          .related-card p {
+            font-size: 9px;
+          }
+
+          .explore-content {
+            width: calc(100% - 28px);
+          }
+
+          .explore-content h2 {
+            font-size: clamp(
+              44px,
+              11vw,
+              56px
+            );
+          }
+
+          .explore-content p {
+            font-size: 14px;
           }
 
           .notification,
           .buy-notification {
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
+            left: 14px;
+            right: 14px;
+            bottom: 14px;
+          }
+
+          .notification {
+            min-width: 0;
+          }
+        }
+
+        /* =====================================================
+           SMALL PHONES
+        ====================================================== */
+
+        @media (max-width: 390px) {
+
+          .details-main {
+            width: calc(100% - 22px);
+          }
+
+          .gallery-layout {
+            grid-template-columns:
+              51px
+              minmax(0,1fr);
+          }
+
+          .product-information h1 {
+            font-size: 42px;
+          }
+
+          .detail-price {
+            font-size: 20px;
+          }
+
+          .product-features {
+            gap: 3px;
+          }
+
+          .related-section {
+            width: calc(100% - 22px);
+          }
+
+          .related-grid {
+            gap: 9px;
+          }
+        }
+
+        /* =====================================================
+           REDUCED MOTION
+        ====================================================== */
+
+        @media (
+          prefers-reduced-motion: reduce
+        ) {
+
+          .page-enter,
+          .product-information,
+          .notification,
+          .buy-notification {
+            animation: none !important;
+          }
+
+          .main-image img,
+          .thumbnail,
+          .large-wishlist {
+            transition: none !important;
           }
         }
       `}</style>

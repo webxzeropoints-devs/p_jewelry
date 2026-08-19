@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 
 const Collections = () => {
   const navigate = useNavigate();
-  const [activeCollection, setActiveCollection] = useState("everyday");
+
+  const [activeCollection, setActiveCollection] =
+    useState("everyday");
 
   const seaBackground =
     "https://img.freepik.com/premium-photo/banner-summer-background-with-white-sand-seashell-starfish-beach_756748-104227.jpg?w=2000";
+
+  /* ==========================================================
+     COLLECTION DATA
+  ========================================================== */
 
   const collections = [
     {
@@ -15,186 +22,178 @@ const Collections = () => {
       subtitle: "Little pieces for every day",
       type: "everyday",
       placeholder: "EVERYDAY",
-      quote: "Little treasures for the moments that quietly matter.",
+      eyebrow: "THE EVERYDAY COLLECTION",
+      quote:
+        "Little treasures for the moments that quietly matter.",
       description:
-        "Delicate pearls, graceful chains and effortless pieces designed to become part of your everyday story.",
-      imagePosition: "center",
+        "Delicate pieces inspired by pearls, shells and the calm rhythm of the sea.",
       accent: "ocean",
     },
+
     {
       id: 2,
       name: "Festive",
       subtitle: "Made for moments worth celebrating",
       type: "festive",
       placeholder: "FESTIVE",
-      quote: "Some moments deserve a little more sparkle.",
+      eyebrow: "THE FESTIVE COLLECTION",
+      quote:
+        "Some moments deserve a little more sparkle.",
       description:
-        "Statement pieces inspired by moonlit shores, golden sunsets and celebrations that stay with you.",
-      imagePosition: "center right",
+        "Elegant pieces made for celebrations, golden evenings and memories worth keeping.",
       accent: "gold",
     },
+
     {
       id: 3,
       name: "Minimal",
       subtitle: "Simple. Elegant. You.",
       type: "minimal",
       placeholder: "MINIMAL",
-      quote: "Elegance lives in the details left untouched.",
+      eyebrow: "THE MINIMAL COLLECTION",
+      quote:
+        "Elegance lives in the details left untouched.",
       description:
-        "Clean silhouettes, subtle shine and timeless forms for those who believe less can say more.",
-      imagePosition: "left center",
+        "Quiet silhouettes, refined forms and timeless jewellery for everyday sophistication.",
       accent: "sand",
     },
+
     {
       id: 4,
       name: "For Her",
       subtitle: "She'll love this",
       type: "for-her",
       placeholder: "FOR HER",
-      quote: "Give a girl the right jewellery and she can conquer the world.",
+      eyebrow: "FOR HER",
+      quote:
+        "For the woman who carries her own light.",
       description:
-        "Soft pearls, feminine curves and ocean-inspired details chosen for the women who make every day beautiful.",
-      imagePosition: "center",
+        "Soft pearls, delicate curves and romantic details inspired by sunlight over the ocean.",
       accent: "rose",
       romantic: true,
     },
+
     {
       id: 5,
       name: "For Him",
       subtitle: "Just for him",
       type: "for-him",
       placeholder: "FOR HIM",
-      quote: "Crafted for kings of the modern world.",
+      eyebrow: "FOR HIM",
+      quote:
+        "Steady as the shore. Deep as the sea.",
       description:
-        "Refined pieces with natural textures, sculpted metals and understated character for modern masculinity.",
-      imagePosition: "center",
-      accent: "deepSea",
+        "Refined forms, natural textures and understated character for modern masculine elegance.",
+      accent: "deep-sea",
       romantic: true,
     },
+
     {
       id: 6,
       name: "New Arrivals",
       subtitle: "Something new to love",
       type: "new-arrivals",
       placeholder: "NEW",
-      quote: "A new tide brings something beautiful.",
+      eyebrow: "NEW ARRIVALS",
+      quote:
+        "A new tide brings something beautiful.",
       description:
-        "Fresh silhouettes and newly discovered treasures inspired by the colours, textures and calm of the coast.",
-      imagePosition: "center left",
+        "Fresh silhouettes and new treasures shaped by the beauty of the coastline.",
       accent: "turquoise",
     },
   ];
 
-  const activeData = collections.find(
-    (collection) => collection.type === activeCollection
-  );
+  /* ==========================================================
+     TOP OF PAGE ON NAVIGATION
+  ========================================================== */
+
+ useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "auto",
+  });
+}, []);
+  /* ==========================================================
+     COLLECTION CLICK
+  ========================================================== */
 
   const handleCollectionClick = (collection) => {
     setActiveCollection(collection.type);
 
-    // For Her / For Him remain on this page and reveal
-    // their special story/quote section.
-    if (collection.type === "for-her" || collection.type === "for-him") {
-      setTimeout(() => {
-        document
-          .getElementById("collection-story")
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-      }, 80);
-    } else {
-      setTimeout(() => {
-        document
-          .getElementById("collection-story")
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-      }, 80);
-    }
+    setTimeout(() => {
+      const section =
+        document.getElementById(
+          "paara-collection-story"
+        );
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 60);
   };
 
-  const goToProducts = () => {
-    navigate(`/products/${activeCollection}`);
+  /* ==========================================================
+     OPEN PRODUCTS
+  ========================================================== */
+
+  const openProducts = () => {
+    navigate(
+      `/products/${activeCollection}`
+    );
   };
+
+  const activeData =
+    collections.find(
+      (item) =>
+        item.type === activeCollection
+    ) || collections[0];
 
   return (
     <>
       <div
-        className="paara-page"
+        className="paara-collections-page"
         style={{
-          "--sea-bg": `url("${seaBackground}")`,
+          "--sea-background": `url("${seaBackground}")`,
         }}
       >
         {/* =====================================================
-            NAVBAR
+            EXISTING NAVBAR
         ====================================================== */}
-        <header className="paara-navbar">
-          <div className="brand-block">
-            <div className="brand-script">Paara</div>
-            <span className="brand-subtitle">JEWELLERY</span>
-          </div>
 
-          <nav className="desktop-nav">
-            <button
-              className="nav-link"
-              onClick={() => navigate("/")}
-            >
-              Home
-            </button>
-
-            <button
-              className="nav-link active"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            >
-              Collections
-            </button>
-
-            <button
-              className="nav-link"
-              onClick={() => navigate("/products/all")}
-            >
-              Shop
-            </button>
-
-            <button className="nav-link">Our Story</button>
-
-            <button className="nav-link">Journal</button>
-          </nav>
-
-          <div className="nav-actions">
-            <button className="nav-icon" aria-label="Wishlist">
-              ♡
-            </button>
-
-            <button className="nav-icon" aria-label="Bag">
-              ♧
-            </button>
-
-            <button className="nav-icon" aria-label="Account">
-              ◯
-            </button>
-
-            <button className="nav-icon menu-icon" aria-label="Menu">
-              ☰
-            </button>
-          </div>
-        </header>
+       
 
         {/* =====================================================
             HERO
         ====================================================== */}
-        <section className="collections-hero">
-          <div className="hero-shell shell-one">🐚</div>
-          <div className="hero-shell shell-two">🐚</div>
-          <div className="hero-star">✦</div>
+
+        <section className="collections-hero paara-page-enter">
+          <div className="hero-image" />
 
           <div className="hero-overlay" />
 
+          <div className="hero-shell hero-shell-left">
+            🐚
+          </div>
+
+          <div className="hero-shell hero-shell-right">
+            🐚
+          </div>
+
+          <div className="hero-star hero-star-one">
+            ✦
+          </div>
+
+          <div className="hero-star hero-star-two">
+            ✦
+          </div>
+
           <div className="hero-content">
-            <span className="hero-kicker">
-              INSPIRED BY THE OCEAN
+            <span className="hero-eyebrow">
+              INSPIRED BY THE SEA
             </span>
 
             <h1>
@@ -204,9 +203,9 @@ const Collections = () => {
             </h1>
 
             <p>
-              Discover pieces shaped by the beauty of the sea,
-              the softness of pearls and the quiet elegance of
-              nature.
+              Discover pieces shaped by the beauty
+              of the sea, the softness of pearls and
+              the quiet elegance of nature.
             </p>
 
             <div className="hero-divider">
@@ -218,202 +217,259 @@ const Collections = () => {
         </section>
 
         {/* =====================================================
-            COLLECTION INTRO
+            INTRO
         ====================================================== */}
-        <section className="collection-intro">
-          <span className="section-mini-title">
+
+        <section className="collections-intro paara-reveal">
+          <span className="section-eyebrow">
             EXPLORE THE TIDE
           </span>
 
-          <h2>Find Your Collection</h2>
+          <h2>
+            Find Your Collection
+          </h2>
 
           <p>
-            From delicate everyday treasures to pieces made for
-            unforgettable moments, every Paara collection carries
-            a little piece of the ocean.
+            Every Paara collection carries a little
+            piece of the ocean — from everyday
+            treasures to pieces made for moments
+            that deserve to stay forever.
           </p>
         </section>
 
         {/* =====================================================
             COLLECTION GRID
         ====================================================== */}
-        <section className="collection-grid-section">
-          <div className="collection-grid">
-            {collections.map((collection) => {
-              const isActive =
-                collection.type === activeCollection;
 
-              return (
-                <button
-                  key={collection.id}
-                  className={`collection-card ${
-                    isActive ? "selected" : ""
-                  }`}
-                  onClick={() =>
-                    handleCollectionClick(collection)
-                  }
-                  type="button"
-                >
-                  <div
-                    className="collection-card-image"
+        <section className="collection-grid-wrapper">
+          <div className="collection-grid">
+            {collections.map(
+              (collection, index) => {
+                const selected =
+                  collection.type ===
+                  activeCollection;
+
+                return (
+                  <button
+                    key={collection.id}
+                    type="button"
+                    className={`collection-card ${
+                      selected
+                        ? "collection-selected"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      handleCollectionClick(
+                        collection
+                      )
+                    }
                     style={{
-                      backgroundImage: `
-                        linear-gradient(
-                          rgba(255,255,255,0.03),
-                          rgba(255,255,255,0.28)
-                        ),
-                        var(--sea-bg)
-                      `,
-                      backgroundPosition:
-                        collection.imagePosition,
+                      animationDelay: `${
+                        index * 80
+                      }ms`,
                     }}
                   >
-                    <div className="image-water-glow" />
+                    <div className="collection-visual">
+                      <div
+                        className="collection-photo"
+                        style={{
+                          backgroundImage: `
+                            linear-gradient(
+                              rgba(255,255,255,.04),
+                              rgba(255,255,255,.26)
+                            ),
+                            var(--sea-background)
+                          `,
+                        }}
+                      />
 
-                    <div className="shell-decoration">
-                      {collection.type === "for-her"
-                        ? "♡"
-                        : collection.type === "for-him"
-                        ? "✦"
-                        : "🐚"}
+                      <div className="collection-water" />
+
+                      <div className="collection-top-label">
+                        <span>
+                          0
+                          {collection.id}
+                        </span>
+
+                        <span>
+                          {collection.romantic
+                            ? "SPECIAL"
+                            : "PAARA"}
+                        </span>
+                      </div>
+
+                      <div className="collection-symbol">
+                        {collection.type ===
+                        "for-her"
+                          ? "♡"
+                          : collection.type ===
+                            "for-him"
+                          ? "✦"
+                          : "🐚"}
+                      </div>
+
+                      <div className="collection-watermark">
+                        {
+                          collection.placeholder
+                        }
+                      </div>
+
+                      <div className="visual-bottom-fade" />
                     </div>
 
-                    <span className="card-number">
-                      0{collection.id}
-                    </span>
+                    <div className="collection-content">
+                      <span className="collection-mini">
+                        {
+                          collection.eyebrow
+                        }
+                      </span>
 
-                    <div className="card-bottom-gradient" />
-                  </div>
+                      <h3>
+                        {collection.name}
+                      </h3>
 
-                  <div className="collection-card-content">
-                    <span className="collection-card-small">
-                      {collection.type === "for-her"
-                        ? "A GIFT FROM THE HEART"
-                        : collection.type === "for-him"
-                        ? "QUIETLY REFINED"
-                        : "PAARA COLLECTION"}
-                    </span>
+                      <p>
+                        {collection.subtitle}
+                      </p>
 
-                    <h3>{collection.name}</h3>
-
-                    <p>{collection.subtitle}</p>
-
-                    <span className="collection-arrow">
-                      EXPLORE <span>→</span>
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
+                      <span className="collection-explore">
+                        EXPLORE
+                        <span>→</span>
+                      </span>
+                    </div>
+                  </button>
+                );
+              }
+            )}
           </div>
         </section>
 
         {/* =====================================================
             ACTIVE COLLECTION STORY
         ====================================================== */}
+
         <section
-          className={`collection-story-section accent-${activeData.accent}`}
-          id="collection-story"
+          id="paara-collection-story"
+          className={`collection-story collection-story-${activeData.accent}`}
         >
+          <div className="story-background-image" />
+
+          <div className="story-background-overlay" />
+
+          <div className="story-shell story-shell-one">
+            🐚
+          </div>
+
+          <div className="story-shell story-shell-two">
+            🐚
+          </div>
+
           <div className="story-watermark">
             {activeData.placeholder}
           </div>
 
-          <div className="story-shell-left">🐚</div>
-          <div className="story-shell-right">✦ 🐚</div>
+          <div className="story-inner">
+            <div className="story-content">
+              <span className="story-eyebrow">
+                {activeData.eyebrow}
+              </span>
 
-          <div className="story-content">
-            <div className="story-label">
-              SELECTED COLLECTION
+              <h2>
+                {activeData.quote}
+              </h2>
+
+              <p>
+                {activeData.description}
+              </p>
+
+              {/* ================= FOR HER ================= */}
+
+              {activeData.type ===
+                "for-her" && (
+                <div className="special-quote special-quote-her">
+                  <span className="quote-mark">
+                    “
+                  </span>
+
+                  <p>
+                    She deserves jewellery
+                    that feels like sunlight
+                    on the sea — soft, warm
+                    and impossible to forget.
+                  </p>
+
+                  <small>
+                    — PAARA, FOR HER
+                  </small>
+                </div>
+              )}
+
+              {/* ================= FOR HIM ================= */}
+
+              {activeData.type ===
+                "for-him" && (
+                <div className="special-quote special-quote-him">
+                  <span className="quote-mark">
+                    “
+                  </span>
+
+                  <p>
+                    For the one whose
+                    presence feels like
+                    standing beside the
+                    ocean — calm, grounded
+                    and timeless.
+                  </p>
+
+                  <small>
+                    — PAARA, FOR HIM
+                  </small>
+                </div>
+              )}
+
+              <button
+                type="button"
+                className="story-button"
+                onClick={openProducts}
+              >
+                EXPLORE{" "}
+                {activeData.name.toUpperCase()}
+                <span>→</span>
+              </button>
             </div>
 
-            <div className="story-main">
-              <div className="story-copy">
-                <span className="story-eyebrow">
-                  {activeData.name.toUpperCase()}
-                </span>
-
-                <h2>
-                  {activeData.quote}
-                </h2>
-
-                <p>
-                  {activeData.description}
-                </p>
-
-                {/* SPECIAL QUOTE FOR HER */}
-                {activeData.type === "for-her" && (
-                  <div className="special-love-quote">
-                    <span className="quote-mark">“</span>
-
-                    <p>
-                      She deserves jewellery that feels like
-                      sunlight on the sea — soft, warm and
-                      impossible to forget.
-                    </p>
-
-                    <small>
-                      — PAARA, FOR HER
-                    </small>
-                  </div>
-                )}
-
-                {/* SPECIAL QUOTE FOR HIM */}
-                {activeData.type === "for-him" && (
-                  <div className="special-love-quote male-quote">
-                    <span className="quote-mark">“</span>
-
-                    <p>
-                      For the one whose presence feels like
-                      standing beside the ocean — calm,
-                      grounded and timeless.
-                    </p>
-
-                    <small>
-                      — PAARA, FOR HIM
-                    </small>
-                  </div>
-                )}
-
-                <button
-                  className="explore-button"
-                  onClick={goToProducts}
+            <div className="story-visual-wrapper">
+              <div className="story-frame">
+                <div
+                  className="story-visual"
+                  style={{
+                    backgroundImage: `
+                      linear-gradient(
+                        rgba(255,255,255,.07),
+                        rgba(34,88,90,.16)
+                      ),
+                      var(--sea-background)
+                    `,
+                  }}
                 >
-                  EXPLORE {activeData.name.toUpperCase()}
-                  <span>→</span>
-                </button>
-              </div>
-
-              <div className="story-visual">
-                <div className="visual-frame">
-                  <div className="visual-image">
-                    <div className="visual-overlay" />
-
-                    <div className="visual-shell shell-a">
-                      🐚
-                    </div>
-
-                    <div className="visual-shell shell-b">
-                      🐚
-                    </div>
-
-                    <div className="visual-pearl pearl-a" />
-                    <div className="visual-pearl pearl-b" />
-                    <div className="visual-pearl pearl-c" />
-
-                    <div className="visual-caption">
-                      <span>PAARA</span>
-                      <small>
-                        Shaped by the sea
-                      </small>
-                    </div>
+                  <div className="story-shell-visual shell-a">
+                    🐚
                   </div>
-                </div>
 
-                <div className="visual-side-note">
-                  <span>01</span>
-                  <div />
-                  <span>OCEAN</span>
+                  <div className="story-shell-visual shell-b">
+                    🐚
+                  </div>
+
+                  <div className="visual-pearl pearl-one" />
+                  <div className="visual-pearl pearl-two" />
+                  <div className="visual-pearl pearl-three" />
+
+                  <div className="story-visual-text">
+                    <span>PAARA</span>
+                    <small>
+                      SHAPED BY THE SEA
+                    </small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -421,13 +477,17 @@ const Collections = () => {
         </section>
 
         {/* =====================================================
-            LOVE / OCEAN STATEMENT
+            OCEAN STATEMENT
         ====================================================== */}
-        <section className="ocean-love-section">
-          <div className="ocean-love-bg" />
 
-          <div className="ocean-content">
-            <span>THE PAARA PHILOSOPHY</span>
+        <section className="ocean-statement">
+          <div className="ocean-statement-image" />
+          <div className="ocean-statement-overlay" />
+
+          <div className="ocean-statement-content">
+            <span>
+              THE PAARA PHILOSOPHY
+            </span>
 
             <h2>
               Made by the sea.
@@ -436,34 +496,45 @@ const Collections = () => {
             </h2>
 
             <p>
-              Every piece begins with a feeling — the calm of
-              ocean waves, the glow of sunlight over water and
-              the little moments we wish could last forever.
+              Pearls, shells, sunlight and saltwater —
+              nature is the heart of Paara.
             </p>
 
-            <div className="wave-divider">
+            <div className="statement-divider">
               <span />
-              <span>🐚</span>
+              <b>🐚</b>
               <span />
             </div>
           </div>
         </section>
 
+        
+       
       </div>
-      <>
-  <Navbar />
 
-  {/* Product page content */}
-
-  <Footer />
-</>
-
-      {/* =====================================================
-          ALL CSS IS INSIDE THIS JSX FILE
-      ====================================================== */}
+      {/* ========================================================
+          CSS — SAME FILE
+      ======================================================== */}
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+        @font-face {
+          font-family: "Brilliant Cut";
+          src: url("/fonts/BrilliantCutPro-Light.woff2")
+            format("woff2");
+          font-weight: 300;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        :root {
+          --paara-cream: #f8f4ed;
+          --paara-ivory: #fbf8f2;
+          --paara-sand: #eee6d9;
+          --paara-brown: #554a3f;
+          --paara-soft-brown: #786d61;
+          --paara-gold: #a57a41;
+          --paara-line: rgba(130, 107, 74, 0.16);
+        }
 
         * {
           box-sizing: border-box;
@@ -473,140 +544,77 @@ const Collections = () => {
           scroll-behavior: smooth;
         }
 
-        body {
-          margin: 0;
-          padding: 0;
-          background: #f6f2eb;
-          color: #302a24;
-          font-family: "DM Sans", sans-serif;
-        }
-
-        button,
-        input {
-          font: inherit;
-        }
-
-        button {
-          border: none;
-          background: none;
-          cursor: pointer;
-        }
-
-        .paara-page {
-          min-height: 100vh;
+        .paara-collections-page {
+          width: 100%;
+          min-width: 0;
           overflow-x: hidden;
           background:
             radial-gradient(
-              circle at 15% 15%,
-              rgba(214, 231, 225, 0.27),
-              transparent 28%
+              circle at 10% 15%,
+              rgba(105, 181, 185, 0.06),
+              transparent 22%
             ),
             radial-gradient(
-              circle at 86% 75%,
-              rgba(215, 187, 137, 0.12),
-              transparent 28%
+              circle at 90% 68%,
+              rgba(206, 174, 124, 0.08),
+              transparent 25%
             ),
-            #f8f4ed;
+            var(--paara-cream);
+          color: var(--paara-brown);
+          font-family: "Brilliant Cut", serif;
+          font-weight: 300;
+        }
+
+        .paara-collections-page button,
+        .paara-collections-page input,
+        .paara-collections-page select {
+          font-family: "Brilliant Cut", serif;
+          font-weight: 300;
         }
 
         /* =====================================================
-           NAVBAR
+           PAGE ENTER
         ====================================================== */
 
-        .paara-navbar {
-          height: 78px;
-          padding: 0 4.8%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          background: rgba(251, 248, 242, 0.95);
-          border-bottom: 1px solid rgba(135, 112, 75, 0.14);
-          position: sticky;
-          top: 0;
-          z-index: 50;
-          backdrop-filter: blur(18px);
+        .paara-page-enter {
+          animation:
+            paaraPageEnter
+            0.8s
+            cubic-bezier(.22,.61,.36,1)
+            both;
         }
 
-        .brand-block {
-          min-width: 170px;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          line-height: 1;
+        .paara-reveal {
+          animation:
+            paaraReveal
+            .85s
+            cubic-bezier(.22,.61,.36,1)
+            both;
+          animation-delay: .08s;
         }
 
-        .brand-script {
-          font-family: "Cormorant Garamond", serif;
-          font-style: italic;
-          font-size: 39px;
-          line-height: 28px;
-          color: #886633;
-          letter-spacing: -1.5px;
+        @keyframes paaraPageEnter {
+          from {
+            opacity: 0;
+            transform: translateY(22px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
-        .brand-subtitle {
-          margin-left: 18px;
-          margin-top: 9px;
-          font-size: 8px;
-          letter-spacing: 3px;
-          color: #6d6256;
-        }
+        @keyframes paaraReveal {
+          from {
+            opacity: 0;
+            transform: translateY(18px);
+          }
 
-        .desktop-nav {
-          display: flex;
-          align-items: center;
-          gap: 34px;
-        }
-
-        .nav-link {
-          font-size: 12px;
-          color: #574e45;
-          position: relative;
-          padding: 8px 0;
-          transition: color 0.3s ease;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-          color: #a47b3f;
-        }
-
-        .nav-link.active::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          width: 18px;
-          height: 1px;
-          margin: auto;
-          background: #b79257;
-        }
-
-        .nav-actions {
-          min-width: 170px;
-          display: flex;
-          justify-content: flex-end;
-          gap: 19px;
-        }
-
-        .nav-icon {
-          width: 28px;
-          height: 28px;
-          color: #655b50;
-          font-size: 20px;
-          transition:
-            transform 0.25s ease,
-            color 0.25s ease;
-        }
-
-        .nav-icon:hover {
-          color: #ac8245;
-          transform: translateY(-2px);
-        }
-
-        .menu-icon {
-          font-size: 18px;
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         /* =====================================================
@@ -614,23 +622,34 @@ const Collections = () => {
         ====================================================== */
 
         .collections-hero {
-          min-height: 510px;
+          width: 100%;
+          min-height: clamp(
+            470px,
+            68vh,
+            720px
+          );
           position: relative;
-          overflow: hidden;
           display: flex;
           align-items: center;
-          padding: 75px 8%;
+          overflow: hidden;
+          background: #e7ded1;
+        }
+
+        .hero-image {
+          position: absolute;
+          inset: 0;
           background:
             linear-gradient(
               90deg,
-              rgba(248, 243, 235, 0.95) 0%,
-              rgba(248, 243, 235, 0.77) 39%,
-              rgba(248, 243, 235, 0.15) 75%,
-              rgba(248, 243, 235, 0.06) 100%
+              rgba(248,244,237,.94) 0%,
+              rgba(248,244,237,.72) 34%,
+              rgba(248,244,237,.20) 72%,
+              rgba(248,244,237,.08) 100%
             ),
-            var(--sea-bg);
+            var(--sea-background);
           background-size: cover;
           background-position: center;
+          transform: scale(1.015);
         }
 
         .hero-overlay {
@@ -638,130 +657,186 @@ const Collections = () => {
           inset: 0;
           background:
             radial-gradient(
-              circle at 70% 30%,
-              rgba(255,255,255,0.15),
-              transparent 30%
-            ),
-            linear-gradient(
-              to bottom,
-              transparent,
-              rgba(240, 231, 217, 0.16)
+              circle at 78% 32%,
+              rgba(255,255,255,.19),
+              transparent 22%
             );
-          pointer-events: none;
         }
 
         .hero-content {
           position: relative;
-          z-index: 2;
-          max-width: 650px;
+          z-index: 3;
+          width: min(
+            90vw,
+            1600px
+          );
+          margin: 0 auto;
+          padding:
+            clamp(60px, 8vw, 120px)
+            0;
         }
 
-        .hero-kicker {
-          font-size: 11px;
-          letter-spacing: 5px;
-          color: #997544;
+        .hero-eyebrow {
           display: inline-block;
-          margin-bottom: 19px;
+          margin-bottom: 18px;
+          color: var(--paara-gold);
+          font-size: clamp(
+            8px,
+            .75vw,
+            11px
+          );
+          letter-spacing: .34em;
         }
 
         .hero-content h1 {
           margin: 0;
-          font-family: "Cormorant Garamond", serif;
-          font-weight: 500;
-          font-size: clamp(56px, 6vw, 88px);
-          line-height: 0.88;
-          letter-spacing: -2.5px;
-          color: #2f2923;
+          max-width: 850px;
+          font-size: clamp(
+            48px,
+            7vw,
+            104px
+          );
+          line-height: .88;
+          letter-spacing: -.035em;
+          font-weight: 300;
+          color: #322b24;
         }
 
         .hero-content p {
-          max-width: 475px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 20px;
-          line-height: 1.55;
-          color: #5f5448;
-          margin: 28px 0 24px;
+          max-width: 560px;
+          margin:
+            clamp(22px, 2.5vw, 32px)
+            0
+            22px;
+          color: #655b50;
+          font-size: clamp(
+            14px,
+            1.15vw,
+            19px
+          );
+          line-height: 1.65;
         }
 
         .hero-divider {
+          width: min(180px, 45vw);
           display: flex;
-          width: 180px;
           align-items: center;
-          gap: 11px;
+          gap: 10px;
         }
 
         .hero-divider span {
           flex: 1;
           height: 1px;
-          background: rgba(170, 136, 81, 0.45);
+          background: rgba(167, 128, 74, .45);
         }
 
         .hero-divider small {
-          color: #aa7d42;
+          color: var(--paara-gold);
         }
 
         .hero-shell {
           position: absolute;
-          z-index: 1;
-          opacity: 0.62;
-          font-size: 55px;
-          filter: blur(0.15px);
-          animation: shellFloat 7s ease-in-out infinite;
+          z-index: 2;
+          opacity: .45;
+          animation:
+            shellFloat
+            7s
+            ease-in-out
+            infinite;
+          pointer-events: none;
         }
 
-        .shell-one {
-          right: 10%;
-          bottom: 24px;
-          font-size: 94px;
+        .hero-shell-left {
+          right: 7%;
+          bottom: 5%;
+          font-size: clamp(
+            70px,
+            8vw,
+            145px
+          );
           transform: rotate(-12deg);
         }
 
-        .shell-two {
-          right: 29%;
-          top: 45px;
-          font-size: 42px;
-          animation-delay: 1.4s;
+        .hero-shell-right {
+          right: 30%;
+          top: 12%;
+          font-size: clamp(
+            35px,
+            3vw,
+            60px
+          );
+          animation-delay: 1.2s;
         }
 
         .hero-star {
           position: absolute;
-          right: 17%;
-          top: 30%;
-          color: rgba(255,255,255,0.75);
-          font-size: 25px;
-          animation: sparkle 3s ease-in-out infinite;
+          color: rgba(255,255,255,.75);
+          z-index: 2;
+          animation:
+            sparkle
+            3s
+            ease-in-out
+            infinite;
+        }
+
+        .hero-star-one {
+          right: 19%;
+          top: 24%;
+        }
+
+        .hero-star-two {
+          right: 35%;
+          bottom: 18%;
+          animation-delay: 1s;
         }
 
         /* =====================================================
            INTRO
         ====================================================== */
 
-        .collection-intro {
-          text-align: center;
-          max-width: 800px;
+        .collections-intro {
+          width: min(
+            90vw,
+            1000px
+          );
           margin: 0 auto;
-          padding: 92px 22px 48px;
+          padding:
+            clamp(68px, 8vw, 120px)
+            0
+            clamp(38px, 4vw, 60px);
+          text-align: center;
         }
 
-        .section-mini-title {
-          color: #aa8249;
-          letter-spacing: 4px;
-          font-size: 10px;
+        .section-eyebrow {
+          color: var(--paara-gold);
+          font-size: 9px;
+          letter-spacing: .35em;
         }
 
-        .collection-intro h2 {
-          margin: 13px 0 10px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: clamp(42px, 4.5vw, 60px);
-          font-weight: 500;
-          color: #332c24;
+        .collections-intro h2 {
+          margin:
+            12px 0
+            8px;
+          font-size: clamp(
+            42px,
+            5vw,
+            72px
+          );
+          line-height: .95;
+          font-weight: 300;
+          letter-spacing: -.025em;
+          color: #342d26;
         }
 
-        .collection-intro p {
-          margin: auto;
-          max-width: 650px;
-          color: #71665b;
-          font-size: 14px;
+        .collections-intro p {
+          width: min(100%, 700px);
+          margin: 0 auto;
+          color: #71675c;
+          font-size: clamp(
+            12px,
+            1vw,
+            15px
+          );
           line-height: 1.8;
         }
 
@@ -769,737 +844,740 @@ const Collections = () => {
            COLLECTION GRID
         ====================================================== */
 
-        .collection-grid-section {
-          padding: 10px 5% 85px;
+        .collection-grid-wrapper {
+          width: min(
+            94vw,
+            1750px
+          );
+          margin: 0 auto;
+          padding:
+            0 0
+            clamp(70px, 8vw, 120px);
         }
 
         .collection-grid {
-          max-width: 1420px;
-          margin: auto;
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
+          grid-template-columns:
+            repeat(
+              3,
+              minmax(0, 1fr)
+            );
+          gap: clamp(
+            16px,
+            2vw,
+            30px
+          );
         }
 
         .collection-card {
-          position: relative;
-          text-align: left;
-          background: #f4eee5;
-          border: 1px solid rgba(141, 117, 78, 0.14);
-          overflow: hidden;
           padding: 0;
-          box-shadow: 0 12px 35px rgba(82, 61, 36, 0.07);
+          margin: 0;
+          min-width: 0;
+          border: 1px solid var(--paara-line);
+          background: var(--paara-ivory);
+          text-align: left;
+          overflow: hidden;
+          box-shadow:
+            0
+            16px
+            40px
+            rgba(66,54,40,.06);
+          transform: translateY(14px);
+          opacity: 0;
+          animation:
+            collectionCardIn
+            .7s
+            cubic-bezier(.22,.61,.36,1)
+            forwards;
           transition:
-            transform 0.45s cubic-bezier(.22,.61,.36,1),
-            box-shadow 0.45s ease,
-            border-color 0.45s ease;
+            transform .45s ease,
+            box-shadow .45s ease,
+            border-color .45s ease;
         }
 
         .collection-card:hover {
           transform: translateY(-7px);
+          border-color:
+            rgba(164,125,67,.28);
           box-shadow:
-            0 24px 50px rgba(82, 61, 36, 0.13);
-          border-color: rgba(160, 123, 66, 0.3);
+            0
+            25px
+            60px
+            rgba(66,54,40,.12);
         }
 
-        .collection-card.selected {
-          border-color: rgba(165, 127, 67, 0.48);
-          box-shadow:
-            0 24px 55px rgba(83, 61, 36, 0.15);
+        .collection-selected {
+          border-color:
+            rgba(164,125,67,.38);
         }
 
-        .collection-card-image {
+        @keyframes collectionCardIn {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .collection-visual {
           position: relative;
-          height: 295px;
-          background-size: cover;
+          width: 100%;
+          aspect-ratio: 1 / 1.06;
           overflow: hidden;
-          transition: transform 0.7s ease;
+          background: #e9e0d2;
+        }
+
+        .collection-photo {
+          position: absolute;
+          inset: 0;
+          background-size: cover;
+          background-position: center;
+          transition:
+            transform .75s
+            cubic-bezier(.22,.61,.36,1);
         }
 
         .collection-card:hover
-        .collection-card-image {
-          transform: scale(1.025);
+        .collection-photo {
+          transform: scale(1.035);
         }
 
-        .image-water-glow {
+        .collection-water {
           position: absolute;
           inset: 0;
           background:
             radial-gradient(
-              circle at 75% 20%,
-              rgba(118, 196, 199, 0.34),
+              circle at 78% 25%,
+              rgba(103,191,196,.22),
               transparent 25%
             ),
             radial-gradient(
-              circle at 25% 88%,
-              rgba(255,255,255,0.82),
-              transparent 28%
+              circle at 25% 80%,
+              rgba(255,255,255,.65),
+              transparent 27%
             );
-          mix-blend-mode: screen;
+          pointer-events: none;
         }
 
-        .shell-decoration {
+        .collection-top-label {
           position: absolute;
-          top: 18px;
-          right: 21px;
-          width: 45px;
-          height: 45px;
-          border-radius: 50%;
+          top: 16px;
+          left: 18px;
+          right: 18px;
+          z-index: 2;
           display: flex;
-          align-items: center;
-          justify-content: center;
-          background: rgba(255, 252, 246, 0.84);
-          border: 1px solid rgba(152, 115, 61, 0.15);
-          color: #9d763d;
-          font-size: 19px;
+          justify-content: space-between;
+          color: rgba(255,255,255,.88);
+          font-size: 8px;
+          letter-spacing: .23em;
+        }
+
+        .collection-symbol {
+          position: absolute;
+          top: 16px;
+          right: 18px;
+          width: 42px;
+          height: 42px;
+          display: grid;
+          place-items: center;
+          border-radius: 50%;
+          background: rgba(252,249,243,.84);
+          color: #a27a43;
+          font-size: 18px;
           backdrop-filter: blur(8px);
         }
 
-        .card-number {
-          position: absolute;
-          left: 20px;
-          top: 19px;
-          color: rgba(255,255,255,0.88);
-          font-size: 10px;
-          letter-spacing: 3px;
+        .collection-top-label
+        > span:last-child {
+          padding-right: 54px;
         }
 
-        .card-bottom-gradient {
+        .collection-watermark {
+          position: absolute;
+          left: 18px;
+          bottom: 11px;
+          color: rgba(255,255,255,.27);
+          font-size: clamp(
+            25px,
+            3vw,
+            50px
+          );
+          letter-spacing: .12em;
+          line-height: 1;
+        }
+
+        .visual-bottom-fade {
           position: absolute;
           left: 0;
           right: 0;
           bottom: 0;
-          height: 45%;
+          height: 42%;
           background:
             linear-gradient(
               to top,
-              rgba(40, 38, 32, 0.22),
+              rgba(48,43,36,.28),
               transparent
             );
         }
 
-        .collection-card-content {
+        .collection-content {
+          padding:
+            clamp(19px, 2vw, 28px);
           background:
             linear-gradient(
               to bottom,
-              #fbf7f0,
-              #f4eee6
+              #fcf9f3,
+              #f4eee5
             );
-          padding: 24px 25px 28px;
         }
 
-        .collection-card-small {
+        .collection-mini {
           display: block;
-          color: #9b7744;
-          font-size: 8px;
-          letter-spacing: 2.7px;
+          color: #9c7542;
+          font-size: 7px;
+          letter-spacing: .22em;
           margin-bottom: 8px;
         }
 
-        .collection-card-content h3 {
+        .collection-content h3 {
           margin: 0;
-          font-family: "Cormorant Garamond", serif;
-          color: #322b23;
-          font-size: 32px;
-          font-weight: 600;
+          color: #352f28;
+          font-size: clamp(
+            28px,
+            2.3vw,
+            39px
+          );
+          line-height: .96;
+          font-weight: 300;
         }
 
-        .collection-card-content p {
-          margin: 3px 0 19px;
-          color: #6d6459;
-          font-size: 12px;
+        .collection-content p {
+          margin:
+            6px 0
+            17px;
+          color: #766c61;
+          font-size: clamp(
+            10px,
+            .9vw,
+            13px
+          );
         }
 
-        .collection-arrow {
+        .collection-explore {
           display: inline-flex;
           align-items: center;
-          gap: 12px;
-          color: #8c6838;
-          font-size: 9px;
-          letter-spacing: 2px;
-          transition: gap 0.3s ease;
+          gap: 11px;
+          color: #986f39;
+          font-size: 8px;
+          letter-spacing: .17em;
+          transition: gap .3s ease;
         }
 
         .collection-card:hover
-        .collection-arrow {
-          gap: 18px;
+        .collection-explore {
+          gap: 17px;
         }
 
-        .collection-arrow span {
+        .collection-explore span {
           font-size: 15px;
         }
 
         /* =====================================================
-           STORY
+           COLLECTION STORY
         ====================================================== */
 
-        .collection-story-section {
+        .collection-story {
           position: relative;
+          width: 100%;
           overflow: hidden;
-          padding: 115px 7%;
-          border-top: 1px solid rgba(122, 103, 77, 0.13);
-          border-bottom: 1px solid rgba(122, 103, 77, 0.13);
+          padding:
+            clamp(80px, 9vw, 140px)
+            3vw;
+          border-top: 1px solid var(--paara-line);
+          border-bottom: 1px solid var(--paara-line);
+        }
+
+        .story-background-image {
+          position: absolute;
+          inset: 0;
           background:
             linear-gradient(
               90deg,
-              rgba(246, 241, 233, 0.94),
-              rgba(238, 244, 240, 0.84)
+              rgba(246,242,234,.93),
+              rgba(239,243,239,.86)
             ),
-            var(--sea-bg);
+            var(--sea-background);
           background-size: cover;
           background-position: center;
         }
 
-        .collection-story-section::before {
-          content: "";
+        .story-background-overlay {
           position: absolute;
           inset: 0;
           background:
             radial-gradient(
               circle at 15% 60%,
-              rgba(92, 172, 179, 0.12),
+              rgba(85,164,168,.11),
               transparent 28%
             ),
             radial-gradient(
-              circle at 85% 20%,
-              rgba(218, 181, 125, 0.12),
-              transparent 26%
+              circle at 84% 20%,
+              rgba(208,168,107,.10),
+              transparent 25%
             );
         }
 
-        .story-content {
+        .story-inner {
+          width: min(
+            90vw,
+            1650px
+          );
+          margin: 0 auto;
           position: relative;
-          z-index: 2;
-          max-width: 1340px;
-          margin: auto;
-        }
-
-        .story-label {
-          color: #a27b42;
-          letter-spacing: 4px;
-          font-size: 9px;
-          margin-bottom: 43px;
-        }
-
-        .story-main {
+          z-index: 3;
           display: grid;
-          grid-template-columns: 1.05fr 0.95fr;
+          grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, .9fr);
+          gap: clamp(
+            45px,
+            7vw,
+            120px
+          );
           align-items: center;
-          gap: 90px;
         }
 
-        .story-copy {
-          max-width: 620px;
+        .story-content {
+          max-width: 760px;
         }
 
         .story-eyebrow {
-          color: #836a4d;
-          font-size: 10px;
-          letter-spacing: 4px;
+          color: #9e7744;
+          font-size: 9px;
+          letter-spacing: .3em;
         }
 
-        .story-copy h2 {
-          font-family: "Cormorant Garamond", serif;
-          font-weight: 500;
-          font-size: clamp(42px, 4.5vw, 69px);
-          line-height: 0.97;
+        .story-content h2 {
+          margin:
+            16px 0
+            22px;
+          max-width: 760px;
           color: #342e27;
-          margin: 18px 0 24px;
-          max-width: 590px;
+          font-size: clamp(
+            45px,
+            5.2vw,
+            82px
+          );
+          line-height: .94;
+          font-weight: 300;
+          letter-spacing: -.03em;
         }
 
-        .story-copy > p {
-          color: #6b6257;
-          font-size: 14px;
+        .story-content > p {
+          width: min(100%, 620px);
+          margin: 0;
+          color: #6f655b;
+          font-size: clamp(
+            12px,
+            .95vw,
+            15px
+          );
           line-height: 1.9;
-          max-width: 540px;
         }
 
-        .special-love-quote {
+        /* -----------------------------------------------------
+           SPECIAL QUOTES
+           Keep this styling isolated from the main site font
+           decisions.
+        ------------------------------------------------------ */
+
+        .special-quote {
           position: relative;
-          margin-top: 32px;
-          padding: 25px 28px 24px 32px;
-          background: rgba(255,255,255,0.45);
-          border-left: 1px solid #bf9152;
-          max-width: 530px;
+          width: min(100%, 610px);
+          margin-top: 30px;
+          padding:
+            23px
+            25px
+            22px
+            34px;
+          background: rgba(255,255,255,.41);
+          border-left: 1px solid #bc9055;
         }
 
         .quote-mark {
           position: absolute;
           left: 8px;
-          top: 7px;
-          color: rgba(188, 147, 85, 0.42);
-          font-family: "Cormorant Garamond", serif;
-          font-size: 52px;
+          top: 3px;
+          font-size: 48px;
+          color: rgba(180,140,84,.38);
         }
 
-        .special-love-quote p {
-          margin: 0 0 9px;
-          color: #5a5147;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 21px;
-          line-height: 1.4;
-          font-style: italic;
+        .special-quote p {
+          margin: 0 0 8px;
+          color: #5c5146;
+          font-size: clamp(
+            15px,
+            1.25vw,
+            20px
+          );
+          line-height: 1.45;
         }
 
-        .special-love-quote small {
-          color: #9a7748;
-          font-size: 9px;
-          letter-spacing: 2px;
+        .special-quote small {
+          color: #99703c;
+          font-size: 8px;
+          letter-spacing: .18em;
         }
 
-        .male-quote {
-          border-left-color: #6d675f;
-          background: rgba(62, 61, 57, 0.04);
+        .special-quote-him {
+          border-left-color: #78736c;
+          background: rgba(78,77,73,.045);
         }
 
-        .male-quote p {
-          color: #57534e;
-        }
-
-        .explore-button {
-          margin-top: 34px;
-          padding: 15px 25px;
-          min-width: 205px;
-          color: #fffdf9;
-          background:
-            linear-gradient(
-              105deg,
-              #aa7e40,
-              #c0985e
-            );
-          letter-spacing: 1.7px;
-          font-size: 9px;
+        .story-button {
+          margin-top: 32px;
+          min-height: 50px;
+          padding:
+            0
+            24px;
+          border: 1px solid #b1844a;
+          background: #ae8147;
+          color: white;
+          font-size: 8px;
+          letter-spacing: .18em;
           transition:
-            transform 0.3s ease,
-            box-shadow 0.3s ease;
+            transform .3s ease,
+            box-shadow .3s ease,
+            background .3s ease;
         }
 
-        .explore-button span {
-          margin-left: 16px;
+        .story-button span {
+          margin-left: 14px;
           font-size: 14px;
         }
 
-        .explore-button:hover {
+        .story-button:hover {
+          background: #966c3a;
           transform: translateY(-2px);
           box-shadow:
-            0 13px 30px rgba(139, 98, 44, 0.2);
+            0
+            14px
+            30px
+            rgba(141,99,45,.17);
+        }
+
+        .story-visual-wrapper {
+          position: relative;
+          width: 100%;
+          max-width: 760px;
+          margin-left: auto;
+        }
+
+        .story-frame {
+          padding: 11px;
+          background: rgba(255,251,245,.8);
+          border: 1px solid rgba(135,108,75,.25);
+          box-shadow:
+            0
+            30px
+            70px
+            rgba(70,56,40,.11);
         }
 
         .story-visual {
           position: relative;
-        }
-
-        .visual-frame {
-          position: relative;
-          padding: 12px;
-          background: rgba(252, 248, 241, 0.82);
-          border: 1px solid rgba(147, 122, 84, 0.25);
-          box-shadow:
-            0 30px 70px rgba(78, 62, 43, 0.12);
-        }
-
-        .visual-image {
-          height: 470px;
-          position: relative;
+          width: 100%;
+          aspect-ratio: 1 / 1.07;
           overflow: hidden;
-          background:
-            linear-gradient(
-              135deg,
-              rgba(255,255,255,0.38),
-              transparent 45%
-            ),
-            var(--sea-bg);
           background-size: cover;
           background-position: center;
         }
 
-        .visual-overlay {
+        .story-shell-visual {
           position: absolute;
-          inset: 0;
-          background:
-            linear-gradient(
-              to bottom,
-              rgba(243, 246, 239, 0.09),
-              rgba(235, 227, 211, 0.3)
-            );
-        }
-
-        .visual-shell {
-          position: absolute;
-          font-size: 90px;
-          opacity: 0.72;
-          animation: shellFloat 6.7s ease-in-out infinite;
+          z-index: 2;
+          opacity: .68;
+          animation:
+            shellFloat
+            6.5s
+            ease-in-out
+            infinite;
         }
 
         .shell-a {
-          left: 25px;
-          bottom: 15px;
+          left: 5%;
+          bottom: 4%;
+          font-size: clamp(
+            55px,
+            6vw,
+            100px
+          );
         }
 
         .shell-b {
-          right: 27px;
-          top: 19px;
-          font-size: 52px;
-          animation-delay: 1.1s;
+          right: 5%;
+          top: 5%;
+          font-size: clamp(
+            35px,
+            4vw,
+            60px
+          );
+          animation-delay: 1s;
         }
 
         .visual-pearl {
           position: absolute;
-          width: 17px;
-          height: 17px;
+          width: 15px;
+          height: 15px;
           border-radius: 50%;
           background:
             radial-gradient(
               circle at 30% 28%,
               #fff,
-              #eee6d9 45%,
-              #d0b99a
+              #ece3d5 45%,
+              #cdb494
             );
           box-shadow:
-            0 2px 10px rgba(67, 63, 54, 0.14);
+            0
+            2px
+            11px
+            rgba(56,52,46,.15);
         }
 
-        .pearl-a {
-          left: 46%;
-          top: 34%;
+        .pearl-one {
+          top: 31%;
+          left: 47%;
         }
 
-        .pearl-b {
+        .pearl-two {
+          top: 42%;
           left: 53%;
-          top: 43%;
-          width: 23px;
-          height: 23px;
+          width: 22px;
+          height: 22px;
         }
 
-        .pearl-c {
-          left: 58%;
+        .pearl-three {
           top: 51%;
-          width: 14px;
-          height: 14px;
+          left: 58%;
+          width: 13px;
+          height: 13px;
         }
 
-        .visual-caption {
+        .story-visual-text {
           position: absolute;
-          bottom: 28px;
-          left: 29px;
+          z-index: 3;
+          left: 28px;
+          bottom: 27px;
           display: flex;
           flex-direction: column;
           color: white;
-          text-shadow: 0 2px 9px rgba(0,0,0,0.25);
+          text-shadow:
+            0
+            2px
+            10px
+            rgba(0,0,0,.24);
         }
 
-        .visual-caption span {
-          font-family: "Cormorant Garamond", serif;
-          font-size: 27px;
-          font-style: italic;
+        .story-visual-text span {
+          font-size: clamp(
+            25px,
+            2.3vw,
+            35px
+          );
         }
 
-        .visual-caption small {
-          margin-top: 4px;
-          letter-spacing: 2px;
-          font-size: 8px;
-        }
-
-        .visual-side-note {
-          position: absolute;
-          right: -37px;
-          bottom: 38px;
-          display: flex;
-          align-items: center;
-          gap: 9px;
-          color: #967246;
-          transform: rotate(90deg);
-          font-size: 8px;
-          letter-spacing: 2px;
-        }
-
-        .visual-side-note div {
-          width: 32px;
-          height: 1px;
-          background: #b79865;
+        .story-visual-text small {
+          margin-top: 3px;
+          font-size: 7px;
+          letter-spacing: .22em;
         }
 
         .story-watermark {
           position: absolute;
-          right: 4%;
-          bottom: -36px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 185px;
+          right: 2%;
+          bottom: -25px;
+          z-index: 2;
+          color: rgba(85,157,157,.04);
+          font-size: clamp(
+            90px,
+            13vw,
+            220px
+          );
           line-height: 1;
-          color: rgba(111, 161, 160, 0.04);
-          letter-spacing: 3px;
+          letter-spacing: .04em;
           pointer-events: none;
         }
 
-        .story-shell-left {
+        .story-shell {
           position: absolute;
-          left: -13px;
-          bottom: 45px;
-          font-size: 105px;
-          opacity: 0.34;
+          z-index: 2;
+          opacity: .23;
+          pointer-events: none;
         }
 
-        .story-shell-right {
-          position: absolute;
-          right: 35px;
-          top: 28px;
-          font-size: 39px;
-          opacity: 0.28;
+        .story-shell-one {
+          left: -15px;
+          bottom: 55px;
+          font-size: clamp(
+            70px,
+            8vw,
+            120px
+          );
+        }
+
+        .story-shell-two {
+          right: 15px;
+          top: 30px;
+          font-size: clamp(
+            32px,
+            3vw,
+            50px
+          );
         }
 
         /* =====================================================
-           OCEAN LOVE
+           OCEAN STATEMENT
         ====================================================== */
 
-        .ocean-love-section {
-          min-height: 470px;
+        .ocean-statement {
+          width: 100%;
+          min-height: clamp(
+            360px,
+            48vh,
+            540px
+          );
           position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          text-align: center;
+        }
+
+        .ocean-statement-image {
+          position: absolute;
+          inset: 0;
           background:
-            linear-gradient(
-              rgba(32, 89, 94, 0.74),
-              rgba(26, 66, 70, 0.78)
-            ),
-            var(--sea-bg);
+            var(--sea-background);
           background-size: cover;
           background-position: center;
         }
 
-        .ocean-love-bg {
+        .ocean-statement-overlay {
           position: absolute;
           inset: 0;
           background:
-            radial-gradient(
-              circle at 50% 25%,
-              rgba(255,255,255,0.17),
-              transparent 23%
+            linear-gradient(
+              rgba(24,79,82,.70),
+              rgba(28,87,89,.80)
             );
         }
 
-        .ocean-content {
+        .ocean-statement-content {
           position: relative;
           z-index: 2;
-          max-width: 740px;
-          padding: 70px 24px;
-          text-align: center;
+          width: min(
+            90vw,
+            800px
+          );
+          padding:
+            70px
+            20px;
           color: white;
         }
 
-        .ocean-content > span {
-          font-size: 9px;
-          letter-spacing: 4px;
-          opacity: 0.82;
+        .ocean-statement-content > span {
+          font-size: 8px;
+          letter-spacing: .35em;
+          opacity: .88;
         }
 
-        .ocean-content h2 {
-          font-family: "Cormorant Garamond", serif;
-          font-size: clamp(50px, 5vw, 75px);
-          line-height: 0.9;
-          font-weight: 500;
-          margin: 18px 0 24px;
+        .ocean-statement-content h2 {
+          margin:
+            18px 0
+            20px;
+          font-size: clamp(
+            48px,
+            6vw,
+            82px
+          );
+          line-height: .91;
+          font-weight: 300;
+          letter-spacing: -.03em;
         }
 
-        .ocean-content p {
-          max-width: 600px;
-          margin: auto;
-          font-family: "Cormorant Garamond", serif;
-          font-size: 19px;
+        .ocean-statement-content p {
+          width: min(
+            100%,
+            600px
+          );
+          margin: 0 auto;
+          font-size: clamp(
+            13px,
+            1vw,
+            18px
+          );
           line-height: 1.65;
-          opacity: 0.92;
+          opacity: .91;
         }
 
-        .wave-divider {
+        .statement-divider {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 12px;
-          margin-top: 30px;
+          gap: 10px;
+          margin-top: 27px;
         }
 
-        .wave-divider span:first-child,
-        .wave-divider span:last-child {
-          width: 80px;
+        .statement-divider span {
+          width: 70px;
+          max-width: 15vw;
           height: 1px;
-          background: rgba(255,255,255,0.35);
+          background: rgba(255,255,255,.35);
+        }
+
+        .statement-divider b {
+          font-weight: 300;
         }
 
         /* =====================================================
-           FOOTER
+           LARGE LAPTOP / PC
         ====================================================== */
 
-        .paara-footer {
-          position: relative;
-          background: #f4eee5;
-          padding: 95px 6% 25px;
-          overflow: hidden;
-        }
+        @media (min-width: 1440px) {
+          .collection-grid-wrapper {
+            width: min(
+              94vw,
+              1780px
+            );
+          }
 
-        .footer-wave {
-          position: absolute;
-          top: -30px;
-          left: -5%;
-          width: 110%;
-          height: 65px;
-          border-radius: 50%;
-          background: #f8f4ed;
-        }
+          .collection-grid {
+            gap: 32px;
+          }
 
-        .footer-top {
-          position: relative;
-          z-index: 2;
-          max-width: 1420px;
-          margin: auto;
-          display: grid;
-          grid-template-columns:
-            1.5fr 1fr 1fr 1.15fr 1.55fr;
-          gap: 42px;
-        }
-
-        .footer-brand p {
-          color: #71665b;
-          font-size: 11px;
-          line-height: 1.8;
-          margin-top: 22px;
-        }
-
-        .footer-logo {
-          font-size: 46px;
-        }
-
-        .footer-column {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .footer-column h4 {
-          margin: 4px 0 17px;
-          color: #796447;
-          font-size: 9px;
-          letter-spacing: 2.6px;
-          font-weight: 500;
-        }
-
-        .footer-column button {
-          padding: 4px 0;
-          color: #6c6358;
-          font-size: 11px;
-          transition: color 0.25s ease;
-        }
-
-        .footer-column button:hover {
-          color: #ae7e3d;
-        }
-
-        .newsletter p {
-          margin: 0 0 12px;
-          color: #71665b;
-          font-size: 11px;
-        }
-
-        .newsletter-input {
-          width: 100%;
-          max-width: 255px;
-          display: flex;
-          border-bottom: 1px solid #c4ab84;
-        }
-
-        .newsletter-input input {
-          min-width: 0;
-          flex: 1;
-          border: none;
-          outline: none;
-          background: transparent;
-          color: #4a4239;
-          padding: 10px 4px;
-          font-size: 10px;
-        }
-
-        .newsletter-input button {
-          color: #9f753e;
-          padding: 0 5px;
-        }
-
-        .social-icons {
-          display: flex;
-          gap: 13px;
-          margin-top: 18px;
-          color: #766b60;
-          font-size: 16px;
-        }
-
-        .footer-bottom {
-          position: relative;
-          z-index: 2;
-          max-width: 1420px;
-          margin: 48px auto 0;
-          padding-top: 18px;
-          border-top: 1px solid rgba(125,105,75,0.14);
-          display: flex;
-          justify-content: space-between;
-          gap: 20px;
-          color: #827668;
-          font-size: 9px;
-          letter-spacing: 0.5px;
+          .story-inner {
+            width: min(
+              90vw,
+              1700px
+            );
+          }
         }
 
         /* =====================================================
-           ACCENTS
+           LAPTOP
         ====================================================== */
 
-        .accent-ocean {
-          --story-accent: #79aaa8;
-        }
-
-        .accent-gold {
-          --story-accent: #b99458;
-        }
-
-        .accent-sand {
-          --story-accent: #bd9c70;
-        }
-
-        .accent-rose {
-          --story-accent: #b28b82;
-        }
-
-        .accent-deepSea {
-          --story-accent: #747776;
-        }
-
-        .accent-turquoise {
-          --story-accent: #5da8ac;
-        }
-
-        /* =====================================================
-           ANIMATIONS
-        ====================================================== */
-
-        @keyframes shellFloat {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) rotate(-5deg);
+        @media (min-width: 1100px) and (max-width: 1439px) {
+          .collection-grid {
+            grid-template-columns:
+              repeat(
+                3,
+                minmax(0, 1fr)
+              );
           }
 
-          50% {
-            transform: translate3d(0, -10px, 0) rotate(3deg);
-          }
-        }
-
-        @keyframes sparkle {
-          0%,
-          100% {
-            opacity: 0.35;
-            transform: scale(0.95);
-          }
-
-          50% {
-            opacity: 0.9;
-            transform: scale(1.15);
+          .story-inner {
+            width: 90vw;
           }
         }
 
@@ -1507,237 +1585,277 @@ const Collections = () => {
            TABLET
         ====================================================== */
 
-        @media (max-width: 1050px) {
-          .desktop-nav {
-            gap: 20px;
+        @media (
+          min-width: 761px
+        ) and (
+          max-width: 1099px
+        ) {
+          .hero-content {
+            width: 90vw;
           }
 
           .collection-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
-          .story-main {
-            grid-template-columns: 1fr;
-            gap: 60px;
-          }
-
-          .story-copy {
-            max-width: 800px;
-          }
-
-          .story-copy h2 {
-            max-width: 700px;
-          }
-
-          .story-visual {
-            max-width: 650px;
-          }
-
-          .footer-top {
             grid-template-columns:
-              repeat(3, 1fr);
+              repeat(
+                2,
+                minmax(0, 1fr)
+              );
+          }
+
+          .story-inner {
+            width: 92vw;
+            grid-template-columns:
+              minmax(0, 1fr);
+            gap: 55px;
+          }
+
+          .story-visual-wrapper {
+            width: min(
+              78vw,
+              650px
+            );
+            margin: 0 auto;
           }
         }
 
         /* =====================================================
-           MOBILE
+           MOBILE — FIRST PRIORITY
         ====================================================== */
 
         @media (max-width: 760px) {
-          .paara-navbar {
-            height: 70px;
-            padding: 0 20px;
-          }
-
-          .brand-block {
-            min-width: auto;
-          }
-
-          .brand-script {
-            font-size: 32px;
-          }
-
-          .brand-subtitle {
-            font-size: 7px;
-            margin-left: 12px;
-          }
-
-          .desktop-nav {
-            display: none;
-          }
-
-          .nav-actions {
-            min-width: auto;
-            gap: 8px;
-          }
-
-          .nav-icon {
-            font-size: 18px;
-          }
-
           .collections-hero {
-            min-height: 600px;
-            padding:
-              70px 25px
-              140px;
-            background-position: 65% center;
+            min-height: 620px;
+          }
+
+          .hero-content {
+            width: calc(100% - 36px);
           }
 
           .hero-content h1 {
-            font-size: 53px;
+            font-size: clamp(
+              46px,
+              13vw,
+              64px
+            );
           }
 
           .hero-content p {
-            font-size: 17px;
+            max-width: 470px;
           }
 
-          .hero-shell {
-            opacity: 0.42;
+          .hero-shell-left {
+            right: -3%;
+            bottom: 2%;
+            opacity: .33;
           }
 
-          .shell-one {
-            right: 1%;
-            bottom: 5px;
+          .hero-shell-right {
+            right: 13%;
+            top: 11%;
+            opacity: .28;
           }
 
-          .shell-two {
-            right: 21%;
+          .collections-intro {
+            width: calc(100% - 32px);
           }
 
-          .collection-intro {
-            padding:
-              68px 22px
-              35px;
-          }
-
-          .collection-intro h2 {
-            font-size: 44px;
-          }
-
-          .collection-grid-section {
-            padding: 8px 18px 70px;
+          .collection-grid-wrapper {
+            width: calc(100% - 28px);
           }
 
           .collection-grid {
-            grid-template-columns: 1fr;
-            gap: 18px;
+            grid-template-columns:
+              repeat(
+                2,
+                minmax(0, 1fr)
+              );
+            gap: 11px;
           }
 
-          .collection-card-image {
-            height: 280px;
+          .collection-visual {
+            aspect-ratio: 1 / 1.16;
           }
 
-          .collection-story-section {
+          .collection-symbol {
+            top: 9px;
+            right: 9px;
+            width: 31px;
+            height: 31px;
+            font-size: 14px;
+          }
+
+          .collection-top-label {
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            font-size: 6px;
+          }
+
+          .collection-top-label
+          > span:last-child {
+            padding-right: 38px;
+          }
+
+          .collection-watermark {
+            left: 10px;
+            bottom: 8px;
+            font-size: 18px;
+          }
+
+          .collection-content {
+            padding: 14px 13px 17px;
+          }
+
+          .collection-mini {
+            font-size: 5px;
+            letter-spacing: .13em;
+          }
+
+          .collection-content h3 {
+            font-size: clamp(
+              20px,
+              6vw,
+              26px
+            );
+          }
+
+          .collection-content p {
+            min-height: 29px;
+            font-size: 8px;
+            line-height: 1.45;
+          }
+
+          .collection-explore {
+            font-size: 6px;
+            letter-spacing: .11em;
+          }
+
+          .collection-explore span {
+            font-size: 11px;
+          }
+
+          .collection-story {
             padding:
-              80px 22px
-              85px;
+              72px
+              0
+              82px;
           }
 
-          .story-main {
-            gap: 42px;
+          .story-inner {
+            width: calc(100% - 32px);
+            grid-template-columns: 1fr;
+            gap: 43px;
           }
 
-          .story-copy h2 {
-            font-size: 45px;
+          .story-content h2 {
+            font-size: clamp(
+              43px,
+              11vw,
+              56px
+            );
           }
 
-          .story-copy > p {
-            font-size: 13px;
+          .story-content > p {
+            font-size: 12px;
           }
 
-          .special-love-quote {
-            padding-right: 19px;
+          .special-quote {
+            padding:
+              21px
+              18px
+              19px
+              28px;
           }
 
-          .special-love-quote p {
-            font-size: 19px;
+          .special-quote p {
+            font-size: 15px;
           }
 
-          .visual-image {
-            height: 370px;
+          .story-button {
+            width: 100%;
           }
 
-          .visual-side-note {
-            display: none;
+          .story-visual-wrapper {
+            width: 100%;
+          }
+
+          .story-frame {
+            padding: 8px;
+          }
+
+          .story-visual {
+            aspect-ratio: 1 / 1.12;
           }
 
           .story-watermark {
-            font-size: 76px;
-            bottom: 20px;
+            font-size: 80px;
           }
 
-          .ocean-love-section {
-            min-height: 420px;
+          .ocean-statement-content {
+            width: calc(100% - 26px);
           }
 
-          .ocean-content h2 {
-            font-size: 51px;
-          }
-
-          .ocean-content p {
-            font-size: 17px;
-          }
-
-          .paara-footer {
-            padding:
-              80px 24px
-              25px;
-          }
-
-          .footer-top {
-            grid-template-columns: 1fr 1fr;
-            gap: 40px 25px;
-          }
-
-          .footer-brand {
-            grid-column: 1 / -1;
-          }
-
-          .footer-bottom {
-            flex-direction: column;
-            line-height: 1.6;
+          .ocean-statement-content h2 {
+            font-size: clamp(
+              44px,
+              11vw,
+              58px
+            );
           }
         }
 
-        @media (max-width: 430px) {
-          .nav-actions .nav-icon:nth-child(2),
-          .nav-actions .nav-icon:nth-child(3) {
-            display: none;
+        /* =====================================================
+           SMALL PHONES
+        ====================================================== */
+
+        @media (max-width: 390px) {
+          .collection-grid {
+            gap: 8px;
           }
 
-          .collections-hero {
-            min-height: 570px;
+          .collection-content {
             padding:
-              64px 20px
-              120px;
+              12px
+              10px
+              15px;
           }
 
-          .hero-content h1 {
-            font-size: 46px;
+          .collection-content h3 {
+            font-size: 19px;
           }
 
-          .hero-content p {
-            font-size: 16px;
+          .collection-content p {
+            font-size: 7px;
           }
 
-          .collection-card-image {
-            height: 245px;
+          .collection-watermark {
+            font-size: 15px;
           }
 
-          .collection-card-content h3 {
-            font-size: 29px;
+          .story-inner {
+            width: calc(100% - 26px);
+          }
+        }
+
+        /* =====================================================
+           MOTION PREFERENCE
+        ====================================================== */
+
+        @media (
+          prefers-reduced-motion: reduce
+        ) {
+          .paara-page-enter,
+          .paara-reveal,
+          .collection-card {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
           }
 
-          .story-copy h2 {
-            font-size: 40px;
-          }
-
-          .visual-image {
-            height: 320px;
-          }
-
-          .footer-top {
-            grid-template-columns: 1fr;
+          .hero-shell,
+          .story-shell-visual,
+          .hero-star {
+            animation: none !important;
           }
         }
       `}</style>

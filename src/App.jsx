@@ -6,17 +6,19 @@ import {
   Routes,
 } from "react-router-dom";
 
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 import Collections from "./pages/products/Collections";
 import Product from "./pages/products/Product";
 import ProductDetails from "./pages/products/ProductDetails";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <Routes>
 
+      <Routes>
         <Route
           path="/"
           element={
@@ -51,8 +53,9 @@ function App() {
             />
           }
         />
-
       </Routes>
+
+      <Footer />
     </BrowserRouter>
   );
 }
